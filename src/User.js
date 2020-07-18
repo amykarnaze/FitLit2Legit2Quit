@@ -141,7 +141,7 @@
 
   findTrendingStepDays() {
     let positiveDays = [];
-    for (var i = 0; i < this.activityRecord.length; i++) {
+    for (let i = 0; i < this.activityRecord.length; i++) {
       if (this.activityRecord[i + 1] && this.activityRecord[i].steps > this.activityRecord[i + 1].steps) {
         positiveDays.unshift(this.activityRecord[i].date);
       } else if (positiveDays.length > 2) {
@@ -153,7 +153,7 @@
 
   findTrendingStairsDays() {
     let positiveDays = [];
-    for (var i = 0; i < this.activityRecord.length; i++) {
+    for (let i = 0; i < this.activityRecord.length; i++) {
       if (this.activityRecord[i + 1] && this.activityRecord[i].flightsOfStairs > this.activityRecord[i + 1].flightsOfStairs) {
         positiveDays.unshift(this.activityRecord[i].date);
       } else if (positiveDays.length > 2) {
