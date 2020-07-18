@@ -5,6 +5,7 @@ class Hydration {
     this.ounces = data.numOunces;
     this.drink(userRepository);
   }
+
   drink(userRepo) {
     const hydrate = this;
     userRepo.users.find(user => {
