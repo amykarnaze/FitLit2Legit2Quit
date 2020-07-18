@@ -141,27 +141,43 @@
 
   findTrendingStepDays() {
     let positiveDays = [];
-    for (let i = 0; i < this.activityRecord.length; i++) {
-      if (this.activityRecord[i + 1] && this.activityRecord[i].steps > this.activityRecord[i + 1].steps) {
-        positiveDays.unshift(this.activityRecord[i].date);
+    this.activityRecord.forEach((activity, index) => {
+      if (this.activityRecord[index + 1] && activity.steps > this.activityRecord[index + 1].steps) {
+        positiveDays.unshift(activity.date);
       } else if (positiveDays.length > 2) {
         this.trendingStepDays.push(`Your most recent positive step streak was ${positiveDays[0]} - ${positiveDays[positiveDays.length - 1]}!`);
         positiveDays = [];
       }
-    }
+    })
+    // for (let i = 0; i < this.activityRecord.length; i++) {
+    //   if (this.activityRecord[i + 1] && this.activityRecord[i].steps > this.activityRecord[i + 1].steps) {
+    //     positiveDays.unshift(this.activityRecord[i].date);
+    //   } else if (positiveDays.length > 2) {
+    //     this.trendingStepDays.push(`Your most recent positive step streak was ${positiveDays[0]} - ${positiveDays[positiveDays.length - 1]}!`);
+    //     positiveDays = [];
+    //   }
+    // }
   }
 
   findTrendingStairsDays() {
     let positiveDays = [];
-    for (let i = 0; i < this.activityRecord.length; i++) {
-      if (this.activityRecord[i + 1] && this.activityRecord[i].flightsOfStairs > this.activityRecord[i + 1].flightsOfStairs) {
-        positiveDays.unshift(this.activityRecord[i].date);
+    this.activityRecord.forEach((activity, index) => {
+      if (this.activityRecord[index + 1] && activity.flightsOfStairs > this.activityRecord[index + 1].flightsOfStairs) {
+        positiveDays.unshift(activity.date);
       } else if (positiveDays.length > 2) {
         this.trendingStairsDays.push(`Your most recent positive climbing streak was ${positiveDays[0]} - ${positiveDays[positiveDays.length - 1]}!`);
         positiveDays = [];
       }
-    }
+    })
   }
+    // for (let i = 0; i < this.activityRecord.length; i++) {
+    //   if (this.activityRecord[i + 1] && this.activityRecord[i].flightsOfStairs > this.activityRecord[i + 1].flightsOfStairs) {
+    //     positiveDays.unshift(this.activityRecord[i].date);
+    //   } else if (positiveDays.length > 2) {
+    //     this.trendingStairsDays.push(`Your most recent positive climbing streak was ${positiveDays[0]} - ${positiveDays[positiveDays.length - 1]}!`);
+    //     positiveDays = [];
+    //   }
+    // }
 
   findFriendsNames(users) {
     this.friends.forEach(friend => {
