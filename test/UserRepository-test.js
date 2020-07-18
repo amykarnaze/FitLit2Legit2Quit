@@ -151,7 +151,7 @@ describe('UserRepository', function() {
       "hoursSlept": 9.3,
       "sleepQuality": 1.4
     }];
-    expect(userRepository.getWorstSleepers("2019/06/15")).to.equal(1);
+    expect(userRepository.getWorstSleepers(sleepData, "2019/06/15")).to.equal(1);
   });
   it('should have a method that calculates average number of stairs for users', function() {
     user1.activityRecord = [{date: "2019/09/17", flightsOfStairs: 10}, {date: "2019/09/17", flightsOfStairs: 15}];

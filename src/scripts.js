@@ -214,7 +214,7 @@ sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
 }).getFirstName();
 
 sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
-  return user.id === userRepository.getWorstSleepers(todayDate)
+  return user.id === userRepository.getWorstSleepers(sleepData, todayDate)
 }).getFirstName();
 
 sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;

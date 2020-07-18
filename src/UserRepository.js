@@ -89,7 +89,7 @@ class UserRepository {
       return b.hoursSlept - a.hoursSlept;
     })[0].userID;
   }
-  getWorstSleepers(date) {
+  getWorstSleepers(sleepData, date) {
     return sleepData.filter(sleep => {
       return sleep.date === date;
     }).sort((a, b) => {
