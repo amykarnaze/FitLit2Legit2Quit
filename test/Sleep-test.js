@@ -63,7 +63,7 @@ describe('Sleep', function() {
   it('should be a function', function() {
     expect(Sleep).to.be.a('function');
   });
-  it('should be an instance of activity', function() {
+  it('should be an instance of sleep', function() {
     expect(sleep1).to.be.an.instanceof(Sleep);
   });
   it('should hold a userId', function() {
@@ -82,7 +82,7 @@ describe('Sleep', function() {
     it('should update user\'s slept hours record', function() {
       expect(user1.sleepHoursRecord.length).to.equal(2);
     });
-    it('should update user\'s slept hours record', function() {
+    it('should update user\'s sleep quality record', function() {
       expect(user2.sleepQualityRecord.length).to.equal(1);
     });
     it('should update user\'s slept hours average', function() {
