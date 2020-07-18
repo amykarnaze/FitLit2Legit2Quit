@@ -6,6 +6,7 @@ class Sleep { // instance for the user's sleep each day
     this.sleepQuality = data.sleepQuality;
     this.sleep(userRepository);
   }
+  
   sleep(userRepo) {
     var sleep = this;
     userRepo.users.find(function(user) {
