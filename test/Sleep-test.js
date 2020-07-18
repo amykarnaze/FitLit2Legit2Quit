@@ -5,7 +5,9 @@ import UserRepository from '../src/UserRepository';
 import User from '../src/User';
 
 describe('Sleep', function() {
-  let sleep;
+  let sleep1;
+  let sleep2;
+  let sleep3;
   let user1;
   let user2;
   let userRepository;
