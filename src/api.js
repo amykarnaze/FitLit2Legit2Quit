@@ -6,3 +6,7 @@ const sleepData = fetch('https: //fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep
   .then(response => response.json())
   .catch(error => console.log(error));
 
+const activityData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData')
+  .then(response => response.json())
+  .catch(error => console.log(error));
+
