@@ -15,4 +15,21 @@ fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData'
   // .then(data => put data into hydration function so you can manipulate it hydration(data))
   .catch(error => console.log(error));
 
+//sleep data
+fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData', {
+    method: 'POST',
+    headers: {
+      'content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      "userID": integer,
+      "date": string,
+      "hoursSlept": integer,
+      "sleepQuality": integer
+    }),
+  })
+  .then(response => response.json())
+  .then(json => )
+  .catch(err => );
+// resolve promise
 
