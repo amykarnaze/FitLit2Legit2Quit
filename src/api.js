@@ -52,3 +52,27 @@ fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData', 
   .catch(err => );
 // resolve promise
 
+//hydration data
+fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData', {
+    method: 'POST',
+    headers: {
+      'content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      "userID": integer,
+      "date": string,
+      "numOunces": integer
+    }),
+  })
+  .then(response => response.json())
+  .then(json => )
+  .catch(err => );
+// resolve promise
+
+// when doing a fetch call
+// a promise is unresolved result of an async action
+// calling a method in .then, waiting for result of promise. takes time
+// fetch takes time the rest doesnt
+// trying to update new data. make sure post can finish first
+// have input that puttin gin a name to a name that already exists
+// make post call then wait before it can update
