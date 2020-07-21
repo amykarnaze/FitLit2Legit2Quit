@@ -1,3 +1,4 @@
+$Background-color: #1F1F1F;
 *,
 *:after,
 *:before {
@@ -7,7 +8,7 @@ padding: 0;
 }
 
 body {
-  background-color: #1F1F1F;
+  background-color: $Background-color;
   font-family: 'Oswald', sans-serif;
 }
 
@@ -36,7 +37,7 @@ button:active {
 }
 
 #user-info-dropdown {
-  background-color: #1F1F1F;
+  background-color: $Background-color;
   color: white;
   margin-left: 60%;
   margin-top: -1.2%;
