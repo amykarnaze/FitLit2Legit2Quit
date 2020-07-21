@@ -44,8 +44,8 @@ let dropdownGoal = document.querySelector('#dropdown-goal');
 let dropdownName = document.querySelector('#dropdown-name');
 let headerName = document.querySelector('#header-name');
 let hydrationCalendarCard = document.querySelector('#hydration-calendar-card');
-let hydrationFriendOuncesToday = document.querySelector('#hydration-friend-ounces-today');
-let hydrationFriendsCard = document.querySelector('#hydration-friends-card');
+let hydrationAllUsersOuncesToday = document.querySelector('#hydration-all-users-ounces-today');
+let hydrationAllUsersCard = document.querySelector('#hydration-all-users-card');
 let hydrationInfoCard = document.querySelector('#hydration-info-card');
 let hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today');
 let hydrationMainCard = document.querySelector('#hydration-main-card');
@@ -132,8 +132,8 @@ function showInfo() {
   if (event.target.classList.contains('hydration-info-button')) {
     flipCard(hydrationMainCard, hydrationInfoCard);
   }
-  if (event.target.classList.contains('hydration-friends-button')) {
-    flipCard(hydrationMainCard, hydrationFriendsCard);
+  if (event.target.classList.contains('hydration-all-users-button')) {
+    flipCard(hydrationMainCard, hydrationAllUsersCard);
   }
   if (event.target.classList.contains('hydration-calendar-button')) {
     flipCard(hydrationMainCard, hydrationCalendarCard);
@@ -199,7 +199,7 @@ hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
   return hydration.userID === user.id && hydration.date === todayDate;
 }).numOunces;
 
-hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
+hydrationAllUsersOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
 
 hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
   return hydration.userID === user.id && hydration.date === todayDate;
