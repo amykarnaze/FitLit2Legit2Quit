@@ -13,7 +13,7 @@ const activityData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/act
   .then(data => data.activityData)
   .catch(error => console.log(error));
 
-fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData')
+const hydrationData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData')
   .then(response => response.json())
   .then(data => data.hydrationData)
   // .then(data => put data into hydration function so you can manipulate it hydration(data))
