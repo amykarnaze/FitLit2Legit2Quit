@@ -55,9 +55,9 @@ let profileButton = document.querySelector('#profile-button');
 let sleepCalendarCard = document.querySelector('#sleep-calendar-card');
 let sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-hours-average-weekly');
 let sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
-let sleepFriendLongestSleeper = document.querySelector('#sleep-friend-longest-sleeper');
-let sleepFriendsCard = document.querySelector('#sleep-friends-card');
-let sleepFriendWorstSleeper = document.querySelector('#sleep-friend-worst-sleeper');
+let sleepAllUsersLongestSleeper = document.querySelector('#sleep-all-users-longest-sleeper');
+let sleepAllUsersCard = document.querySelector('#sleep-all-users-card');
+let sleepAllUsersWorstSleeper = document.querySelector('#sleep-all-users-worst-sleeper');
 let sleepInfoCard = document.querySelector('#sleep-info-card');
 let sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
 let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
@@ -153,8 +153,8 @@ function showInfo() {
   if (event.target.classList.contains('sleep-info-button')) {
     flipCard(sleepMainCard, sleepInfoCard);
   }
-  if (event.target.classList.contains('sleep-friends-button')) {
-    flipCard(sleepMainCard, sleepFriendsCard);
+  if (event.target.classList.contains('sleep-all-users-button')) {
+    flipCard(sleepMainCard, sleepAllUsersCard);
   }
   if (event.target.classList.contains('sleep-calendar-button')) {
     flipCard(sleepMainCard, sleepCalendarCard);
@@ -209,11 +209,11 @@ sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(t
 
 sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
 
-sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
+sleepAllUsersLongestSleeper.innerText = userRepository.users.find(user => {
   return user.id === userRepository.getLongestSleepers(todayDate)
 }).getFirstName();
 
-sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
+sleepAllUsersWorstSleeper.innerText = userRepository.users.find(user => {
   return user.id === userRepository.getWorstSleepers(sleepData, todayDate)
 }).getFirstName();
 
