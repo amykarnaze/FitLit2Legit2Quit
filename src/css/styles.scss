@@ -176,53 +176,41 @@ main {
 }
 
 /* BUTTONS */
-.info-button {
+buttons {
   background-position: center;
   background-size: 3.4vw;
   border: none;
-  display: inline;
   height: 3.4vw;
-  margin-left: 1vw;
   width: 3.4vw;
+}
+
+.info-button {
+  @extend buttons;
+  display: inline;
+  margin-left: 1vw;
 }
 
 .all-users-button {
-  background-position: center;
-  background-size: 3.4vw;
-  border: none;
+  @extend buttons;
   display: inline;
-  height: 3.4vw;
   margin-right: 1vw;
-  width: 3.4vw;
 }
 
 .calendar-button {
-  background-position: center;
-  background-size: 3.4vw;
-  border: none;
+  @extend buttons;
   display: inline;
   float: right;
-  height: 3.4vw;
   margin-right: 1vw;
-  width: 3.4vw;
 }
 
 .trending-button {
-  background-position: center;
-  background-size: 3.4vw;
-  border: none;
-  height: 3.4vw;
+  @extend buttons;
   margin-left: 1vw;
-  width: 3.4vw;
 }
 
 .go-back-button {
-  background-position: center;
-  background-size: 3.4vw;
-  border: none;
-  height: 3.4vw;
+  @extend buttons;
   margin-left: 1vw;
-  width: 3.4vw;
 }
 
 .steps-go-back-button {
