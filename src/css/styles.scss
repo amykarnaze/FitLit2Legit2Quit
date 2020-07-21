@@ -124,28 +124,25 @@ main {
   width: 100%;
 }
 
-#steps-card-container {
-  background-color: $steps-color;
-  grid-area: steps;
+@mixin card-containers($color, $cardType) {
+  background-color: $color;
+  grid-area: $cardType;
   margin: .5vw;
+}
+#steps-card-container {
+  @include card-containers($steps-color, steps)
 }
 
 #hydration-card-container {
-  background-color: $hydration-color;
-  grid-area: hydration;
-  margin: .5vw;
+  @include card-containers($hydration-color, hydration)
 }
 
 #stairs-card-container {
-  background-color: $stairs-color;
-  grid-area: stairs;
-  margin: .5vw;
+  @include card-containers($stairs-color, stairs)
 }
 
 #sleep-card-container {
-  background-color: $sleep-color;
-  grid-area: sleep;
-  margin: .5vw;
+  @include card-containers($sleep-color, sleep)
 }
 
 .card-data-line {
