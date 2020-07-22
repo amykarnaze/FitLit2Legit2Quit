@@ -109,7 +109,7 @@ let hydrationInput = document.querySelector(".mpopup-hydration");
 let activityInput = document.querySelector(".mpopup-activity");
 let closeModal = document.querySelector('.close');
 
-
+window.addEventListener('click', closeModalWindow);
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
 addButton.addEventListener("click", showInstanceDropdown);
@@ -119,23 +119,29 @@ stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 
 function displayModal(event) {
-  console.log(event);
   modalWindow.style.display = 'none';
   if (event.target.text === 'Add Sleep') {
-    console.log(event);
     modalWindow.style.display = "block";
-    sleepInput.classList.toggle("hide");
+    sleepInput.classList.remove("hide");
+    activityInput.classList.add("hide");
+    hydrationInput.classList.add("hide");
   } else if (event.target.text === 'Add Activity') {
     modalWindow.style.display = "block";
-    activityInput.classList.toggle('hide');
+    sleepInput.classList.add("hide");
+    activityInput.classList.remove("hide");
+    hydrationInput.classList.add("hide");
   } else if (event.target.text === 'Add Hydration') {
     modalWindow.style.display = "block";
-    hydrationInput.classList.toggle("hide");
+    sleepInput.classList.add("hide");
+    activityInput.classList.add("hide");
+    hydrationInput.classList.remove("hide");
   }
 }
 
-function closeModalWindow() {
-  modalWindow.style.display = 'none';
+function closeModalWindow(event) {
+  if (event.target === modalWindow) {
+    modalWindow.style.display = "none";
+  }
 }
 
 function flipCard(cardToHide, cardToShow) {
