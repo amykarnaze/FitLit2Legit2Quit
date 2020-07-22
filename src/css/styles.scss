@@ -34,6 +34,29 @@ button:active {
   width: 4vw;
 }
 
+#add-instances-dropdown {
+  background-color: $primary-background;
+  color: $white;
+  margin-right: 75%;
+  margin-top: -1.2%;
+  position: relative;
+  text-align: center;
+  z-index: 100;
+}
+
+#add-instances-dropdown a {
+  display: block;
+}
+
+.add-sleep, .add-hydration, .add-activity {
+  font-size: 1.2vw;
+  font-weight: 300;
+  padding-bottom: 1vw;
+  padding-top: 0;
+  text-align: center;
+  width: 100%;
+}
+
 #profile-button {
   background-image: url(../images/profile.png);
   background-position: center;
@@ -97,7 +120,7 @@ h5 {
   text-align: center;
 }
 
-p {
+p, .add-instances-dropdown {
   font-family: 'Work Sans', sans-serif;
   font-size: 1.2vw;
   font-weight: 600;
