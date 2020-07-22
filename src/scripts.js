@@ -103,19 +103,18 @@ let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phr
 let userInfoDropdown = document.querySelector('#user-info-dropdown');
 let addButton = document.querySelector('#add-instance-button');
 let newInstances = document.querySelector('#add-instances-dropdown');
-let newHydration = document.querySelector('.add-hydration');
-let newSleep = document.querySelector('.add-sleep');
-let newActivity = document.querySelector('.add-activity');
 let modalWindow = document.getElementById('mpopupBox');
 let sleepInput = document.querySelector('.mpopup-sleep');
 let hydrationInput = document.querySelector(".mpopup-hydration");
 let activityInput = document.querySelector(".mpopup-activity");
+let closeModal = document.querySelector('.close');
 
 
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
 addButton.addEventListener("click", showInstanceDropdown);
 newInstances.addEventListener('click', displayModal);
+closeModal.addEventListener('click', closeModalWindow);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 
@@ -135,6 +134,9 @@ function displayModal(event) {
   }
 }
 
+function closeModalWindow() {
+  modalWindow.style.display = 'none';
+}
 
 function flipCard(cardToHide, cardToShow) {
   cardToHide.classList.add('hide');
