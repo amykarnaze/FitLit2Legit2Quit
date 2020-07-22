@@ -20,6 +20,20 @@ button:active {
   outline: none;
 }
 
+#add-instance-button {
+  background-image: url(../images/plus-icon.png);
+  background-position: center;
+  background-size: 5.6vw;
+  background-color: $primary-background;
+  border: none;
+  display: inline;
+  float: left;
+  height: 4vw;
+  margin-left: .5vw;
+  margin-top: 2.6vw;
+  width: 4vw;
+}
+
 #profile-button {
   background-image: url(../images/profile.png);
   background-position: center;
