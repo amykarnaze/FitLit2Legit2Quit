@@ -4,3 +4,80 @@ body {
   background-color: $primary-background;
   font-family: 'Oswald', sans-serif;
 }
+
+main {
+  display: grid;
+  grid-template-areas:
+  'steps hydration'
+  'stairs sleep';
+  height: 100%;
+}
+
+.main-card {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 20vw;
+  justify-content: center;
+}
+
+.main-card-top-row {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.main-card-bottom-row {
+  text-align: center;
+  width: 100%;
+}
+
+@mixin card-containers($color, $cardType) {
+  background-color: $color;
+  grid-area: $cardType;
+  margin: .5vw;
+}
+
+#steps-card-container {
+  @include card-containers($steps-color, steps)
+}
+
+#hydration-card-container {
+  @include card-containers($hydration-color, hydration)
+}
+
+#stairs-card-container {
+  @include card-containers($stairs-color, stairs)
+}
+
+#sleep-card-container {
+  @include card-containers($sleep-color, sleep)
+}
+
+.card-data-line {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2vw;
+}
+
+.hydration-weekly-label {
+  font-size: 1vw;
+  padding-top: 1vw;
+}
+
+.hydration-weekly-amount {
+  font-size: 2vw;
+}
+
+.hydration-data-line {
+  display: flex;
+  justify-content: center;
+  margin-bottom: .2vw;
+}
+
+.trend-line {
+  font-size: 2vw;
+  text-align: center;
+  width: 20vw;
+}
