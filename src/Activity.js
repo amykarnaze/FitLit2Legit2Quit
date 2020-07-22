@@ -1,7 +1,8 @@
-class Activity {
+import UserAction from '../src/UserAction';
+
+class Activity extends UserAction {
   constructor(data, userRepository) {
-    this.userId = data.userID;
-    this.date = data.date;
+    super(data);
     this.steps = data.numSteps;
     this.minutesActive = data.minutesActive;
     this.flightsOfStairs = data.flightsOfStairs;

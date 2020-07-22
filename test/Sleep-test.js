@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-
+import UserAction from '../src/UserAction';
 import Sleep from '../src/Sleep';
 import UserRepository from '../src/UserRepository';
 import User from '../src/User';

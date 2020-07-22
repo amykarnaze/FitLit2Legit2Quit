@@ -8,6 +8,7 @@ import hydrationData from './data/hydration';
 
 import UserRepository from './UserRepository';
 import User from './User';
+import UserAction from '../src/UserAction';
 import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
