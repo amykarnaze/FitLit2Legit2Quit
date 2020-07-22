@@ -169,6 +169,7 @@ main {
   grid-area: $cardType;
   margin: .5vw;
 }
+
 #steps-card-container {
   @include card-containers($steps-color, steps)
 }
