@@ -103,12 +103,38 @@ let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phr
 let userInfoDropdown = document.querySelector('#user-info-dropdown');
 let addButton = document.querySelector('#add-instance-button');
 let newInstances = document.querySelector('#add-instances-dropdown');
+let newHydration = document.querySelector('.add-hydration');
+let newSleep = document.querySelector('.add-sleep');
+let newActivity = document.querySelector('.add-activity');
+let modalWindow = document.getElementById('mpopupBox');
+let sleepInput = document.querySelector('.mpopup-sleep');
+let hydrationInput = document.querySelector(".mpopup-hydration");
+let activityInput = document.querySelector(".mpopup-activity");
+
 
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
 addButton.addEventListener("click", showInstanceDropdown);
+newInstances.addEventListener('click', displayModal);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
+
+function displayModal(event) {
+  console.log(event);
+  modalWindow.style.display = 'none';
+  if (event.target.text === 'Add Sleep') {
+    console.log(event);
+    modalWindow.style.display = "block";
+    sleepInput.classList.toggle("hide");
+  } else if (event.target.text === 'Add Activity') {
+    modalWindow.style.display = "block";
+    activityInput.classList.toggle('hide');
+  } else if (event.target.text === 'Add Hydration') {
+    modalWindow.style.display = "block";
+    hydrationInput.classList.toggle("hide");
+  }
+}
+
 
 function flipCard(cardToHide, cardToShow) {
   cardToHide.classList.add('hide');
