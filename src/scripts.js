@@ -101,9 +101,12 @@ let stepsUserStepsToday = document.querySelector('#steps-user-steps-today');
 let trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
 let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
 let userInfoDropdown = document.querySelector('#user-info-dropdown');
+let addButton = document.querySelector('#add-instance-button');
+let newInstances = document.querySelector('#add-instances-dropdown');
 
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
+addButton.addEventListener("click", showInstanceDropdown);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 
@@ -114,6 +117,10 @@ function flipCard(cardToHide, cardToShow) {
 
 function showDropdown() {
   userInfoDropdown.classList.toggle('hide');
+}
+
+function showInstanceDropdown() {
+  newInstances.classList.toggle("hide");
 }
 
 function showInfo() {
