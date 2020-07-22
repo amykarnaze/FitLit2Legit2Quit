@@ -17,25 +17,6 @@ header {
   height: 9vw;
 }
 
-button:active {
-  border: none;
-  outline: none;
-}
-
-#add-instance-button {
-  background-image: url(../images/plus-icon.png);
-  background-position: center;
-  background-size: 5.6vw;
-  background-color: $primary-background;
-  border: none;
-  display: inline;
-  float: left;
-  height: 4vw;
-  margin-left: .5vw;
-  margin-top: 2.6vw;
-  width: 4vw;
-}
-
 #add-instances-dropdown {
   background-color: $primary-background;
   color: $white;
@@ -62,19 +43,6 @@ button:active {
   width: 100%;
 }
 
-#profile-button {
-  background-image: url(../images/profile.png);
-  background-position: center;
-  background-size: 5.6vw;
-  border: none;
-  display: inline;
-  float: right;
-  height: 5.6vw;
-  margin-right: .5vw;
-  margin-top: 1.6vw;
-  width: 5.6vw;
-}
-
 #user-info-dropdown {
   background-color: $primary-background;
   color: $white;
@@ -93,14 +61,6 @@ button:active {
   text-align: center;
   width: 100%;
 }
-
-/* TEXT ELEMENTS */
-
-
-/* MAIN */
-
-/* BUTTONS */
-
 /* CHANGING CLASSES */
 .hide {
   display: none;
