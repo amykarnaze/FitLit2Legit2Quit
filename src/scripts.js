@@ -114,7 +114,7 @@ mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
 addButton.addEventListener("click", showInstanceDropdown);
 newInstances.addEventListener('click', displayModal);
-closeModal.addEventListener('click', closeModalWindow);
+closeModal.addEventListener('click', closeWindow);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 
@@ -142,6 +142,10 @@ function closeModalWindow(event) {
   if (event.target === modalWindow) {
     modalWindow.style.display = "none";
   }
+}
+
+function closeWindow() {
+  modalWindow.style.display = "none";
 }
 
 function flipCard(cardToHide, cardToShow) {
