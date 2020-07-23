@@ -93,6 +93,7 @@ let stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calen
 let stepsCalendarTotalStepsWeekly = document.querySelector('#steps-calendar-total-steps-weekly');
 let stepsAllUsersAverageStepGoal = document.querySelector('#steps-all-users-average-step-goal');
 let stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
+let caloriesBurnedToday = document.querySelector('#calories-burned-today')
 let stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
 let stepsAllUsersActiveMinutesAverageToday = document.querySelector('#steps-all-users-active-minutes-average-today');
 let stepsAllUsersStepsAverageToday = document.querySelector('#steps-all-users-steps-average-today');
@@ -319,6 +320,8 @@ stepsAllUsersStepsAverageToday.innerText = userRepository.calculateAverageSteps(
 stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
 }).minutesActive;
+
+caloriesBurnedToday.innerText = user.calculateDailyCalories(todayDate);
 
 stepsUserStepsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
