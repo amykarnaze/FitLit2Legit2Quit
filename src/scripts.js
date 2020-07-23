@@ -349,3 +349,39 @@ friendsStepsParagraphs.forEach(paragraph => {
     paragraph.classList.add('yellow-text');
   }
 });
+let createdDate;
+
+const monthInput = document.querySelector('.month');
+const dayInput = document.querySelector('.day');
+const yearInput = document.querySelector('.year');
+
+monthInput.addEventListener('input', createDate);
+// dayInput.addEventListener('input', createDate);
+// yearInput.addEventListener('input', createDate);
+
+function keepMonth(event) {
+  console.log(event);
+  return event.data;
+}
+
+// function keepDay(event) {
+//   let userDayInput = event.data;
+// }
+
+// // if day/month below 9, add 0 in front of # 
+
+
+// function keepYear(event) {
+//   let userYearInput = event.data;
+// }
+
+function createDate(event) {
+  let month;
+  if (event.target.classList[0] === 'month') {
+    let userMonthInput = keepMonth(event);
+    month = userMonthInput;
+  }
+  console.log(month);
+  // return `${year}/${month}/${date}`
+}
+
