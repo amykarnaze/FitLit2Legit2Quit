@@ -8,12 +8,21 @@ class Sleep extends UserAction {
     this.sleep(userRepository);
   }
 
+  // sleep(userRepo) {
+  //   const sleep = this;
+  //   userRepo.users.find(user => {
+  //     return user.id === sleep.userId;
+  //     })
+  //     .updateSleep(this.date, this.hoursSlept, this.sleepQuality);
+  //     console.log(this)
+  // }
+
   sleep(userRepo) {
-    userRepo.users
-      .find(user => {
-      return user.id === this.userId;
-      })
-      .updateSleep(this.date, this.hoursSlept, this.sleepQuality);
+    const sleep = this;
+    let activeUser = userRepo.users.find(user => {
+      return user.id === sleep.userId;
+    })
+    activeUser.updateSleep(this);
   }
 
   // if user id in repo matches userId property of sleep object, use values from this object to update sleep stats of that user

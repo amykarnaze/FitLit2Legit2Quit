@@ -89,6 +89,7 @@ describe('Sleep', function() {
       expect(user1.hoursSleptAverage).to.equal('7.7');
     });
     it('should update user\'s sleep quality average', function() {
+      console.log(user1)
       expect(user1.sleepQualityAverage).to.equal('1.8');
     });
   })
