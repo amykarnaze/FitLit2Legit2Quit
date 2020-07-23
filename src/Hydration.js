@@ -1,7 +1,8 @@
-class Hydration {
+import UserAction from '../src/UserAction';
+
+class Hydration extends UserAction {
   constructor(data, userRepository) {
-    this.userId = data.userID;
-    this.date = data.date;
+    super(data);
     this.ounces = data.numOunces;
     this.drink(userRepository);
   }

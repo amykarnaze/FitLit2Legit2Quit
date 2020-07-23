@@ -27,6 +27,16 @@
     return names[0].toUpperCase();
   }
 
+  addDailyOunces(date) {
+    return this.ouncesRecord.reduce((sum, record) => {
+      let amount = record[date];
+      if (amount) {
+        sum += amount
+      }
+      return sum
+    }, 0)
+  }
+
   updateHydration(date, amount) {
     this.ouncesRecord.unshift({[date]: amount});
     if (this.ouncesRecord.length) {
@@ -36,14 +46,11 @@
     }
   }
 
-  addDailyOunces(date) {
-    return this.ouncesRecord.reduce((sum, record) => {
-      let amount = record[date];
-      if (amount) {
-        sum += amount
-      }
-      return sum
-    }, 0)
+  updateActivities(activity) {
+    this.activityRecord.unshift(activity);
+    if (activity.numSteps >= this.dailyStepGoal) {
+      this.accomplishedDays.unshift(activity.date);
+    }
   }
 
   updateSleep(date, hours, quality) {
@@ -85,13 +92,6 @@
       }
       return sum;
     }, 0) / 7).toFixed(1);
-  }
-
-  updateActivities(activity) {
-    this.activityRecord.unshift(activity);
-    if (activity.numSteps >= this.dailyStepGoal) {
-      this.accomplishedDays.unshift(activity.date);
-    }
   }
 
   findClimbingRecord() {
