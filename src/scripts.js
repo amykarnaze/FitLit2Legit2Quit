@@ -93,6 +93,7 @@ let stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calen
 let stepsCalendarTotalStepsWeekly = document.querySelector('#steps-calendar-total-steps-weekly');
 let stepsAllUsersAverageStepGoal = document.querySelector('#steps-all-users-average-step-goal');
 let stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
+let caloriesBurnedToday = document.querySelector('#calories-burned-today')
 let stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
 let stepsAllUsersActiveMinutesAverageToday = document.querySelector('#steps-all-users-active-minutes-average-today');
 let stepsAllUsersStepsAverageToday = document.querySelector('#steps-all-users-steps-average-today');
@@ -101,11 +102,52 @@ let stepsUserStepsToday = document.querySelector('#steps-user-steps-today');
 let trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
 let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
 let userInfoDropdown = document.querySelector('#user-info-dropdown');
+let addButton = document.querySelector('#add-instance-button');
+let newInstances = document.querySelector('#add-instances-dropdown');
+let modalWindow = document.getElementById('mpopupBox');
+let sleepInput = document.querySelector('.mpopup-sleep');
+let hydrationInput = document.querySelector(".mpopup-hydration");
+let activityInput = document.querySelector(".mpopup-activity");
+let closeModal = document.querySelector('.close');
 
+window.addEventListener('click', closeModalWindow);
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
+addButton.addEventListener("click", showInstanceDropdown);
+newInstances.addEventListener('click', displayModal);
+closeModal.addEventListener('click', closeWindow);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
+
+function displayModal(event) {
+  modalWindow.style.display = 'none';
+  if (event.target.text === 'Add Sleep') {
+    modalWindow.style.display = "block";
+    sleepInput.classList.remove("hide");
+    activityInput.classList.add("hide");
+    hydrationInput.classList.add("hide");
+  } else if (event.target.text === 'Add Activity') {
+    modalWindow.style.display = "block";
+    sleepInput.classList.add("hide");
+    activityInput.classList.remove("hide");
+    hydrationInput.classList.add("hide");
+  } else if (event.target.text === 'Add Hydration') {
+    modalWindow.style.display = "block";
+    sleepInput.classList.add("hide");
+    activityInput.classList.add("hide");
+    hydrationInput.classList.remove("hide");
+  }
+}
+
+function closeModalWindow(event) {
+  if (event.target === modalWindow) {
+    modalWindow.style.display = "none";
+  }
+}
+
+function closeWindow() {
+  modalWindow.style.display = "none";
+}
 
 function flipCard(cardToHide, cardToShow) {
   cardToHide.classList.add('hide');
@@ -114,6 +156,10 @@ function flipCard(cardToHide, cardToShow) {
 
 function showDropdown() {
   userInfoDropdown.classList.toggle('hide');
+}
+
+function showInstanceDropdown() {
+  newInstances.classList.toggle("hide");
 }
 
 function showInfo() {
@@ -274,6 +320,8 @@ stepsAllUsersStepsAverageToday.innerText = userRepository.calculateAverageSteps(
 stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
 }).minutesActive;
+
+caloriesBurnedToday.innerText = user.calculateDailyCalories(todayDate);
 
 stepsUserStepsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
