@@ -104,12 +104,50 @@ let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phr
 let userInfoDropdown = document.querySelector('#user-info-dropdown');
 let addButton = document.querySelector('#add-instance-button');
 let newInstances = document.querySelector('#add-instances-dropdown');
+let modalWindow = document.getElementById('mpopupBox');
+let sleepInput = document.querySelector('.mpopup-sleep');
+let hydrationInput = document.querySelector(".mpopup-hydration");
+let activityInput = document.querySelector(".mpopup-activity");
+let closeModal = document.querySelector('.close');
 
+window.addEventListener('click', closeModalWindow);
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
 addButton.addEventListener("click", showInstanceDropdown);
+newInstances.addEventListener('click', displayModal);
+closeModal.addEventListener('click', closeWindow);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
+
+function displayModal(event) {
+  modalWindow.style.display = 'none';
+  if (event.target.text === 'Add Sleep') {
+    modalWindow.style.display = "block";
+    sleepInput.classList.remove("hide");
+    activityInput.classList.add("hide");
+    hydrationInput.classList.add("hide");
+  } else if (event.target.text === 'Add Activity') {
+    modalWindow.style.display = "block";
+    sleepInput.classList.add("hide");
+    activityInput.classList.remove("hide");
+    hydrationInput.classList.add("hide");
+  } else if (event.target.text === 'Add Hydration') {
+    modalWindow.style.display = "block";
+    sleepInput.classList.add("hide");
+    activityInput.classList.add("hide");
+    hydrationInput.classList.remove("hide");
+  }
+}
+
+function closeModalWindow(event) {
+  if (event.target === modalWindow) {
+    modalWindow.style.display = "none";
+  }
+}
+
+function closeWindow() {
+  modalWindow.style.display = "none";
+}
 
 function flipCard(cardToHide, cardToShow) {
   cardToHide.classList.add('hide');
