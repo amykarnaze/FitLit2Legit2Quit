@@ -1,6 +1,6 @@
 import UserAction from '../src/UserAction';
 
-class Sleep extends UserAction { // instance for the user's sleep each day
+class Sleep extends UserAction {
   constructor(data, userRepository) {
     super(data);
     this.hoursSlept = data.hoursSlept;
@@ -15,6 +15,8 @@ class Sleep extends UserAction { // instance for the user's sleep each day
       })
       .updateSleep(this.date, this.hoursSlept, this.sleepQuality);
   }
+
+  // if user id in repo matches userId property of sleep object, use values from this object to update sleep stats of that user
 }
 
 export default Sleep;

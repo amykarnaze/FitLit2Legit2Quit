@@ -13,6 +13,7 @@ class Hydration extends UserAction {
       return user.id === hydrate.userId;
     }).updateHydration(this.date, this.ounces);
   }
+  //if user id in repo matches userId property of hydration object, use values from this object to update hydration stats of that user
 }
 
 export default Hydration;

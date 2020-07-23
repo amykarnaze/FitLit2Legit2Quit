@@ -45,13 +45,17 @@
       this.ouncesAverage = amount;
     }
   }
-
+// adds object to user.ouncesRecord with date and oz drank
+// 
   updateActivities(activity) {
     this.activityRecord.unshift(activity);
     if (activity.numSteps >= this.dailyStepGoal) {
       this.accomplishedDays.unshift(activity.date);
     }
   }
+
+  // adds activity object to this.activitiesRecord
+  // adds activity date to this.accomplishedDays if step goal is met that day
 
   updateSleep(date, hours, quality) {
     this.sleepHoursRecord.unshift({

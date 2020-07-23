@@ -17,7 +17,7 @@ class Activity extends UserAction {
       return user.id === activity.userId;
     }).updateActivities(this);
   }
-
+// if user's id matches userID property of activity, use activity's properties to update user.activity.record and user.dailyStepGoal
   calculateMiles(userRepository) {
     const walkingUser = userRepository.users.find(user => {
       return user.id === this.userId;

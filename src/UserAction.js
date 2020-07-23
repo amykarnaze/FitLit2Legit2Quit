@@ -2,9 +2,10 @@ class UserAction {
   constructor(data) {
     this.userId = data.userID;
     this.date = data.date;
+    this.action(userRepo);
   }
 
-  updateAction(userRepo, updateUserMethod) {
+  action(userRepo, updateUserMethod) {
     const action = userRepo.users.find(user => {
       return user.id === this.userId
     }).updateUserMethod(parameters)

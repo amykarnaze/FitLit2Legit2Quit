@@ -22,20 +22,6 @@ describe('UserActions', function() {
         8
       ]
     });
-    user2 = new User({
-      "id": 2,
-      "name": "Jarvis Considine",
-      "address": "30086 Kathryn Port, Ciceroland NE 07273",
-      "email": "Dimitri.Bechtelar11@gmail.com",
-      "strideLength": 4.5,
-      "dailyStepGoal": 2000,
-      "friends": [
-        9,
-        18,
-        24,
-        19
-      ]
-    })
     userRepository = new UserRepository();
     userRepository.users.push(user1, user2);
     userAction1 = new UserAction({
@@ -55,5 +41,14 @@ describe('UserActions', function() {
   });
   it('should have a date', function() {
     expect(userAction1.date).to.equal('2019/06/15');
+  });
+  describe('action', function () {
+    it('should update SOMETHING over all time', function() {
+      expect(user1.ouncesAverage).to.equal(83);
+    })
+    // it('should add the date and amount to the object record', function() {
+    //   expect(user1.ouncesRecord).to.deep.equal([{"2019/06/15": 37}])
+    //   expect(user2.ouncesRecord.length).to.equal(2)
+    // })
   });
 })
