@@ -231,22 +231,12 @@ function updateTrendingStepDays() {
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 }
 
-// const dailyOzArray = Array.from(dailyOz);
+const dailyOzArray = Array.from(dailyOz);
 
-// dailyOzArray.forEach(drinkSlot => {
-//   console.log(sortedHydrationDataByDate);
-  
-//   drinkSlot.innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[drinkSlot])[0]);
-// })
-
-// need to iterate over node list for hydration
-// for each spot, need to put most recent data in
-// need to stop once they are filled
-
-for (let i = 0; i < dailyOz.length; i++) {
-  dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i + 1])[0])
-}
-
+dailyOzArray.forEach((drinkSlot, index) => {
+  console.log(sortedHydrationDataByDate);
+  drinkSlot.innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[index + 1])[0]);
+})
 
 dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
 
