@@ -23,6 +23,9 @@ getApiData().then(allData => {
     userRepository.users.push(user)
   });
   // console.log('users array', userRepository.users);
+  allData.sleepData.forEach(sleep => {
+    sleep = new Sleep(sleep, userRepository);
+  });
   
 });
 const user = userRepository.users[0];
