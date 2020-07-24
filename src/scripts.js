@@ -15,11 +15,11 @@ import getApiData from './api';
 
 const userRepository = new UserRepository();
 
+let user = {};
+
 getApiData().then(allData => {
-  allData.userData.forEach(user => {
-    // console.log('user', user)
-    user = new User(user);
-    userRepository.users.push(user)
+  allData.userData.forEach(person => {
+    userRepository.users.push(new User(person));
   });
   // console.log('users array', userRepository.users);
   allData.sleepData.forEach(sleep => {
@@ -31,11 +31,19 @@ getApiData().then(allData => {
   allData.hydrationData.forEach(hydration => {
     hydration = new Hydration(hydration, userRepository);
   });
-});
+  // keep in mind if yo need soemthing from a then, you need ot return so next then has it
+  // return allData- just an exp
+  // drag whatever you return through .then chain
+})
+.then(() => {
+  user = userRepository.users[0]
+  user.findFriendsNames(userRepository.users)
+  // console.warn(user.ouncesRecord)
+  })
+  
 
-const user = userRepository.users[0];
+
 let todayDate = "2019/09/22";
-user.findFriendsNames(userRepository.users);
 
 const dailyOz = document.querySelectorAll('.daily-oz');
 const dropdownEmail = document.querySelector('#dropdown-email');
@@ -64,15 +72,7 @@ const sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quali
 const sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
 const sleepMainCard = document.querySelector('#sleep-main-card');
 const sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
-const sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
-  if (Object.keys(a)[0] > Object.keys(b)[0]) {
-    return -1;
-  }
-  if (Object.keys(a)[0] < Object.keys(b)[0]) {
-    return 1;
-  }
-  return 0;
-});
+
 const stairsCalendarCard = document.querySelector('#stairs-calendar-card');
 const stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
 const stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
@@ -117,9 +117,14 @@ profileButton.addEventListener('click', showDropdown);
 addButton.addEventListener("click", showInstanceDropdown);
 newInstances.addEventListener('click', displayModal);
 closeModal.addEventListener('click', closeWindow);
-stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
-stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
-
+stairsTrendingButton.addEventListener('click', handleStairsDaysButton);
+function handleStairsDaysButton() {
+  updateTrendingStairsDays();
+}
+stepsTrendingButton.addEventListener('click', handleStepDays);
+function handleStepDays() {
+  updateTrendingStepDays()
+}
 function displayModal(event) {
   modalWindow.style.display = 'none';
   if (event.target.text === 'Add Sleep') {
@@ -223,87 +228,75 @@ function showInfo() {
   }
 }
 
-function updateTrendingStairsDays() {
   user.findTrendingStairsDays();
   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
-}
 
-function updateTrendingStepDays() {
+
   user.findTrendingStepDays();
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
-}
 
-const dailyOzArray = Array.from(dailyOz);
+  Array.from(dailyOz).forEach((drinkSlot, index) => {
+    drinkSlot.innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[index + 1])[0]);
+  })
 
-dailyOzArray.forEach((drinkSlot, index) => {
-  console.log(sortedHydrationDataByDate);
-  drinkSlot.innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[index + 1])[0]);
-})
+sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
+  if (Object.keys(a)[0] > Object.keys(b)[0]) {
+    return -1;
+  }
+  if (Object.keys(a)[0] < Object.keys(b)[0]) {
+    return 1;
+  }
+  return 0;
+});
 
-dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
+  dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
+  dropdownEmail.innerText = `EMAIL | ${user.email}`;
+  dropdownName.innerText = user.name.toUpperCase();
 
-dropdownEmail.innerText = `EMAIL | ${user.email}`;
+  headerName.innerText = `${user.getFirstName()}'S `;
 
-dropdownName.innerText = user.name.toUpperCase();
+  hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
+    return hydration.userID === user.id && hydration.date === todayDate;
+  }).numOunces;
 
-headerName.innerText = `${user.getFirstName()}'S `;
+  hydrationAllUsersOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
 
-hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
-  return hydration.userID === user.id && hydration.date === todayDate;
-}).numOunces;
+  hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
+    return hydration.userID === user.id && hydration.date === todayDate;
+  }).numOunces / 8;
 
-hydrationAllUsersOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
+  sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
+  sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
+  sleepAllUsersLongestSleeper.innerText = userRepository.users.find(user => {
+    return user.id === userRepository.getLongestSleepers(todayDate)
+  }).getFirstName();
+  sleepAllUsersWorstSleeper.innerText = userRepository.users.find(user => {
+    return user.id === userRepository.getWorstSleepers(sleepData, todayDate)
+  }).getFirstName();
+  sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
+  stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
+    return (activity.date === todayDate && activity.userId === user.id)
+  }).calculateMiles(userRepository);
+  sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;
+  sleepInfoQualityToday.innerText = sleepData.find(sleep => {
+    return sleep.userID === user.id && sleep.date === todayDate;
+  }).sleepQuality;
+  sleepUserHoursToday.innerText = sleepData.find(sleep => {
+    return sleep.userID === user.id && sleep.date === todayDate;
+  }).hoursSlept;
 
-hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
-  return hydration.userID === user.id && hydration.date === todayDate;
-}).numOunces / 8;
-
-sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
-
-sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
-
-sleepAllUsersLongestSleeper.innerText = userRepository.users.find(user => {
-  return user.id === userRepository.getLongestSleepers(todayDate)
-}).getFirstName();
-
-sleepAllUsersWorstSleeper.innerText = userRepository.users.find(user => {
-  return user.id === userRepository.getWorstSleepers(sleepData, todayDate)
-}).getFirstName();
-
-sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
-
-stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
-  return (activity.date === todayDate && activity.userId === user.id)
-}).calculateMiles(userRepository);
-
-sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;
-
-sleepInfoQualityToday.innerText = sleepData.find(sleep => {
-  return sleep.userID === user.id && sleep.date === todayDate;
-}).sleepQuality;
-
-sleepUserHoursToday.innerText = sleepData.find(sleep => {
-  return sleep.userID === user.id && sleep.date === todayDate;
-}).hoursSlept;
 
 stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
-
 stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
-
 stairsAllUsersFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
-
 stairsInfoFlightsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
 }).flightsOfStairs;
-
 stairsUserStairsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
 }).flightsOfStairs * 12;
-
 stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
-
 stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
-
 stairsTrendingButton.addEventListener('click', function() {
   user.findTrendingStairsDays();
   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
