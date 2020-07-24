@@ -45,7 +45,15 @@ return fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrati
 
 function getApiData() {
   return Promise.all([userFetchedData(), fetchedSleepData(), fetchedActivityData(), fetchedHydrationData()])
-    
+    .then(response => {
+        let newFetchData = {};
+        newFetchData.userData = response[0];
+        newFetchData.sleepData = response[1];
+        newFetchData.activityData = response[2]
+        newFetchData.hydrationData = response[3];
+        console.log(newFetchData)
+        return newFetchData;
+      })
       .catch(error => console.log(error))
   }
   // returning promise.all
