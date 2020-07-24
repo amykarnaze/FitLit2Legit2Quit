@@ -241,10 +241,10 @@ function showInfo() {
     flipCard(event.target.parentNode, sleepMainCard);
   }
 }
-
+function showTrendingStairsDays() {
   user.findTrendingStairsDays();
   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
-
+}
 
   user.findTrendingStepDays();
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
