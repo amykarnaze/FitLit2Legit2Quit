@@ -14,23 +14,17 @@ import Sleep from './Sleep';
 
 const userRepository = new UserRepository();
 
-userData.forEach(user => {
-  user = new User(user);
-  userRepository.users.push(user)
+import getApiData from './api';
+getApiData().then(allData => {
+  allData.userData.forEach(user => {
+    // console.log('user', user)
+    userRepository.users.push(user)
+    user = new User(user);
+    userRepository.users.push(user)
+  });
+  // console.log('users array', userRepository.users);
+  
 });
-
-activityData.forEach(activity => {
-  activity = new Activity(activity, userRepository);
-});
-
-hydrationData.forEach(hydration => {
-  hydration = new Hydration(hydration, userRepository);
-});
-
-sleepData.forEach(sleep => {
-  sleep = new Sleep(sleep, userRepository);
-});
-
 const user = userRepository.users[0];
 let todayDate = "2019/09/22";
 user.findFriendsNames(userRepository.users);
