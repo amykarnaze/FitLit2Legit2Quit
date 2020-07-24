@@ -36,7 +36,9 @@ sleepData.forEach(sleep => {
 });
 
 let user = userRepository.users[0];
-let todayDate = moment().format("YYYY/MM/DD");
+// moment.format("YYYY/MM/DD");
+let todayDate = "2019/09/22";
+let currentDate = moment().format("YYYY/MM/DD");
 user.findFriendsNames(userRepository.users);
 
 let dailyOz = document.querySelectorAll('.daily-oz');
@@ -232,7 +234,6 @@ function updateTrendingStepDays() {
 }
 
 for (let i = 0; i < dailyOz.length; i++) {
-  console.log(todayDate);
   dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
 }
 
