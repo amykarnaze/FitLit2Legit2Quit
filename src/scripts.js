@@ -26,6 +26,9 @@ getApiData().then(allData => {
   allData.sleepData.forEach(sleep => {
     sleep = new Sleep(sleep, userRepository);
   });
+  allData.activityData.forEach(activity => {
+    activity = new Activity(activity, userRepository);
+  });
   
 });
 const user = userRepository.users[0];
