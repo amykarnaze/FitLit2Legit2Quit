@@ -11,10 +11,10 @@ import UserAction from '../src/UserAction';
 import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
+import getApiData from './api';
 
 const userRepository = new UserRepository();
 
-import getApiData from './api';
 getApiData().then(allData => {
   allData.userData.forEach(user => {
     // console.log('user', user)
@@ -29,8 +29,11 @@ getApiData().then(allData => {
   allData.activityData.forEach(activity => {
     activity = new Activity(activity, userRepository);
   });
-  
+  allData.hydrationData.forEach(hydration => {
+    hydration = new Hydration(hydration, userRepository);
+  });
 });
+
 const user = userRepository.users[0];
 let todayDate = "2019/09/22";
 user.findFriendsNames(userRepository.users);
