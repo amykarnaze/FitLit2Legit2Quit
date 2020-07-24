@@ -15,6 +15,7 @@ import getApiData from './api';
 
 const userRepository = new UserRepository();
 
+let sortedHydrationDataByDate = [];
 let user = {};
 
 getApiData().then(allData => {
@@ -38,6 +39,15 @@ getApiData().then(allData => {
 .then(() => {
   user = userRepository.users[0]
   user.findFriendsNames(userRepository.users)
+  sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
+    if (Object.keys(a)[0] > Object.keys(b)[0]) {
+      return -1;
+    }
+    if (Object.keys(a)[0] < Object.keys(b)[0]) {
+      return 1;
+    }
+    return 0;
+  });
   // console.warn(user.ouncesRecord)
   })
   
@@ -239,15 +249,6 @@ function showInfo() {
     drinkSlot.innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[index + 1])[0]);
   })
 
-sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
-  if (Object.keys(a)[0] > Object.keys(b)[0]) {
-    return -1;
-  }
-  if (Object.keys(a)[0] < Object.keys(b)[0]) {
-    return 1;
-  }
-  return 0;
-});
 
   dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
   dropdownEmail.innerText = `EMAIL | ${user.email}`;
