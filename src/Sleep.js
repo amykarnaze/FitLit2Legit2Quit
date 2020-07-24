@@ -7,7 +7,7 @@ class Sleep extends UserAction {
     this.sleepQuality = data.sleepQuality;
     this.sleep(userRepository);
   }
-  // 
+  //
   // sleep(userRepo) {
   //   const sleep = this;
   //   userRepo.users.find(user => {
@@ -17,11 +17,7 @@ class Sleep extends UserAction {
   // }
 
   sleep(userRepo) {
-    const sleep = this;
-    let activeUser = userRepo.users.find(user => {
-      return user.id === sleep.userId;
-    })
-    activeUser.updateSleep(this);
+    super.matchUserToAction(userRepo).updateSleep(this);
   }
 
   // if user id in repo matches userId property of sleep object, use values from this object to update sleep stats of that user

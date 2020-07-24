@@ -75,7 +75,6 @@ describe('Hydration', function() {
   });
   describe('drink', function () {
     it('should update the average number of ounces over all time', function() {
-      console.log(user2)
       expect(user2.ouncesAverage).to.equal(83);
     })
     it('should add the date and amount to the object record', function() {
