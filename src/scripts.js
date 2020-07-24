@@ -50,7 +50,11 @@ getApiData().then(allData => {
   });
   // console.warn(user.ouncesRecord)
   })
-  
+  .then(() => populatePage());
+
+  // whatever is returned out of a then goes into next then as the data
+  function populatePage() {
+  }
 
 
 let todayDate = "2019/09/22";
