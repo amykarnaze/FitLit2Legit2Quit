@@ -18,7 +18,6 @@ const userRepository = new UserRepository();
 getApiData().then(allData => {
   allData.userData.forEach(user => {
     // console.log('user', user)
-    userRepository.users.push(user)
     user = new User(user);
     userRepository.users.push(user)
   });
