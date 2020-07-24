@@ -54,51 +54,51 @@
       this.accomplishedDays.unshift(activity.date);
     }
   }
-
+  // 
   // adds activity object to this.activitiesRecord
   // adds activity date to this.accomplishedDays if step goal is met that day
-  //
-  // updateSleep(date, hours, quality) {
-  //   this.sleepHoursRecord.unshift({
-  //     'date': date,
-  //     'hours': hours
-  //   });
-  //   this.sleepQualityRecord.unshift({
-  //     'date': date,
-  //     'quality': quality
-  //   });
-  //   if(this.sleepHoursRecord.length) {
-  //     this.hoursSleptAverage = ((hours + (this.hoursSleptAverage * (this.sleepHoursRecord.length - 1))) / this.sleepHoursRecord.length).toFixed(1);
-  //   } else {
-  //     this.hoursSleptAverage = hours;
-  //   }
-  //   if (this.sleepQualityRecord.length) {
-  //     this.sleepQualityAverage = ((quality + (this.sleepQualityAverage * (this.sleepQualityRecord.length - 1))) / this.sleepQualityRecord.length).toFixed(1);
-  //   } else {
-  //     this.sleepQualityAverage = quality;
-  //   }
-  // }
 
-  updateSleep(action) {
+  updateSleep(date, hours, quality) {
     this.sleepHoursRecord.unshift({
-      'date': action.date,
-      'hours': action.hoursSlept
+      'date': date,
+      'hours': hours
     });
     this.sleepQualityRecord.unshift({
-      'date': action.date,
-      'quality': action.sleepQuality
+      'date': date,
+      'quality': quality
     });
     if(this.sleepHoursRecord.length) {
-      this.hoursSleptAverage = ((action.hoursSlept + (this.hoursSleptAverage * (this.sleepHoursRecord.length - 1))) / this.sleepHoursRecord.length).toFixed(1);
+      this.hoursSleptAverage = ((hours + (this.hoursSleptAverage * (this.sleepHoursRecord.length - 1))) / this.sleepHoursRecord.length).toFixed(1);
     } else {
-      this.hoursSleptAverage = action.hoursSlept;
+      this.hoursSleptAverage = hours;
     }
     if (this.sleepQualityRecord.length) {
-      this.sleepQualityAverage = ((action.sleepQuality + (this.sleepQualityAverage * (this.sleepQualityRecord.length - 1))) / this.sleepQualityRecord.length).toFixed(1);
+      this.sleepQualityAverage = ((quality + (this.sleepQualityAverage * (this.sleepQualityRecord.length - 1))) / this.sleepQualityRecord.length).toFixed(1);
     } else {
-      this.sleepQualityAverage = action.sleepQuality;
+      this.sleepQualityAverage = quality;
     }
   }
+
+  // updateSleep(action) {
+  //   this.sleepHoursRecord.unshift({
+  //     'date': action.date,
+  //     'hours': action.hoursSlept
+  //   });
+  //   this.sleepQualityRecord.unshift({
+  //     'date': action.date,
+  //     'quality': action.sleepQuality
+  //   });
+  //   if(this.sleepHoursRecord.length) {
+  //     this.hoursSleptAverage = ((action.hoursSlept + (this.hoursSleptAverage * (this.sleepHoursRecord.length - 1))) / this.sleepHoursRecord.length).toFixed(1);
+  //   } else {
+  //     this.hoursSleptAverage = action.hoursSlept;
+  //   }
+  //   if (this.sleepQualityRecord.length) {
+  //     this.sleepQualityAverage = ((action.sleepQuality + (this.sleepQualityAverage * (this.sleepQualityRecord.length - 1))) / this.sleepQualityRecord.length).toFixed(1);
+  //   } else {
+  //     this.sleepQualityAverage = action.sleepQuality;
+  //   }
+  // }
 // probably should be refactored
 // update user.sleepHoursRecord and user.sleepQualityRecord with object that contains date logged and hours slept; same for sleep quality
 //update user.hoursSleptAverage and user.sleepQualityAverage with that day's amount if only 1 day on record, or average of 2+ days
