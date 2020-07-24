@@ -37,21 +37,30 @@
     }, 0)
   }
 
-  updateHydration(date, amount) {
-    this.ouncesRecord.unshift({[date]: amount});
+  // updateHydration(date, amount) {
+  //   this.ouncesRecord.unshift({[date]: amount});
+  //   if (this.ouncesRecord.length) {
+  //     this.ouncesAverage = Math.round((amount + (this.ouncesAverage * (this.ouncesRecord.length - 1))) / this.ouncesRecord.length);
+  //   } else {
+  //     this.ouncesAverage = amount;
+  //   }
+  // }
+
+  updateHydration(action) {
+    this.ouncesRecord.unshift({[action.date]: action.ounces});
     if (this.ouncesRecord.length) {
-      this.ouncesAverage = Math.round((amount + (this.ouncesAverage * (this.ouncesRecord.length - 1))) / this.ouncesRecord.length);
+      this.ouncesAverage = Math.round((action.ounces + (this.ouncesAverage * (this.ouncesRecord.length - 1))) / this.ouncesRecord.length);
     } else {
-      this.ouncesAverage = amount;
+      this.ouncesAverage = action.ounces;
     }
   }
 // adds object to user.ouncesRecord with date and oz drank
 // updates user.ouncesAverage with initial amount or average of 2 or more days
 
-  updateActivities(activity) {
-    this.activityRecord.unshift(activity);
-    if (activity.numSteps >= this.dailyStepGoal) {
-      this.accomplishedDays.unshift(activity.date);
+  updateActivities(action) {
+    this.activityRecord.unshift(action);
+    if (action.numSteps >= this.dailyStepGoal) {
+      this.accomplishedDays.unshift(action.date);
     }
   }
   //
