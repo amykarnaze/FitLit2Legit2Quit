@@ -36,7 +36,6 @@ sleepData.forEach(sleep => {
 });
 
 let user = userRepository.users[0];
-// moment.format("YYYY/MM/DD");
 let todayDate = "2019/09/22";
 let currentDate = moment().format("YYYY/MM/DD");
 user.findFriendsNames(userRepository.users);
@@ -352,4 +351,5 @@ friendsStepsParagraphs.forEach(paragraph => {
     paragraph.classList.add('yellow-text');
   }
 });
+
 
