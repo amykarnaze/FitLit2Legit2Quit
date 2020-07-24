@@ -43,7 +43,11 @@ return fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrati
 
 
 
-
+function getApiData() {
+  return Promise.all([userFetchedData(), fetchedSleepData(), fetchedActivityData(), fetchedHydrationData()])
+    
+      .catch(error => console.log(error))
+  }
   // returning promise.all
   // have asyn func that depends on the funcitonality somewere else
   // promise.all.then on 48. we could chain what on script on left w getApiData
