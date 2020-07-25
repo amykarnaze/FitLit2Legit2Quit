@@ -266,9 +266,11 @@ displayName()
   headerName.innerText = `${user.getFirstName()}'S `;
 }
 
+displayHydration()
   hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
     return hydration.userID === user.id && hydration.date === todayDate;
   }).numOunces;
+}
 
   hydrationAllUsersOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
 
