@@ -70,20 +70,16 @@ getApiData().then(allData => {
     displayFriendsStepsColor();
   }
 
-
 let todayDate = "2019/09/22";
 
 const dailyOz = document.querySelectorAll('.daily-oz');
 const dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
 
-const hydrationCalendarCard = document.querySelector('#hydration-calendar-card');
-const hydrationAllUsersCard = document.querySelector('#hydration-all-users-card');
-const hydrationInfoCard = document.querySelector('#hydration-info-card');
 const hydrationMainCard = document.querySelector('#hydration-main-card');
 const mainPage = document.querySelector('main');
 const profileButton = document.querySelector('#profile-button');
 const sleepCalendarCard = document.querySelector('#sleep-calendar-card');
-const sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-hours-average-weekly');
+
 const sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
 const sleepAllUsersLongestSleeper = document.querySelector('#sleep-all-users-longest-sleeper');
 const sleepAllUsersCard = document.querySelector('#sleep-all-users-card');
@@ -94,8 +90,6 @@ const sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quali
 const sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
 const sleepMainCard = document.querySelector('#sleep-main-card');
 const sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
-
-
 
 const stairsCalendarCard = document.querySelector('#stairs-calendar-card');
 const stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
@@ -128,17 +122,14 @@ const activityModal = document.querySelector(".mpopup-activity");
 const closeModal = document.querySelector('.close');
 const userActionTitle = document.querySelector('.action-title');
 
-window.onload = loadDropdown;
 window.addEventListener('click', closeModalWindow);
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
 addButton.addEventListener("click", showInstanceDropdown);
 newInstances.addEventListener('click', displayModal);
 closeModal.addEventListener('click', closeWindow);
-
 stairsTrendingButton.addEventListener('click', handleStairsDaysButton);
 stepsTrendingButton.addEventListener('click', handleStepDays);
-
 
 function handleStairsDaysButton() {
   updateTrendingStairsDays();
@@ -146,9 +137,7 @@ function handleStairsDaysButton() {
 
 function handleStepDays() {
   updateTrendingStepDays()
-
-stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
-stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
+} 
 
 function displayModal(event) {
   modalWindow.style.display = 'none';
@@ -209,12 +198,15 @@ function showInfo() {
   if (event.target.classList.contains('steps-calendar-button')) {
     flipCard(stepsMainCard, stepsCalendarCard);
   }
+  const hydrationInfoCard = document.querySelector('#hydration-info-card');
   if (event.target.classList.contains('hydration-info-button')) {
     flipCard(hydrationMainCard, hydrationInfoCard);
   }
+  const hydrationAllUsersCard = document.querySelector('#hydration-all-users-card');
   if (event.target.classList.contains('hydration-all-users-button')) {
     flipCard(hydrationMainCard, hydrationAllUsersCard);
   }
+  const hydrationCalendarCard = document.querySelector('#hydration-calendar-card');
   if (event.target.classList.contains('hydration-calendar-button')) {
     flipCard(hydrationMainCard, hydrationCalendarCard);
   }
@@ -253,12 +245,6 @@ function showInfo() {
   }
 }
 
-function loadDropdown() {
-  dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
-  dropdownEmail.innerText = `EMAIL | ${user.email}`;
-  dropdownName.innerText = user.name.toUpperCase();
-}
-
 function updateTrendingStairsDays() {
   user.findTrendingStairsDays();
   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
@@ -279,10 +265,6 @@ function dailyOzCreater() {
 // everything that moves user data around
 // call big page populating func in last .then
 
-dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
-
-dropdownEmail.innerText = `EMAIL | ${user.email}`;
-
 function displayDropDown() {
   const dropdownEmail = document.querySelector('#dropdown-email');
   const dropdownGoal = document.querySelector('#dropdown-goal');
@@ -290,7 +272,6 @@ function displayDropDown() {
   dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
   dropdownEmail.innerText = `EMAIL | ${user.email}`;
   dropdownName.innerText = user.name.toUpperCase();
-
 }
 
 function displayName() {
@@ -312,50 +293,51 @@ function displayHydration() {
 }
 
 function displaySleep() {
-sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
-sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
-sleepAllUsersLongestSleeper.innerText = userRepository.users.find(user => {
-  return user.id === userRepository.getLongestSleepers(todayDate)
-}).getFirstName();
-sleepAllUsersWorstSleeper.innerText = userRepository.users.find(user => {
-  return user.id === userRepository.getWorstSleepers(sleepData, todayDate)
-}).getFirstName();
-sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
-stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
-  return (activity.date === todayDate && activity.userId === user.id)
-}).calculateMiles(userRepository);
-sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;
-sleepInfoQualityToday.innerText = sleepData.find(sleep => {
-  return sleep.userID === user.id && sleep.date === todayDate;
-}).sleepQuality;
-sleepUserHoursToday.innerText = sleepData.find(sleep => {
-  return sleep.userID === user.id && sleep.date === todayDate;
-}).hoursSlept;
+  const sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-hours-average-weekly');
+  sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
+  sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
+  sleepAllUsersLongestSleeper.innerText = userRepository.users.find(user => {
+    return user.id === userRepository.getLongestSleepers(todayDate)
+  }).getFirstName();
+  sleepAllUsersWorstSleeper.innerText = userRepository.users.find(user => {
+    return user.id === userRepository.getWorstSleepers(sleepData, todayDate)
+  }).getFirstName();
+  sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
+  stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
+    return (activity.date === todayDate && activity.userId === user.id)
+  }).calculateMiles(userRepository);
+  sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;
+  sleepInfoQualityToday.innerText = sleepData.find(sleep => {
+    return sleep.userID === user.id && sleep.date === todayDate;
+  }).sleepQuality;
+  sleepUserHoursToday.innerText = sleepData.find(sleep => {
+    return sleep.userID === user.id && sleep.date === todayDate;
+  }).hoursSlept;
 }
 
 function averageFlights() {
-stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate); 
-stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
-stairsAllUsersFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
-stairsInfoFlightsToday.innerText = activityData.find(activity => {
-  return activity.userID === user.id && activity.date === todayDate;
-}).flightsOfStairs;
-stairsUserStairsToday.innerText = activityData.find(activity => {
-  return activity.userID === user.id && activity.date === todayDate;
-}).flightsOfStairs * 12;
-stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
-stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
+  stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate); 
+  stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
+  stairsAllUsersFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
+  stairsInfoFlightsToday.innerText = activityData.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).flightsOfStairs;
+  stairsUserStairsToday.innerText = activityData.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).flightsOfStairs * 12;
+  stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
+  stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
 }
 
 function displayCalenderSteps() {
-const stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');
-const stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
-const stepsCalendarTotalStepsWeekly = document.querySelector('#steps-calendar-total-steps-weekly');
-stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate);
-stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);
-stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
-  return activity.userID === user.id && activity.date === todayDate;
-}).minutesActive;
+  const stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');
+  const stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
+  const stepsCalendarTotalStepsWeekly = document.querySelector('#steps-calendar-total-steps-weekly');
+  stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate);
+  stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);
+  stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).minutesActive;
 }
 
 function displayAllUsersSteps() {
@@ -371,33 +353,34 @@ function displayAllUsersSteps() {
 }
 
 function displayCaloriesBurnedToday() {
-const caloriesBurnedToday = document.querySelector('#calories-burned-today')
-caloriesBurnedToday.innerText = user.calculateDailyCalories(todayDate);
+  const caloriesBurnedToday = document.querySelector('#calories-burned-today')
+  caloriesBurnedToday.innerText = user.calculateDailyCalories(todayDate);
 }
 
 
 function displayFriendsSteps() {
-user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
-user.friendsActivityRecords.forEach(friend => {
-  dropdownFriendsStepsContainer.innerHTML += `
-  <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
-  `;
-});
+  user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
+  user.friendsActivityRecords.forEach(friend => {
+    dropdownFriendsStepsContainer.innerHTML += `
+    <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
+    `;
+  });
 } 
 
 function displayFriendsStepsColor() {
-let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
-friendsStepsParagraphs.forEach(paragraph => {
-  if (friendsStepsParagraphs[0] === paragraph) {
-    paragraph.classList.add('green-text');
-  }
-  if (friendsStepsParagraphs[friendsStepsParagraphs.length - 1] === paragraph) {
-    paragraph.classList.add('red-text');
-  }
-  if (paragraph.innerText.includes('YOU')) {
-    paragraph.classList.add('yellow-text');
-  }
-});
+  let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
+  friendsStepsParagraphs.forEach(paragraph => {
+    if (friendsStepsParagraphs[0] === paragraph) {
+      paragraph.classList.add('green-text');
+    }
+    if (friendsStepsParagraphs[friendsStepsParagraphs.length - 1] === paragraph) {
+      paragraph.classList.add('red-text');
+    }
+    if (paragraph.innerText.includes('YOU')) {
+      paragraph.classList.add('yellow-text');
+    }
+  });
+}
 
 const userHoursSleptInput = document.querySelector(".user-input-hours-slept");
 const userSleepQualityInput = document.querySelector(
@@ -511,8 +494,4 @@ function verifyNumberInput(amount, min, max) {
   } else {
     return true;
   }
-
 }
-
-export {loadDropdown as default};
-
