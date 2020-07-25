@@ -51,7 +51,6 @@ function getApiData() {
         newFetchData.sleepData = response[1];
         newFetchData.activityData = response[2]
         newFetchData.hydrationData = response[3];
-        console.log(newFetchData)
         return newFetchData;
       })
       .catch(error => console.log(error))
