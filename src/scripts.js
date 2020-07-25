@@ -63,6 +63,7 @@ getApiData().then(allData => {
     averageFlights()
     displayCalenderSteps()
     displayAllUsersSteps()
+    displayCaloriesBurnedToday()
   }
 
 
@@ -354,8 +355,10 @@ stepsAllUsersAverageStepGoal.innerText = `${userRepository.calculateAverageStepG
 stepsAllUsersStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
 }
 
-
+displayCaloriesBurnedToday() {
+const caloriesBurnedToday = document.querySelector('#calories-burned-today')
 caloriesBurnedToday.innerText = user.calculateDailyCalories(todayDate);
+}
 
 stepsUserStepsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
