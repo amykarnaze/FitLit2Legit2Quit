@@ -64,17 +64,15 @@ getApiData().then(allData => {
     displayCalenderSteps()
     displayAllUsersSteps()
     displayCaloriesBurnedToday()
+    displayCaloriesBurnedToday()
   }
 
 
 let todayDate = "2019/09/22";
 
 const dailyOz = document.querySelectorAll('.daily-oz');
-const dropdownEmail = document.querySelector('#dropdown-email');
 const dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
-const dropdownGoal = document.querySelector('#dropdown-goal');
-const dropdownName = document.querySelector('#dropdown-name');
-const headerName = document.querySelector('#header-name');
+
 const hydrationCalendarCard = document.querySelector('#hydration-calendar-card');
 const hydrationAllUsersOuncesToday = document.querySelector('#hydration-all-users-ounces-today');
 const hydrationAllUsersCard = document.querySelector('#hydration-all-users-card');
@@ -267,6 +265,9 @@ function dailyOzCreater() {
 
 
 function displayDropDown() {
+  const dropdownEmail = document.querySelector('#dropdown-email');
+  const dropdownGoal = document.querySelector('#dropdown-goal');
+  const dropdownName = document.querySelector('#dropdown-name');
   dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
   dropdownEmail.innerText = `EMAIL | ${user.email}`;
   dropdownName.innerText = user.name.toUpperCase();
@@ -274,7 +275,8 @@ function displayDropDown() {
 }
 
 function displayName() {
-headerName.innerText = `${user.getFirstName()}'S `;
+  const headerName = document.querySelector('#header-name');  
+  headerName.innerText = `${user.getFirstName()}'S `;
 }
 
 function displayHydration() {
