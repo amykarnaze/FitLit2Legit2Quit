@@ -33,67 +33,59 @@ getApiData().then(allData => {
   allData.hydrationData.forEach(hydration => {
     hydration = new Hydration(hydration, userRepository);
   });
-  // keep in mind if yo need soemthing from a then, you need ot return so next then has it
-  // return allData- just an exp
-  // drag whatever you return through .then chain
 })
 .then(() => {
   user = userRepository.users[0]
   user.findFriendsNames(userRepository.users)
   // console.warn(user.ouncesRecord)
-  sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
-    if (Object.keys(a)[0] > Object.keys(b)[0]) {
-      return -1;
-    }
-    if (Object.keys(a)[0] < Object.keys(b)[0]) {
-      return 1;
-    }
-    return 0;
-  });
-  })
-  .then(() => populatePage());
+})
+.then(() => populatePage());
 
-  // whatever is returned out of a then goes into next then as the data
-  function populatePage() {
-    // call all sub functions
-    dailyOzCreater();
-    displayDropDown();
-    displayName();
-    displayHydration();
-    displaySleep();
-    averageFlights();
-    displayCalenderSteps();
-    displayAllUsersSteps();
-    displayCaloriesBurnedToday();
-    displayFriendsSteps()
-    displayFriendsStepsColor();
-  }
+function populatePage() {
+  sortHydrationData()
+  dailyOzCreater();
+  displayDropDown();
+  displayName();
+  displayHydration();
+  displaySleep();
+  averageFlights();
+  displayCalenderSteps();
+  displayAllUsersSteps();
+  displayCaloriesBurnedToday();
+  displayFriendsSteps()
+  displayFriendsStepsColor();
+}
+
 
 let todayDate = "2019/09/22";
-const dailyOz = document.querySelectorAll('.daily-oz');
-
-//event listeners
+let userHoursSlept;
+let userSleepQuality;
+let userOunces;
+let userNumberOfSteps;
+let userMinutesActive;
+let userFlightsOfStairs;
+//used w event listeners
 const hydrationMainCard = document.querySelector('#hydration-main-card');
 const mainPage = document.querySelector('main');
-const stairsTrendingButton = document.querySelector('.stairs-trending-button');
-const stepsTrendingButton = document.querySelector('.steps-trending-button');
+const profileButton = document.querySelector('#profile-button');
 const addButton = document.getElementById('add-instance-button');
 const newInstances = document.getElementById('add-instances-dropdown');
+const closeModal = document.querySelector('.close');
+const stairsTrendingButton = document.querySelector('.stairs-trending-button');
+const stepsTrendingButton = document.querySelector('.steps-trending-button');
+const userHoursSleptInput = document.querySelector(".user-input-hours-slept");
+const userSleepQualityInput = document.querySelector(".user-input-sleep-quality");
+const userOuncesInput = document.querySelector(".user-input-ounces");
+const userNumberStepsInput = document.querySelector(".user-input-steps");
+const userMinutesActiveInput = document.querySelector(".user-input-minutes-active");
+const userFlightsOfStairsInput = document.querySelector(".user-input-flights");
+const sleepInputButton = document.querySelector(".sleep-button");
+const hydrationInputButton = document.querySelector(".hydration-button");
+const activityInputButton = document.querySelector(".activity-button");
 
 // called mult times
-const profileButton = document.querySelector('#profile-button');
-const sleepMainCard = document.querySelector('#sleep-main-card');
-const stepsMainCard = document.querySelector('#steps-main-card');
 const modalWindow = document.getElementById('mpopupBox');
-const stairsMainCard = document.querySelector('#stairs-main-card');
-
-
-
-const hydrationModal = document.querySelector(".mpopup-hydration");
-const activityModal = document.querySelector(".mpopup-activity");
-const closeModal = document.querySelector('.close');
-const userActionTitle = document.querySelector('.action-title');
-
+// event listeners
 window.addEventListener('click', closeModalWindow);
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
@@ -102,6 +94,15 @@ newInstances.addEventListener('click', displayModal);
 closeModal.addEventListener('click', closeWindow);
 stairsTrendingButton.addEventListener('click', handleStairsDaysButton);
 stepsTrendingButton.addEventListener('click', handleStepDays);
+userHoursSleptInput.addEventListener("input", userInputHandler);
+userSleepQualityInput.addEventListener("input", userInputHandler);
+userOuncesInput.addEventListener("input", userInputHandler);
+userNumberStepsInput.addEventListener("input", userInputHandler);
+userMinutesActiveInput.addEventListener("input", userInputHandler);
+userFlightsOfStairsInput.addEventListener("input", userInputHandler);
+sleepInputButton.addEventListener("click", createInstance);
+hydrationInputButton.addEventListener("click", createInstance);
+activityInputButton.addEventListener("click", createInstance);
 
 function handleStairsDaysButton() {
   updateTrendingStairsDays();
@@ -113,6 +114,9 @@ function handleStepDays() {
 
 function displayModal(event) {
   const sleepModal = document.querySelector('.mpopup-sleep');
+  const hydrationModal = document.querySelector(".mpopup-hydration");
+  const activityModal = document.querySelector(".mpopup-activity");
+  const userActionTitle = document.querySelector('.action-title');
   modalWindow.style.display = 'none';
   if (event.target.text === 'Add Sleep') {
     modalWindow.style.display = "block";
@@ -159,7 +163,23 @@ function showInstanceDropdown() {
   newInstances.classList.toggle("hide");
 }
 
+function sortHydrationData() {
+sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
+  if (Object.keys(a)[0] > Object.keys(b)[0]) {
+    return -1;
+  }
+  if (Object.keys(a)[0] < Object.keys(b)[0]) {
+    return 1;
+  }
+  return 0;
+});
+}
+
 function showInfo() {
+  const sleepMainCard = document.querySelector('#sleep-main-card');
+  const stepsMainCard = document.querySelector('#steps-main-card');
+  const stairsMainCard = document.querySelector('#stairs-main-card');
+
   const stepsInfoCard = document.querySelector('#steps-info-card');
   if (event.target.classList.contains('steps-info-button')) {
     flipCard(stepsMainCard, stepsInfoCard);
@@ -243,6 +263,7 @@ function updateTrendingStepDays() {
 }
 
 function dailyOzCreater() {
+  const dailyOz = document.querySelectorAll('.daily-oz');
   Array.from(dailyOz).forEach((drinkSlot, index) => {
     drinkSlot.innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[index + 1])[0]);
   })
@@ -279,8 +300,8 @@ function displaySleep() {
   const sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-hours-average-weekly');
   const sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
   const sleepAllUsersLongestSleeper = document.querySelector('#sleep-all-users-longest-sleeper');
-  const stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
   const sleepAllUsersWorstSleeper = document.querySelector('#sleep-all-users-worst-sleeper');
+  const stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
   const sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
   const sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
   const sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
@@ -382,38 +403,6 @@ function displayFriendsStepsColor() {
   });
 }
 
-const userHoursSleptInput = document.querySelector(".user-input-hours-slept");
-const userSleepQualityInput = document.querySelector(
-  ".user-input-sleep-quality"
-);
-const userOuncesInput = document.querySelector(".user-input-ounces");
-const userNumberStepsInput = document.querySelector(".user-input-steps");
-const userMinutesActiveInput = document.querySelector(
-  ".user-input-minutes-active"
-);
-const userFlightsOfStairsInput = document.querySelector(".user-input-flights");
-const sleepInputButton = document.querySelector(".sleep-button");
-const hydrationInputButton = document.querySelector(".hydration-button");
-const activityInputButton = document.querySelector(".activity-button");
-const submitButton = document.getElementsByClassName("submit");
-
-let userHoursSlept;
-let userSleepQuality;
-let userOunces;
-let userNumberOfSteps;
-let userMinutesActive;
-let userFlightsOfStairs;
-
-userHoursSleptInput.addEventListener("input", userInputHandler);
-userSleepQualityInput.addEventListener("input", userInputHandler);
-userOuncesInput.addEventListener("input", userInputHandler);
-userNumberStepsInput.addEventListener("input", userInputHandler);
-userMinutesActiveInput.addEventListener("input", userInputHandler);
-userFlightsOfStairsInput.addEventListener("input", userInputHandler);
-sleepInputButton.addEventListener("click", createInstance);
-hydrationInputButton.addEventListener("click", createInstance);
-activityInputButton.addEventListener("click", createInstance);
-
 function createInstance(event) {
   if (event.target.classList[0] === "sleep-button") {
     createSleepInstance();
@@ -487,6 +476,7 @@ function userInputHandler(event) {
 }
 
 function verifyNumberInput(amount, min, max) {
+  const submitButton = document.getElementsByClassName("submit");
   if (amount < min || amount >= max) {
     alert(`Please enter a number between ${min} - ${max}`);
     submitButton.disabled = true;
