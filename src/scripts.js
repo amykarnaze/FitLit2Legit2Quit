@@ -110,23 +110,6 @@ const hydrationModal = document.querySelector(".mpopup-hydration");
 const activityModal = document.querySelector(".mpopup-activity");
 const closeModal = document.querySelector('.close');
 const userActionTitle = document.querySelector('.action-title');
-const userHoursSleptInput = document.querySelector('.user-input-hours-slept');
-const userSleepQualityInput = document.querySelector('.user-input-sleep-quality');
-const userOuncesInput = document.querySelector('.user-input-ounces');
-const userNumberStepsInput = document.querySelector('.user-input-steps');
-const userMinutesActiveInput = document.querySelector('.user-input-minutes-active');
-const userFlightsOfStairsInput = document.querySelector('.user-input-flights');
-const sleepInputButton = document.querySelector('.sleep-button');
-const hydrationInputButton = document.querySelector('.hydration-button');
-const activityInputButton = document.querySelector('.activity-button');
-const submitButton = document.getElementsByClassName('submit');
-
-let userHoursSlept;
-let userSleepQuality;
-let userOunces;
-let userNumberOfSteps;
-let userMinutesActive;
-let userFlightsOfStairs;
 
 window.addEventListener('click', closeModalWindow);
 mainPage.addEventListener('click', showInfo);
@@ -136,83 +119,6 @@ newInstances.addEventListener('click', displayModal);
 closeModal.addEventListener('click', closeWindow);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
-userHoursSleptInput.addEventListener('input', userInputHandler);
-userSleepQualityInput.addEventListener("input", userInputHandler);
-userOuncesInput.addEventListener("input", userInputHandler);
-userNumberStepsInput.addEventListener("input", userInputHandler);
-userMinutesActiveInput.addEventListener("input", userInputHandler);
-userFlightsOfStairsInput.addEventListener("input", userInputHandler);
-sleepInputButton.addEventListener('click', createInstance);
-hydrationInputButton.addEventListener('click', createInstance);
-activityInputButton.addEventListener('click', createInstance);
-
-function createInstance(event) {
-  if (event.target.classList[0] === 'sleep-button') {
-    let verifiedNumber1 = verifyNumberInput(userHoursSlept, 0, 24);
-    let verifiedNumber2 = verifyNumberInput(userSleepQuality, 0, 5);
-    if (verifiedNumber1 === true && verifiedNumber2 === true) {
-      const newSleep = {
-        userID: user.id,
-        date: currentDate,
-        hoursSlept: userHoursSlept,
-        sleepQuality: userSleepQuality,
-      };
-      const newSleepInstance = new Sleep(newSleep, userRepository);
-    }
-  } else if (event.target.classList[0] === 'hydration-button') {
-    let verifiedNumber = verifyNumberInput(userOunces, 0, 200);
-    if (verifiedNumber === true) {
-      const newHydration = {
-        userID: user.id,
-        date: currentDate,
-        numOunces: userOunces,
-      };
-      const newHydrationInstance = new Hydration(newHydration, userRepository);
-      console.log(newHydration);
-      console.log(newHydrationInstance);
-    }
-  } else if (event.target.classList[0] === 'activity-button') {
-    let verifiedNumber1 = verifyNumberInput(userNumberOfSteps, 0, 25000);
-    let verifiedNumber2 = verifyNumberInput(userMinutesActive, 0, 480);
-    let verifiedNumber3 = verifyNumberInput(userFlightsOfStairs, 0, 500);
-    if (verifiedNumber1 === true && verifiedNumber2 === true && verifiedNumber3 === true) {
-      const newActivity = {
-        userID: user.id,
-        date: currentDate,
-        numSteps: userNumberOfSteps,
-        minutesActive: userMinutesActive,
-        flightsOfStairs: userFlightsOfStairs,
-      };
-      const newActivityInstance = new Activity(newActivity, userRepository);
-    }
-  }
-}
-
-function userInputHandler(event) {
-  if (event.target.classList[0] === 'user-input-hours-slept') {
-    userHoursSlept = Number.parseFloat(event.target.value);
-  } else if(event.target.classList[0] === 'user-input-sleep-quality') {
-    userSleepQuality = Number.parseFloat(event.target.value);
-  } else if (event.target.classList[0] === 'user-input-ounces') {
-    userOunces = Number.parseInt(event.target.value, 10);
-  } else if (event.target.classList[0] === 'user-input-steps') {
-    userNumberOfSteps = Number.parseInt(event.target.value, 10);
-  } else if (event.target.classList[0] === 'user-input-minutes-active') {
-    userMinutesActive = Number.parseInt(event.target.value, 10);
-  } else if (event.target.classList[0] === 'user-input-flights') {
-    userFlightsOfStairs = Number.parseInt(event.target.value, 10);
-  }
-}
-
-function verifyNumberInput(amount, min, max) {
-  if (amount < min || amount >= max) {
-    alert (`Please enter a number between ${min} - ${max}`);
-    submitButton.disabled = true;
-    return false;
-  } else {
-    return true;
-  }
-}
 
 function displayModal(event) {
   modalWindow.style.display = 'none';
@@ -448,5 +354,118 @@ friendsStepsParagraphs.forEach(paragraph => {
     paragraph.classList.add('yellow-text');
   }
 });
+const userHoursSleptInput = document.querySelector(".user-input-hours-slept");
+const userSleepQualityInput = document.querySelector(
+  ".user-input-sleep-quality"
+);
+const userOuncesInput = document.querySelector(".user-input-ounces");
+const userNumberStepsInput = document.querySelector(".user-input-steps");
+const userMinutesActiveInput = document.querySelector(
+  ".user-input-minutes-active"
+);
+const userFlightsOfStairsInput = document.querySelector(".user-input-flights");
+const sleepInputButton = document.querySelector(".sleep-button");
+const hydrationInputButton = document.querySelector(".hydration-button");
+const activityInputButton = document.querySelector(".activity-button");
+const submitButton = document.getElementsByClassName("submit");
+
+let userHoursSlept;
+let userSleepQuality;
+let userOunces;
+let userNumberOfSteps;
+let userMinutesActive;
+let userFlightsOfStairs;
+
+userHoursSleptInput.addEventListener("input", userInputHandler);
+userSleepQualityInput.addEventListener("input", userInputHandler);
+userOuncesInput.addEventListener("input", userInputHandler);
+userNumberStepsInput.addEventListener("input", userInputHandler);
+userMinutesActiveInput.addEventListener("input", userInputHandler);
+userFlightsOfStairsInput.addEventListener("input", userInputHandler);
+sleepInputButton.addEventListener("click", createInstance);
+hydrationInputButton.addEventListener("click", createInstance);
+activityInputButton.addEventListener("click", createInstance);
+
+function createInstance(event) {
+  if (event.target.classList[0] === "sleep-button") {
+    createSleepInstance();
+  } else if (event.target.classList[0] === "hydration-button") {
+    createHydrationInstance();
+  } else if (event.target.classList[0] === "activity-button") {
+    createActivityInstance(event);
+  }
+}
+
+function createSleepInstance() {
+  let verifiedNumber1 = verifyNumberInput(userHoursSlept, 0, 24);
+  let verifiedNumber2 = verifyNumberInput(userSleepQuality, 0, 5);
+  if (verifiedNumber1 === true && verifiedNumber2 === true) {
+    const newSleep = {
+      userID: user.id,
+      date: currentDate,
+      hoursSlept: userHoursSlept,
+      sleepQuality: userSleepQuality,
+    };
+    const newSleepInstance = new Sleep(newSleep, userRepository);
+  }
+}
+
+function createHydrationInstance() {
+  let verifiedNumber = verifyNumberInput(userOunces, 0, 200);
+  if (verifiedNumber === true) {
+    const newHydration = {
+      userID: user.id,
+      date: currentDate,
+      numOunces: userOunces,
+    };
+    const newHydrationInstance = new Hydration(newHydration, userRepository);
+  }
+}
+
+function createActivityInstance() {
+  let verifiedNumber1 = verifyNumberInput(userNumberOfSteps, 0, 25000);
+  let verifiedNumber2 = verifyNumberInput(userMinutesActive, 0, 480);
+  let verifiedNumber3 = verifyNumberInput(userFlightsOfStairs, 0, 500);
+  if (
+    verifiedNumber1 === true &&
+    verifiedNumber2 === true &&
+    verifiedNumber3 === true
+  ) {
+    const newActivity = {
+      userID: user.id,
+      date: currentDate,
+      numSteps: userNumberOfSteps,
+      minutesActive: userMinutesActive,
+      flightsOfStairs: userFlightsOfStairs,
+    };
+    const newActivityInstance = new Activity(newActivity, userRepository);
+  }
+}
+
+function userInputHandler(event) {
+  if (event.target.classList[0] === "user-input-hours-slept") {
+    userHoursSlept = Number.parseFloat(event.target.value);
+  } else if (event.target.classList[0] === "user-input-sleep-quality") {
+    userSleepQuality = Number.parseFloat(event.target.value);
+  } else if (event.target.classList[0] === "user-input-ounces") {
+    userOunces = Number.parseInt(event.target.value, 10);
+  } else if (event.target.classList[0] === "user-input-steps") {
+    userNumberOfSteps = Number.parseInt(event.target.value, 10);
+  } else if (event.target.classList[0] === "user-input-minutes-active") {
+    userMinutesActive = Number.parseInt(event.target.value, 10);
+  } else if (event.target.classList[0] === "user-input-flights") {
+    userFlightsOfStairs = Number.parseInt(event.target.value, 10);
+  }
+}
+
+function verifyNumberInput(amount, min, max) {
+  if (amount < min || amount >= max) {
+    alert(`Please enter a number between ${min} - ${max}`);
+    submitButton.disabled = true;
+    return false;
+  } else {
+    return true;
+  }
+}
 
 
