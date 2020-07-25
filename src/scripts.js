@@ -1,6 +1,6 @@
 import './css/base.scss';
 import './css/styles.scss';
-const moment = require("moment");
+// const moment = require("moment");
 
 import userData from './data/users';
 import activityData from './data/activity';
@@ -127,7 +127,7 @@ function handleStairsDaysButton() {
 
 function handleStepDays() {
   updateTrendingStepDays()
-} 
+}
 
 function displayModal(event) {
   modalWindow.style.display = 'none';
@@ -264,7 +264,7 @@ function displayDropDown() {
 }
 
 function displayName() {
-  const headerName = document.querySelector('#header-name');  
+  const headerName = document.querySelector('#header-name');
   headerName.innerText = `${user.getFirstName()}'S `;
 }
 
@@ -313,7 +313,7 @@ function averageFlights() {
   const stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');
   const stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
 
-  stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate); 
+  stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
   stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
   stairsAllUsersFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
   stairsInfoFlightsToday.innerText = activityData.find(activity => {
@@ -364,7 +364,7 @@ function displayFriendsSteps() {
     <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
     `;
   });
-} 
+}
 
 function displayFriendsStepsColor() {
   let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
@@ -493,4 +493,10 @@ function verifyNumberInput(amount, min, max) {
   } else {
     return true;
   }
+}
+
+function displayRecordedAlert(action) {
+  const alertModal = document.querySelector('.alert-modal');
+  alertModal.style.display = "flex";
+  window.setTimeout(() => {alertModal.style.display = "none"}, 2500)
 }
