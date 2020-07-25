@@ -54,8 +54,12 @@ getApiData().then(allData => {
 
   // whatever is returned out of a then goes into next then as the data
   function populatePage() {
+    showTrendingStairsDays();
     dailyOzCreater();
-    displayDropDown();
+    displayDropDown()
+    displayName()
+    displayHydration(
+    displaySleep()
   }
 
 
@@ -262,22 +266,21 @@ function displayDropDown() {
   dropdownName.innerText = user.name.toUpperCase();
 }
 
-displayName()
+function displayName() {
   headerName.innerText = `${user.getFirstName()}'S `;
 }
 
-displayHydration()
+function displayHydration() {
   hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
     return hydration.userID === user.id && hydration.date === todayDate;
   }).numOunces;
-}
-
   hydrationAllUsersOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
-
   hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
     return hydration.userID === user.id && hydration.date === todayDate;
   }).numOunces / 8;
-
+}
+  
+  function displaySleep() {
   sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
   sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
   sleepAllUsersLongestSleeper.innerText = userRepository.users.find(user => {
@@ -297,7 +300,7 @@ displayHydration()
   sleepUserHoursToday.innerText = sleepData.find(sleep => {
     return sleep.userID === user.id && sleep.date === todayDate;
   }).hoursSlept;
-
+}
 
 stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
 stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
