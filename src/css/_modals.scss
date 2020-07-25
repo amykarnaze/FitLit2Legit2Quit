@@ -87,15 +87,15 @@ input {
 }
 
 .alert-modal {
-  display: flex;
+  display: none;
   position: fixed;
   align-items: center;
   z-index: 101;
   top: 80%;
   left: 70%;
   width: 25%;
-  height: 15%;
+  height: 10%;
   overflow: auto;
   background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0,0,0,0.9);
 }
