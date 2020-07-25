@@ -16,7 +16,6 @@ import Sleep from './Sleep';
 import getApiData from './api';
 
 let userRepository = new UserRepository();
-
 let user = {};
 let sortedHydrationDataByDate = [];
 
@@ -71,42 +70,25 @@ getApiData().then(allData => {
   }
 
 let todayDate = "2019/09/22";
-
 const dailyOz = document.querySelectorAll('.daily-oz');
 
+//event listeners
 const hydrationMainCard = document.querySelector('#hydration-main-card');
 const mainPage = document.querySelector('main');
-const profileButton = document.querySelector('#profile-button');
-const sleepCalendarCard = document.querySelector('#sleep-calendar-card');
-
-const sleepAllUsersCard = document.querySelector('#sleep-all-users-card');
-const sleepAllUsersWorstSleeper = document.querySelector('#sleep-all-users-worst-sleeper');
-const sleepInfoCard = document.querySelector('#sleep-info-card');
-const sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
-const sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
-const sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
-const sleepMainCard = document.querySelector('#sleep-main-card');
-const sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
-const stairsCalendarCard = document.querySelector('#stairs-calendar-card');
-const stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
-const stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
-const stepsMainCard = document.querySelector('#steps-main-card');
-const stepsInfoCard = document.querySelector('#steps-info-card');
-const stepsAllUsersCard = document.querySelector('#steps-all-users-card');
-const stepsTrendingCard = document.querySelector('#steps-trending-card');
-const stepsCalendarCard = document.querySelector('#steps-calendar-card');
-const stairsAllUsersCard = document.querySelector('#stairs-all-users-card');
-const stairsInfoCard = document.querySelector('#stairs-info-card');
-const stairsTrendingCard = document.querySelector('#stairs-trending-card');
-const stairsMainCard = document.querySelector('#stairs-main-card');
-
 const stairsTrendingButton = document.querySelector('.stairs-trending-button');
 const stepsTrendingButton = document.querySelector('.steps-trending-button');
-
 const addButton = document.getElementById('add-instance-button');
 const newInstances = document.getElementById('add-instances-dropdown');
+
+// called mult times
+const profileButton = document.querySelector('#profile-button');
+const sleepMainCard = document.querySelector('#sleep-main-card');
+const stepsMainCard = document.querySelector('#steps-main-card');
 const modalWindow = document.getElementById('mpopupBox');
-const sleepModal = document.querySelector('.mpopup-sleep');
+const stairsMainCard = document.querySelector('#stairs-main-card');
+
+
+
 const hydrationModal = document.querySelector(".mpopup-hydration");
 const activityModal = document.querySelector(".mpopup-activity");
 const closeModal = document.querySelector('.close');
@@ -130,6 +112,7 @@ function handleStepDays() {
 } 
 
 function displayModal(event) {
+  const sleepModal = document.querySelector('.mpopup-sleep');
   modalWindow.style.display = 'none';
   if (event.target.text === 'Add Sleep') {
     modalWindow.style.display = "block";
@@ -177,15 +160,19 @@ function showInstanceDropdown() {
 }
 
 function showInfo() {
+  const stepsInfoCard = document.querySelector('#steps-info-card');
   if (event.target.classList.contains('steps-info-button')) {
     flipCard(stepsMainCard, stepsInfoCard);
   }
+  const stepsAllUsersCard = document.querySelector('#steps-all-users-card');
   if (event.target.classList.contains('steps-all-users-button')) {
     flipCard(stepsMainCard, stepsAllUsersCard);
   }
+  const stepsTrendingCard = document.querySelector('#steps-trending-card');
   if (event.target.classList.contains('steps-trending-button')) {
     flipCard(stepsMainCard, stepsTrendingCard);
   }
+  const stepsCalendarCard = document.querySelector('#steps-calendar-card');
   if (event.target.classList.contains('steps-calendar-button')) {
     flipCard(stepsMainCard, stepsCalendarCard);
   }
@@ -201,24 +188,31 @@ function showInfo() {
   if (event.target.classList.contains('hydration-calendar-button')) {
     flipCard(hydrationMainCard, hydrationCalendarCard);
   }
+  const stairsInfoCard = document.querySelector('#stairs-info-card');
   if (event.target.classList.contains('stairs-info-button')) {
     flipCard(stairsMainCard, stairsInfoCard);
   }
+  const stairsAllUsersCard = document.querySelector('#stairs-all-users-card');
   if (event.target.classList.contains('stairs-all-users-button')) {
     flipCard(stairsMainCard, stairsAllUsersCard);
   }
+  const stairsTrendingCard = document.querySelector('#stairs-trending-card');
   if (event.target.classList.contains('stairs-trending-button')) {
     flipCard(stairsMainCard, stairsTrendingCard);
   }
+  const stairsCalendarCard = document.querySelector('#stairs-calendar-card');
   if (event.target.classList.contains('stairs-calendar-button')) {
     flipCard(stairsMainCard, stairsCalendarCard);
   }
+  const sleepInfoCard = document.querySelector('#sleep-info-card');
   if (event.target.classList.contains('sleep-info-button')) {
     flipCard(sleepMainCard, sleepInfoCard);
   }
+  const sleepAllUsersCard = document.querySelector('#sleep-all-users-card');
   if (event.target.classList.contains('sleep-all-users-button')) {
     flipCard(sleepMainCard, sleepAllUsersCard);
   }
+  const sleepCalendarCard = document.querySelector('#sleep-calendar-card');
   if (event.target.classList.contains('sleep-calendar-button')) {
     flipCard(sleepMainCard, sleepCalendarCard);
   }
@@ -286,6 +280,11 @@ function displaySleep() {
   const sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
   const sleepAllUsersLongestSleeper = document.querySelector('#sleep-all-users-longest-sleeper');
   const stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
+  const sleepAllUsersWorstSleeper = document.querySelector('#sleep-all-users-worst-sleeper');
+  const sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
+  const sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
+  const sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
+  const sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
 
   sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
   sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
@@ -312,6 +311,8 @@ function averageFlights() {
   const stairsAllUsersFlightsAverageToday = document.querySelector('#stairs-all-users-flights-average-today');
   const stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');
   const stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
+  const stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
+  const stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
 
   stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate); 
   stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
