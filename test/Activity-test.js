@@ -5,7 +5,6 @@ import UserRepository from '../src/UserRepository';
 import User from '../src/User';
 
 describe('Activity', function() {
-  let activity;
   let userRepository;
   let activity1;
   let activity2;

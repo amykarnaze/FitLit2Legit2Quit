@@ -1,12 +1,10 @@
 import { expect } from 'chai';
 
 import User from '../src/User';
-import Sleep from '../src/Sleep';
-import UserRepository from '../src/UserRepository';
+
 
 describe('User', function() {
   let user;
-  let userRepository;
   beforeEach(() => {
     user = new User({
       'id': 1,
@@ -20,11 +18,8 @@ describe('User', function() {
         4,
         8
       ]
-    });
-    userRepository = new UserRepository();
-    userRepository.users.push(user);
+    })
   })
-
   it('should be a function', function() {
     expect(User).to.be.a('function');
   });
@@ -94,62 +89,19 @@ describe('User', function() {
     expect(user.addDailyOunces("2019/06/15")).to.equal(2);
   });
   describe('updateSleep', function() {
-    let user;
-    let userRepository;
-    let sleep1;
-    let sleep2;
-    let sleep3;
     beforeEach(() => {
-      user = new User({
-        'id': 1,
-        'name': 'Luisa Hane',
-        'address': '15195 Nakia Tunnel, Erdmanport VA 19901-1697',
-        'email': 'Diana.Hayes1@hotmail.com',
-        'strideLength': 4.3,
-        'dailyStepGoal': 10000,
-        'friends': [
-          16,
-          4,
-          8
-        ]
-      });
-      userRepository = new UserRepository();
-      userRepository.users.push(user);
-      sleep1 = new Sleep({
-        "userID": 1,
-        "date": "2019/06/15",
-        "hoursSlept": 6.1,
-        "sleepQuality": 2.2
-      }, userRepository);
-      sleep2 = new Sleep({
-        "userID": 1,
-        "date": "2019/06/25",
-        "hoursSlept": 7.3,
-        "sleepQuality": 3.2
-      }, userRepository);
-      sleep3 = new Sleep({
-        "userID": 1,
-        "date": "2019/07/17",
-        "hoursSlept": 9.3,
-        "sleepQuality": 1.4
-      }, userRepository);
-      user.updateSleep(sleep1);
-      user.updateSleep(sleep2);
-      user.updateSleep(sleep3);
+      user.updateSleep("2019/06/15", 7, 4.7);
+      user.updateSleep("2019/07/14", 6, 4);
+      user.updateSleep("2019/08/04", 8, 5.4);
     })
-
-    // if you change data, need to change test
-    // refactor test code to run 3 steps
-    // sad path note: if userid doesn't exist, then test crashes
-
     it('should update user\'s quality of sleep record', function() {
-      expect(user.sleepQualityRecord.length).to.equal(6);
+      expect(user.sleepQualityRecord.length).to.equal(3);
     });
     it('should update user\'s average hours of sleep', function() {
-      expect(user.hoursSleptAverage).to.equal('7.5');
+      expect(user.hoursSleptAverage).to.equal('7.0');
     });
     it('should update user\'s average quality of sleep', function() {
-      expect(user.sleepQualityAverage).to.equal('2.3');
+      expect(user.sleepQualityAverage).to.equal('4.7');
     });
   })
   it('calculateAverageHoursThisWeek should calculate average sleep hours for week before given date', function() {
