@@ -48,6 +48,8 @@ function populatePage() {
   displayName();
   displayHydration();
   displaySleep();
+  displayUsersSleepComparison();
+  displaySleepQuality()
   averageFlights();
   displayCalenderSteps();
   displayAllUsersSteps();
@@ -298,34 +300,35 @@ function displayHydration() {
 
 function displaySleep() {
   const sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-hours-average-weekly');
-  const sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
+  const sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
+  const sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
+  sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
+  sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
+  sleepUserHoursToday.innerText = sleepData.find(sleep => {
+    return sleep.userID === user.id && sleep.date === todayDate;
+  }).hoursSlept;
+}
+
+function displayUsersSleepComparison() {
   const sleepAllUsersLongestSleeper = document.querySelector('#sleep-all-users-longest-sleeper');
   const sleepAllUsersWorstSleeper = document.querySelector('#sleep-all-users-worst-sleeper');
-  const stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
-  const sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
-  const sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
-  const sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
-  const sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
-
-  sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
-  sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
   sleepAllUsersLongestSleeper.innerText = userRepository.users.find(user => {
     return user.id === userRepository.getLongestSleepers(todayDate)
   }).getFirstName();
   sleepAllUsersWorstSleeper.innerText = userRepository.users.find(user => {
     return user.id === userRepository.getWorstSleepers(sleepData, todayDate)
   }).getFirstName();
-  sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
-  stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
-    return (activity.date === todayDate && activity.userId === user.id)
-  }).calculateMiles(userRepository);
+}
+
+function displaySleepQuality() {
+  const sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
+  const sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
+  const sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
+  sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
   sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;
   sleepInfoQualityToday.innerText = sleepData.find(sleep => {
     return sleep.userID === user.id && sleep.date === todayDate;
   }).sleepQuality;
-  sleepUserHoursToday.innerText = sleepData.find(sleep => {
-    return sleep.userID === user.id && sleep.date === todayDate;
-  }).hoursSlept;
 }
 
 function averageFlights() {
@@ -334,7 +337,6 @@ function averageFlights() {
   const stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
   const stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
   const stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
-
   stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate); 
   stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
   stairsAllUsersFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
@@ -352,6 +354,10 @@ function displayCalenderSteps() {
   const stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');
   const stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
   const stepsCalendarTotalStepsWeekly = document.querySelector('#steps-calendar-total-steps-weekly');
+  const stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
+  stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
+    return (activity.date === todayDate && activity.userId === user.id)
+  }).calculateMiles(userRepository);
   stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate);
   stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);
   stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
