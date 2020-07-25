@@ -1,5 +1,6 @@
 import './css/base.scss';
 import './css/styles.scss';
+const moment = require("moment");
 
 import userData from './data/users';
 import activityData from './data/activity';
@@ -36,6 +37,7 @@ sleepData.forEach(sleep => {
 
 let user = userRepository.users[0];
 let todayDate = "2019/09/22";
+let currentDate = moment().format("YYYY/MM/DD");
 user.findFriendsNames(userRepository.users);
 
 let dailyOz = document.querySelectorAll('.daily-oz');
