@@ -163,8 +163,16 @@ function createInstance(event) {
     const newHydrationInstance = new Hydration(newHydration, userRepository);
     console.log(newHydration);
     console.log(newHydrationInstance);
+  } else if (event.target.classList[0] === 'activity-button') {
+    const newActivity = {
+      userID: user.id,
+      date: currentDate,
+      numSteps: userNumberOfSteps,
+      minutesActive: userMinutesActive,
+      flightsOfStairs: userFlightsOfStairs
+    }
+    const newActivityInstance = new Activity(newActivity, userRepository);
   }
-  
 }
 
 function userInputHandler(event) {
