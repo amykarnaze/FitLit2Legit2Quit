@@ -15,8 +15,8 @@ import getApiData from './api';
 
 const userRepository = new UserRepository();
 
-let sortedHydrationDataByDate = [];
 let user = {};
+let sortedHydrationDataByDate = [];
 
 getApiData().then(allData => {
   allData.userData.forEach(person => {
@@ -39,6 +39,7 @@ getApiData().then(allData => {
 .then(() => {
   user = userRepository.users[0]
   user.findFriendsNames(userRepository.users)
+  // console.warn(user.ouncesRecord)
   sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
     if (Object.keys(a)[0] > Object.keys(b)[0]) {
       return -1;
@@ -48,17 +49,16 @@ getApiData().then(allData => {
     }
     return 0;
   });
-  // console.warn(user.ouncesRecord)
   })
   .then(() => populatePage());
 
   // whatever is returned out of a then goes into next then as the data
   function populatePage() {
-    showTrendingStairsDays();
-    dailyOzCreater();
+    // call all sub functions
+    dailyOzCreater()
     displayDropDown()
     displayName()
-    displayHydration(
+    displayHydration()
     displaySleep()
   }
 
@@ -247,67 +247,83 @@ function showInfo() {
     flipCard(event.target.parentNode, sleepMainCard);
   }
 }
-function showTrendingStairsDays() {
+
+function updateTrendingStairsDays() {
   user.findTrendingStairsDays();
   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
 }
-function showTrendingStepDays() {
+
+function updateTrendingStepDays() {
   user.findTrendingStepDays();
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
+}
 
 function dailyOzCreater() {
   Array.from(dailyOz).forEach((drinkSlot, index) => {
     drinkSlot.innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[index + 1])[0]);
   })
+}
+// bury in functions so called only when want them
+// large function
+// everything that moves user data around
+// call big page populating func in last .then
+
 
 function displayDropDown() {
   dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
   dropdownEmail.innerText = `EMAIL | ${user.email}`;
   dropdownName.innerText = user.name.toUpperCase();
+
 }
 
 function displayName() {
-  headerName.innerText = `${user.getFirstName()}'S `;
+headerName.innerText = `${user.getFirstName()}'S `;
 }
 
 function displayHydration() {
-  hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
-    return hydration.userID === user.id && hydration.date === todayDate;
-  }).numOunces;
-  hydrationAllUsersOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
-  hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
-    return hydration.userID === user.id && hydration.date === todayDate;
-  }).numOunces / 8;
+hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
+  return hydration.userID === user.id && hydration.date === todayDate;
+}).numOunces;
+
+hydrationAllUsersOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
+
+hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
+  return hydration.userID === user.id && hydration.date === todayDate;
+}).numOunces / 8;
 }
-  
-  function displaySleep() {
-  sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
-  sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
-  sleepAllUsersLongestSleeper.innerText = userRepository.users.find(user => {
-    return user.id === userRepository.getLongestSleepers(todayDate)
-  }).getFirstName();
-  sleepAllUsersWorstSleeper.innerText = userRepository.users.find(user => {
-    return user.id === userRepository.getWorstSleepers(sleepData, todayDate)
-  }).getFirstName();
-  sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
-  stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
-    return (activity.date === todayDate && activity.userId === user.id)
-  }).calculateMiles(userRepository);
-  sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;
-  sleepInfoQualityToday.innerText = sleepData.find(sleep => {
-    return sleep.userID === user.id && sleep.date === todayDate;
-  }).sleepQuality;
-  sleepUserHoursToday.innerText = sleepData.find(sleep => {
-    return sleep.userID === user.id && sleep.date === todayDate;
-  }).hoursSlept;
+
+function displaySleep() {
+sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
+sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
+sleepAllUsersLongestSleeper.innerText = userRepository.users.find(user => {
+  return user.id === userRepository.getLongestSleepers(todayDate)
+}).getFirstName();
+sleepAllUsersWorstSleeper.innerText = userRepository.users.find(user => {
+  return user.id === userRepository.getWorstSleepers(sleepData, todayDate)
+}).getFirstName();
+sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
+stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
+  return (activity.date === todayDate && activity.userId === user.id)
+}).calculateMiles(userRepository);
+sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;
+sleepInfoQualityToday.innerText = sleepData.find(sleep => {
+  return sleep.userID === user.id && sleep.date === todayDate;
+}).sleepQuality;
+sleepUserHoursToday.innerText = sleepData.find(sleep => {
+  return sleep.userID === user.id && sleep.date === todayDate;
+}).hoursSlept;
 }
 
 stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
+
 stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
+
 stairsAllUsersFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
+
 stairsInfoFlightsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
 }).flightsOfStairs;
+
 stairsUserStairsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
 }).flightsOfStairs * 12;
