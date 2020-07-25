@@ -55,16 +55,17 @@ getApiData().then(allData => {
   // whatever is returned out of a then goes into next then as the data
   function populatePage() {
     // call all sub functions
-    dailyOzCreater()
-    displayDropDown()
-    displayName()
-    displayHydration()
-    displaySleep()
-    averageFlights()
-    displayCalenderSteps()
-    displayAllUsersSteps()
-    displayCaloriesBurnedToday()
-    displayCaloriesBurnedToday()
+    dailyOzCreater();
+    displayDropDown();
+    displayName();
+    displayHydration();
+    displaySleep();
+    averageFlights();
+    displayCalenderSteps();
+    displayAllUsersSteps();
+    displayCaloriesBurnedToday();
+    displayFriendsSteps()
+    displayFriendsStepsColor();
   }
 
 
@@ -74,12 +75,9 @@ const dailyOz = document.querySelectorAll('.daily-oz');
 const dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
 
 const hydrationCalendarCard = document.querySelector('#hydration-calendar-card');
-const hydrationAllUsersOuncesToday = document.querySelector('#hydration-all-users-ounces-today');
 const hydrationAllUsersCard = document.querySelector('#hydration-all-users-card');
 const hydrationInfoCard = document.querySelector('#hydration-info-card');
-const hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today');
 const hydrationMainCard = document.querySelector('#hydration-main-card');
-const hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today');
 const mainPage = document.querySelector('main');
 const profileButton = document.querySelector('#profile-button');
 const sleepCalendarCard = document.querySelector('#sleep-calendar-card');
@@ -280,15 +278,16 @@ function displayName() {
 }
 
 function displayHydration() {
-hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
+  const hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today');
+  const hydrationAllUsersOuncesToday = document.querySelector('#hydration-all-users-ounces-today');
+  const hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today');
+  hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
   return hydration.userID === user.id && hydration.date === todayDate;
-}).numOunces;
-
-hydrationAllUsersOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
-
-hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
-  return hydration.userID === user.id && hydration.date === todayDate;
-}).numOunces / 8;
+  }).numOunces;
+  hydrationAllUsersOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
+  hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
+    return hydration.userID === user.id && hydration.date === todayDate;
+  }).numOunces / 8;
 }
 
 function displaySleep() {
@@ -343,39 +342,35 @@ stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
 }).minutesActive;
 }
 
-stepsTrendingButton.addEventListener('click', function() {
-  user.findTrendingStepDays();
-  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
-});
-
 function displayAllUsersSteps() {
   const stepsAllUsersActiveMinutesAverageToday = document.querySelector('#steps-all-users-active-minutes-average-today');
   const stepsAllUsersAverageStepGoal = document.querySelector('#steps-all-users-average-step-goal');
   const stepsAllUsersStepsAverageToday = document.querySelector('#steps-all-users-steps-average-today');
-stepsAllUsersActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
-stepsAllUsersAverageStepGoal.innerText = `${userRepository.calculateAverageStepGoal()}`;
-stepsAllUsersStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
+  stepsAllUsersActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
+  stepsAllUsersAverageStepGoal.innerText = `${userRepository.calculateAverageStepGoal()}`;
+  stepsAllUsersStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
+  stepsUserStepsToday.innerText = activityData.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).numSteps;
 }
 
-displayCaloriesBurnedToday() {
+function displayCaloriesBurnedToday() {
 const caloriesBurnedToday = document.querySelector('#calories-burned-today')
 caloriesBurnedToday.innerText = user.calculateDailyCalories(todayDate);
 }
 
-stepsUserStepsToday.innerText = activityData.find(activity => {
-  return activity.userID === user.id && activity.date === todayDate;
-}).numSteps;
 
+function displayFriendsSteps() {
 user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
-
 user.friendsActivityRecords.forEach(friend => {
   dropdownFriendsStepsContainer.innerHTML += `
   <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
   `;
 });
+} 
 
+function displayFriendsStepsColor() {
 let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
-
 friendsStepsParagraphs.forEach(paragraph => {
   if (friendsStepsParagraphs[0] === paragraph) {
     paragraph.classList.add('green-text');
@@ -386,4 +381,10 @@ friendsStepsParagraphs.forEach(paragraph => {
   if (paragraph.innerText.includes('YOU')) {
     paragraph.classList.add('yellow-text');
   }
+});
+}
+// EL
+stepsTrendingButton.addEventListener('click', function () {
+  user.findTrendingStepDays();
+  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 });
