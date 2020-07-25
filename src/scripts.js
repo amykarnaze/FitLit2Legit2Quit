@@ -105,11 +105,18 @@ const userInfoDropdown = document.querySelector('#user-info-dropdown');
 const addButton = document.getElementById('add-instance-button');
 const newInstances = document.getElementById('add-instances-dropdown');
 const modalWindow = document.getElementById('mpopupBox');
-const sleepInput = document.querySelector('.mpopup-sleep');
-const hydrationInput = document.querySelector(".mpopup-hydration");
-const activityInput = document.querySelector(".mpopup-activity");
+const sleepModal = document.querySelector('.mpopup-sleep');
+const hydrationModal = document.querySelector(".mpopup-hydration");
+const activityModal = document.querySelector(".mpopup-activity");
 const closeModal = document.querySelector('.close');
 const userActionTitle = document.querySelector('.action-title');
+const userHoursSleptInput = document.querySelector('.user-input-hours-slept');
+const userSleepQualityInput = document.querySelector('.user-input-sleep-quality');
+const userOuncesInput = document.querySelector('.user-input-ounces');
+const userNumberStepsInput = document.querySelector('.user-input-steps');
+const userMinutesActiveInput = document.querySelector('.user-input-minutes-active');
+const userFlightsOfStairsInput = document.querySelector('.user-input-flights');
+
 
 window.addEventListener('click', closeModalWindow);
 mainPage.addEventListener('click', showInfo);
@@ -125,21 +132,21 @@ function displayModal(event) {
   if (event.target.text === 'Add Sleep') {
     modalWindow.style.display = "block";
     userActionTitle.innerText = 'New Sleep';
-    sleepInput.classList.remove("hide");
-    activityInput.classList.add("hide");
-    hydrationInput.classList.add("hide");
+    sleepModal.classList.remove("hide");
+    activityModal.classList.add("hide");
+    hydrationModal.classList.add("hide");
   } else if (event.target.text === 'Add Activity') {
     modalWindow.style.display = "block";
     userActionTitle.innerText = "New Activity";
-    sleepInput.classList.add("hide");
-    activityInput.classList.remove("hide");
-    hydrationInput.classList.add("hide");
+    sleepModal.classList.add("hide");
+    activityModal.classList.remove("hide");
+    hydrationModal.classList.add("hide");
   } else if (event.target.text === 'Add Hydration') {
     modalWindow.style.display = "block";
     userActionTitle.innerText = "New Hydration";
-    sleepInput.classList.add("hide");
-    activityInput.classList.add("hide");
-    hydrationInput.classList.remove("hide");
+    sleepModal.classList.add("hide");
+    activityModal.classList.add("hide");
+    hydrationModal.classList.remove("hide");
   }
 }
 
