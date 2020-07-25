@@ -54,6 +54,8 @@ getApiData().then(allData => {
 
   // whatever is returned out of a then goes into next then as the data
   function populatePage() {
+    dailyOzCreater();
+    displayDropDown();
   }
 
 
@@ -254,10 +256,11 @@ function dailyOzCreater() {
     drinkSlot.innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[index + 1])[0]);
   })
 
-
+function displayDropDown() {
   dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
   dropdownEmail.innerText = `EMAIL | ${user.email}`;
   dropdownName.innerText = user.name.toUpperCase();
+}
 
   headerName.innerText = `${user.getFirstName()}'S `;
 
