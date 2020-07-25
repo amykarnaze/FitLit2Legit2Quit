@@ -117,6 +117,12 @@ const userNumberStepsInput = document.querySelector('.user-input-steps');
 const userMinutesActiveInput = document.querySelector('.user-input-minutes-active');
 const userFlightsOfStairsInput = document.querySelector('.user-input-flights');
 
+let userHoursSlept;
+let userSleepQuality;
+let userOunces;
+let userNumberOfSteps;
+let userMinutesActive;
+let userFlightsOfStairs;
 
 window.addEventListener('click', closeModalWindow);
 mainPage.addEventListener('click', showInfo);
@@ -126,6 +132,34 @@ newInstances.addEventListener('click', displayModal);
 closeModal.addEventListener('click', closeWindow);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
+userHoursSleptInput.addEventListener('input', userInputHandler);
+userSleepQualityInput.addEventListener("input", userInputHandler);
+userOuncesInput.addEventListener("input", userInputHandler);
+userNumberStepsInput.addEventListener("input", userInputHandler);
+userMinutesActiveInput.addEventListener("input", userInputHandler);
+userFlightsOfStairsInput.addEventListener("input", userInputHandler);
+
+function userInputHandler(event) {
+  if (event.target.classList[0] === 'user-input-hours-slept') {
+    userHoursSlept = event.target.value;
+    console.log(userHoursSlept);
+  } else if(event.target.classList[0] === 'user-input-sleep-quality') {
+    userSleepQuality = event.target.value;
+    console.log(userSleepQuality);
+  } else if (event.target.classList[0] === 'user-input-ounces') {
+    userOunces = event.target.value;
+    console.log(userOunces);
+  } else if (event.target.classList[0] === 'user-input-steps') {
+    userNumberOfSteps = event.target.value;
+    console.log(userNumberOfSteps);
+  } else if (event.target.classList[0] === 'user-input-minutes-active') {
+    userMinutesActive = event.target.value;
+    console.log(userMinutesActive);
+  } else if (event.target.classList[0] === 'user-input-flights') {
+    userFlightsOfStairs = event.target.value;
+    console.log(userFlightsOfStairs);
+  }
+}
 
 function displayModal(event) {
   modalWindow.style.display = 'none';
@@ -243,7 +277,6 @@ function updateTrendingStepDays() {
 const dailyOzArray = Array.from(dailyOz);
 
 dailyOzArray.forEach((drinkSlot, index) => {
-  console.log(sortedHydrationDataByDate);
   drinkSlot.innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[index + 1])[0]);
 })
 
