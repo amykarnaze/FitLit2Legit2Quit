@@ -105,11 +105,24 @@ const userInfoDropdown = document.querySelector('#user-info-dropdown');
 const addButton = document.getElementById('add-instance-button');
 const newInstances = document.getElementById('add-instances-dropdown');
 const modalWindow = document.getElementById('mpopupBox');
-const sleepInput = document.querySelector('.mpopup-sleep');
-const hydrationInput = document.querySelector(".mpopup-hydration");
-const activityInput = document.querySelector(".mpopup-activity");
+const sleepModal = document.querySelector('.mpopup-sleep');
+const hydrationModal = document.querySelector(".mpopup-hydration");
+const activityModal = document.querySelector(".mpopup-activity");
 const closeModal = document.querySelector('.close');
 const userActionTitle = document.querySelector('.action-title');
+const userHoursSleptInput = document.querySelector('.user-input-hours-slept');
+const userSleepQualityInput = document.querySelector('.user-input-sleep-quality');
+const userOuncesInput = document.querySelector('.user-input-ounces');
+const userNumberStepsInput = document.querySelector('.user-input-steps');
+const userMinutesActiveInput = document.querySelector('.user-input-minutes-active');
+const userFlightsOfStairsInput = document.querySelector('.user-input-flights');
+
+let userHoursSlept;
+let userSleepQuality;
+let userOunces;
+let userNumberOfSteps;
+let userMinutesActive;
+let userFlightsOfStairs;
 
 window.addEventListener('click', closeModalWindow);
 mainPage.addEventListener('click', showInfo);
@@ -119,27 +132,55 @@ newInstances.addEventListener('click', displayModal);
 closeModal.addEventListener('click', closeWindow);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
+userHoursSleptInput.addEventListener('input', userInputHandler);
+userSleepQualityInput.addEventListener("input", userInputHandler);
+userOuncesInput.addEventListener("input", userInputHandler);
+userNumberStepsInput.addEventListener("input", userInputHandler);
+userMinutesActiveInput.addEventListener("input", userInputHandler);
+userFlightsOfStairsInput.addEventListener("input", userInputHandler);
+
+function userInputHandler(event) {
+  if (event.target.classList[0] === 'user-input-hours-slept') {
+    userHoursSlept = event.target.value;
+    console.log(userHoursSlept);
+  } else if(event.target.classList[0] === 'user-input-sleep-quality') {
+    userSleepQuality = event.target.value;
+    console.log(userSleepQuality);
+  } else if (event.target.classList[0] === 'user-input-ounces') {
+    userOunces = event.target.value;
+    console.log(userOunces);
+  } else if (event.target.classList[0] === 'user-input-steps') {
+    userNumberOfSteps = event.target.value;
+    console.log(userNumberOfSteps);
+  } else if (event.target.classList[0] === 'user-input-minutes-active') {
+    userMinutesActive = event.target.value;
+    console.log(userMinutesActive);
+  } else if (event.target.classList[0] === 'user-input-flights') {
+    userFlightsOfStairs = event.target.value;
+    console.log(userFlightsOfStairs);
+  }
+}
 
 function displayModal(event) {
   modalWindow.style.display = 'none';
   if (event.target.text === 'Add Sleep') {
     modalWindow.style.display = "block";
     userActionTitle.innerText = 'New Sleep';
-    sleepInput.classList.remove("hide");
-    activityInput.classList.add("hide");
-    hydrationInput.classList.add("hide");
+    sleepModal.classList.remove("hide");
+    activityModal.classList.add("hide");
+    hydrationModal.classList.add("hide");
   } else if (event.target.text === 'Add Activity') {
     modalWindow.style.display = "block";
     userActionTitle.innerText = "New Activity";
-    sleepInput.classList.add("hide");
-    activityInput.classList.remove("hide");
-    hydrationInput.classList.add("hide");
+    sleepModal.classList.add("hide");
+    activityModal.classList.remove("hide");
+    hydrationModal.classList.add("hide");
   } else if (event.target.text === 'Add Hydration') {
     modalWindow.style.display = "block";
     userActionTitle.innerText = "New Hydration";
-    sleepInput.classList.add("hide");
-    activityInput.classList.add("hide");
-    hydrationInput.classList.remove("hide");
+    sleepModal.classList.add("hide");
+    activityModal.classList.add("hide");
+    hydrationModal.classList.remove("hide");
   }
 }
 
@@ -236,7 +277,6 @@ function updateTrendingStepDays() {
 const dailyOzArray = Array.from(dailyOz);
 
 dailyOzArray.forEach((drinkSlot, index) => {
-  console.log(sortedHydrationDataByDate);
   drinkSlot.innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[index + 1])[0]);
 })
 
