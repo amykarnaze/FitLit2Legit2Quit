@@ -249,6 +249,7 @@ function showTrendingStepDays() {
   user.findTrendingStepDays();
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 
+function dailyOzCreater() {
   Array.from(dailyOz).forEach((drinkSlot, index) => {
     drinkSlot.innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[index + 1])[0]);
   })
