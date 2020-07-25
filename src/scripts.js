@@ -116,6 +116,9 @@ const userOuncesInput = document.querySelector('.user-input-ounces');
 const userNumberStepsInput = document.querySelector('.user-input-steps');
 const userMinutesActiveInput = document.querySelector('.user-input-minutes-active');
 const userFlightsOfStairsInput = document.querySelector('.user-input-flights');
+const sleepInputButton = document.querySelector('.sleep-button');
+const hydrationInputButton = document.querySelector('.hydration-button');
+const activityInputButton = document.querySelector('.activity-button');
 
 let userHoursSlept;
 let userSleepQuality;
@@ -138,26 +141,45 @@ userOuncesInput.addEventListener("input", userInputHandler);
 userNumberStepsInput.addEventListener("input", userInputHandler);
 userMinutesActiveInput.addEventListener("input", userInputHandler);
 userFlightsOfStairsInput.addEventListener("input", userInputHandler);
+sleepInputButton.addEventListener('click', createInstance);
+hydrationInputButton.addEventListener('click', createInstance);
+activityInputButton.addEventListener('click', createInstance);
+
+function createInstance(event) {
+  if (event.target.classList[0] === 'sleep-button') {
+    const newSleep = { 
+      userID: user.id, 
+      date: currentDate, 
+      hoursSlept: userHoursSlept, 
+      sleepQuality: userSleepQuality
+    };
+    const newSleepInstance = new Sleep(newSleep, userRepository);
+  } else if (event.target.classList[0] === 'hydration-button') {
+    const newHydration = {
+      userID: user.id,
+      date: currentDate,
+      numOunces: userOunces
+    };
+    const newHydrationInstance = new Hydration(newHydration, userRepository);
+    console.log(newHydration);
+    console.log(newHydrationInstance);
+  }
+  
+}
 
 function userInputHandler(event) {
   if (event.target.classList[0] === 'user-input-hours-slept') {
-    userHoursSlept = event.target.value;
-    console.log(userHoursSlept);
+    userHoursSlept = Number.parseFloat(event.target.value);
   } else if(event.target.classList[0] === 'user-input-sleep-quality') {
-    userSleepQuality = event.target.value;
-    console.log(userSleepQuality);
+    userSleepQuality = Number.parseFloat(event.target.value);
   } else if (event.target.classList[0] === 'user-input-ounces') {
-    userOunces = event.target.value;
-    console.log(userOunces);
+    userOunces = Number.parseInt(event.target.value, 10) ;
   } else if (event.target.classList[0] === 'user-input-steps') {
-    userNumberOfSteps = event.target.value;
-    console.log(userNumberOfSteps);
+    userNumberOfSteps = Number.parseInt(event.target.value, 10);
   } else if (event.target.classList[0] === 'user-input-minutes-active') {
-    userMinutesActive = event.target.value;
-    console.log(userMinutesActive);
+    userMinutesActive = Number.parseInt(event.target.value, 10);
   } else if (event.target.classList[0] === 'user-input-flights') {
-    userFlightsOfStairs = event.target.value;
-    console.log(userFlightsOfStairs);
+    userFlightsOfStairs = Number.parseInt(event.target.value, 10);
   }
 }
 
