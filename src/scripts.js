@@ -131,13 +131,25 @@ addButton.addEventListener("click", showInstanceDropdown);
 newInstances.addEventListener('click', displayModal);
 closeModal.addEventListener('click', closeWindow);
 stairsTrendingButton.addEventListener('click', handleStairsDaysButton);
+stairsTrendingButton.addEventListener('click', function () {
+  user.findTrendingStairsDays();
+  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
+});
+stepsTrendingButton.addEventListener('click', function () {
+  user.findTrendingStepDays();
+  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
+});
+stepsTrendingButton.addEventListener('click', handleStepDays);
+
+
 function handleStairsDaysButton() {
   updateTrendingStairsDays();
 }
-stepsTrendingButton.addEventListener('click', handleStepDays);
+
 function handleStepDays() {
   updateTrendingStepDays()
 }
+
 function displayModal(event) {
   modalWindow.style.display = 'none';
   if (event.target.text === 'Add Sleep') {
@@ -326,11 +338,6 @@ stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisW
 stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
 }
 
-stairsTrendingButton.addEventListener('click', function() {
-  user.findTrendingStairsDays();
-  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
-});
-
 function displayCalenderSteps() {
 const stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');
 const stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
@@ -383,8 +390,5 @@ friendsStepsParagraphs.forEach(paragraph => {
   }
 });
 }
-// EL
-stepsTrendingButton.addEventListener('click', function () {
-  user.findTrendingStepDays();
-  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
-});
+
+
