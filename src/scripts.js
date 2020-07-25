@@ -1,11 +1,11 @@
 import './css/base.scss';
 import './css/styles.scss';
-const moment = require('moment');
 
 import userData from './data/users';
 import activityData from './data/activity';
 import sleepData from './data/sleep';
 import hydrationData from './data/hydration';
+
 import UserRepository from './UserRepository';
 import User from './User';
 import UserAction from '../src/UserAction';
@@ -13,7 +13,9 @@ import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
 
-const userRepository = new UserRepository();
+
+
+let userRepository = new UserRepository();
 
 userData.forEach(user => {
   user = new User(user);
@@ -32,39 +34,38 @@ sleepData.forEach(sleep => {
   sleep = new Sleep(sleep, userRepository);
 });
 
-const user = userRepository.users[0];
+let user = userRepository.users[0];
 let todayDate = "2019/09/22";
-let currentDate = moment().format("YYYY/MM/DD");
 user.findFriendsNames(userRepository.users);
 
-const dailyOz = document.querySelectorAll('.daily-oz');
-const dropdownEmail = document.querySelector('#dropdown-email');
-const dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
-const dropdownGoal = document.querySelector('#dropdown-goal');
-const dropdownName = document.querySelector('#dropdown-name');
-const headerName = document.querySelector('#header-name');
-const hydrationCalendarCard = document.querySelector('#hydration-calendar-card');
-const hydrationAllUsersOuncesToday = document.querySelector('#hydration-all-users-ounces-today');
-const hydrationAllUsersCard = document.querySelector('#hydration-all-users-card');
-const hydrationInfoCard = document.querySelector('#hydration-info-card');
-const hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today');
-const hydrationMainCard = document.querySelector('#hydration-main-card');
-const hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today');
-const mainPage = document.querySelector('main');
-const profileButton = document.querySelector('#profile-button');
-const sleepCalendarCard = document.querySelector('#sleep-calendar-card');
-const sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-hours-average-weekly');
-const sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
-const sleepAllUsersLongestSleeper = document.querySelector('#sleep-all-users-longest-sleeper');
-const sleepAllUsersCard = document.querySelector('#sleep-all-users-card');
-const sleepAllUsersWorstSleeper = document.querySelector('#sleep-all-users-worst-sleeper');
-const sleepInfoCard = document.querySelector('#sleep-info-card');
-const sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
-const sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
-const sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
-const sleepMainCard = document.querySelector('#sleep-main-card');
-const sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
-const sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
+let dailyOz = document.querySelectorAll('.daily-oz');
+let dropdownEmail = document.querySelector('#dropdown-email');
+let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
+let dropdownGoal = document.querySelector('#dropdown-goal');
+let dropdownName = document.querySelector('#dropdown-name');
+let headerName = document.querySelector('#header-name');
+let hydrationCalendarCard = document.querySelector('#hydration-calendar-card');
+let hydrationAllUsersOuncesToday = document.querySelector('#hydration-all-users-ounces-today');
+let hydrationAllUsersCard = document.querySelector('#hydration-all-users-card');
+let hydrationInfoCard = document.querySelector('#hydration-info-card');
+let hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today');
+let hydrationMainCard = document.querySelector('#hydration-main-card');
+let hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today');
+let mainPage = document.querySelector('main');
+let profileButton = document.querySelector('#profile-button');
+let sleepCalendarCard = document.querySelector('#sleep-calendar-card');
+let sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-hours-average-weekly');
+let sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
+let sleepAllUsersLongestSleeper = document.querySelector('#sleep-all-users-longest-sleeper');
+let sleepAllUsersCard = document.querySelector('#sleep-all-users-card');
+let sleepAllUsersWorstSleeper = document.querySelector('#sleep-all-users-worst-sleeper');
+let sleepInfoCard = document.querySelector('#sleep-info-card');
+let sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
+let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
+let sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
+let sleepMainCard = document.querySelector('#sleep-main-card');
+let sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
+let sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
   if (Object.keys(a)[0] > Object.keys(b)[0]) {
     return -1;
   }
@@ -124,6 +125,7 @@ let userNumberOfSteps;
 let userMinutesActive;
 let userFlightsOfStairs;
 
+window.onload = loadDropdown;
 window.addEventListener('click', closeModalWindow);
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
@@ -264,6 +266,12 @@ function showInfo() {
   }
 }
 
+function loadDropdown() {
+  dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
+  dropdownEmail.innerText = `EMAIL | ${user.email}`;
+  dropdownName.innerText = user.name.toUpperCase();
+}
+
 function updateTrendingStairsDays() {
   user.findTrendingStairsDays();
   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
@@ -284,7 +292,11 @@ dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
 
 dropdownEmail.innerText = `EMAIL | ${user.email}`;
 
-dropdownName.innerText = user.name.toUpperCase();
+// dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
+//
+// dropdownEmail.innerText = `EMAIL | ${user.email}`;
+//
+// dropdownName.innerText = user.name.toUpperCase();
 
 headerName.innerText = `${user.getFirstName()}'S `;
 
@@ -396,4 +408,4 @@ friendsStepsParagraphs.forEach(paragraph => {
   }
 });
 
-
+export {loadDropdown as default};
