@@ -119,6 +119,7 @@ const userFlightsOfStairsInput = document.querySelector('.user-input-flights');
 const sleepInputButton = document.querySelector('.sleep-button');
 const hydrationInputButton = document.querySelector('.hydration-button');
 const activityInputButton = document.querySelector('.activity-button');
+const submitButton = document.getElementsByClassName('submit');
 
 let userHoursSlept;
 let userSleepQuality;
@@ -147,31 +148,43 @@ activityInputButton.addEventListener('click', createInstance);
 
 function createInstance(event) {
   if (event.target.classList[0] === 'sleep-button') {
-    const newSleep = { 
-      userID: user.id, 
-      date: currentDate, 
-      hoursSlept: userHoursSlept, 
-      sleepQuality: userSleepQuality
-    };
-    const newSleepInstance = new Sleep(newSleep, userRepository);
-  } else if (event.target.classList[0] === 'hydration-button') {
-    const newHydration = {
-      userID: user.id,
-      date: currentDate,
-      numOunces: userOunces
-    };
-    const newHydrationInstance = new Hydration(newHydration, userRepository);
-    console.log(newHydration);
-    console.log(newHydrationInstance);
-  } else if (event.target.classList[0] === 'activity-button') {
-    const newActivity = {
-      userID: user.id,
-      date: currentDate,
-      numSteps: userNumberOfSteps,
-      minutesActive: userMinutesActive,
-      flightsOfStairs: userFlightsOfStairs
+    let verifiedNumber1 = verifyNumberInput(userHoursSlept, 0, 24);
+    let verifiedNumber2 = verifyNumberInput(userSleepQuality, 0, 5);
+    if (verifiedNumber1 === true && verifiedNumber2 === true) {
+      const newSleep = {
+        userID: user.id,
+        date: currentDate,
+        hoursSlept: userHoursSlept,
+        sleepQuality: userSleepQuality,
+      };
+      const newSleepInstance = new Sleep(newSleep, userRepository);
     }
-    const newActivityInstance = new Activity(newActivity, userRepository);
+  } else if (event.target.classList[0] === 'hydration-button') {
+    let verifiedNumber = verifyNumberInput(userOunces, 0, 200);
+    if (verifiedNumber === true) {
+      const newHydration = {
+        userID: user.id,
+        date: currentDate,
+        numOunces: userOunces,
+      };
+      const newHydrationInstance = new Hydration(newHydration, userRepository);
+      console.log(newHydration);
+      console.log(newHydrationInstance);
+    }
+  } else if (event.target.classList[0] === 'activity-button') {
+    let verifiedNumber1 = verifyNumberInput(userNumberOfSteps, 0, 25000);
+    let verifiedNumber2 = verifyNumberInput(userMinutesActive, 0, 480);
+    let verifiedNumber3 = verifyNumberInput(userFlightsOfStairs, 0, 500);
+    if (verifiedNumber1 === true && verifiedNumber2 === true && verifiedNumber3 === true) {
+      const newActivity = {
+        userID: user.id,
+        date: currentDate,
+        numSteps: userNumberOfSteps,
+        minutesActive: userMinutesActive,
+        flightsOfStairs: userFlightsOfStairs,
+      };
+      const newActivityInstance = new Activity(newActivity, userRepository);
+    }
   }
 }
 
@@ -181,13 +194,23 @@ function userInputHandler(event) {
   } else if(event.target.classList[0] === 'user-input-sleep-quality') {
     userSleepQuality = Number.parseFloat(event.target.value);
   } else if (event.target.classList[0] === 'user-input-ounces') {
-    userOunces = Number.parseInt(event.target.value, 10) ;
+    userOunces = Number.parseInt(event.target.value, 10);
   } else if (event.target.classList[0] === 'user-input-steps') {
     userNumberOfSteps = Number.parseInt(event.target.value, 10);
   } else if (event.target.classList[0] === 'user-input-minutes-active') {
     userMinutesActive = Number.parseInt(event.target.value, 10);
   } else if (event.target.classList[0] === 'user-input-flights') {
     userFlightsOfStairs = Number.parseInt(event.target.value, 10);
+  }
+}
+
+function verifyNumberInput(amount, min, max) {
+  if (amount < min || amount >= max) {
+    alert (`Please enter a number between ${min} - ${max}`);
+    submitButton.disabled = true;
+    return false;
+  } else {
+    return true;
   }
 }
 
