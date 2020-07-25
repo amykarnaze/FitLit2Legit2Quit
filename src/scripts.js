@@ -1,11 +1,11 @@
 import './css/base.scss';
 import './css/styles.scss';
-const moment = require('moment');
 
 import userData from './data/users';
 import activityData from './data/activity';
 import sleepData from './data/sleep';
 import hydrationData from './data/hydration';
+
 import UserRepository from './UserRepository';
 import User from './User';
 import UserAction from '../src/UserAction';
@@ -13,7 +13,9 @@ import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
 
-const userRepository = new UserRepository();
+
+
+let userRepository = new UserRepository();
 
 userData.forEach(user => {
   user = new User(user);
@@ -32,39 +34,38 @@ sleepData.forEach(sleep => {
   sleep = new Sleep(sleep, userRepository);
 });
 
-const user = userRepository.users[0];
+let user = userRepository.users[0];
 let todayDate = "2019/09/22";
-let currentDate = moment().format("YYYY/MM/DD");
 user.findFriendsNames(userRepository.users);
 
-const dailyOz = document.querySelectorAll('.daily-oz');
-const dropdownEmail = document.querySelector('#dropdown-email');
-const dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
-const dropdownGoal = document.querySelector('#dropdown-goal');
-const dropdownName = document.querySelector('#dropdown-name');
-const headerName = document.querySelector('#header-name');
-const hydrationCalendarCard = document.querySelector('#hydration-calendar-card');
-const hydrationAllUsersOuncesToday = document.querySelector('#hydration-all-users-ounces-today');
-const hydrationAllUsersCard = document.querySelector('#hydration-all-users-card');
-const hydrationInfoCard = document.querySelector('#hydration-info-card');
-const hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today');
-const hydrationMainCard = document.querySelector('#hydration-main-card');
-const hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today');
-const mainPage = document.querySelector('main');
-const profileButton = document.querySelector('#profile-button');
-const sleepCalendarCard = document.querySelector('#sleep-calendar-card');
-const sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-hours-average-weekly');
-const sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
-const sleepAllUsersLongestSleeper = document.querySelector('#sleep-all-users-longest-sleeper');
-const sleepAllUsersCard = document.querySelector('#sleep-all-users-card');
-const sleepAllUsersWorstSleeper = document.querySelector('#sleep-all-users-worst-sleeper');
-const sleepInfoCard = document.querySelector('#sleep-info-card');
-const sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
-const sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
-const sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
-const sleepMainCard = document.querySelector('#sleep-main-card');
-const sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
-const sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
+let dailyOz = document.querySelectorAll('.daily-oz');
+let dropdownEmail = document.querySelector('#dropdown-email');
+let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
+let dropdownGoal = document.querySelector('#dropdown-goal');
+let dropdownName = document.querySelector('#dropdown-name');
+let headerName = document.querySelector('#header-name');
+let hydrationCalendarCard = document.querySelector('#hydration-calendar-card');
+let hydrationAllUsersOuncesToday = document.querySelector('#hydration-all-users-ounces-today');
+let hydrationAllUsersCard = document.querySelector('#hydration-all-users-card');
+let hydrationInfoCard = document.querySelector('#hydration-info-card');
+let hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today');
+let hydrationMainCard = document.querySelector('#hydration-main-card');
+let hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today');
+let mainPage = document.querySelector('main');
+let profileButton = document.querySelector('#profile-button');
+let sleepCalendarCard = document.querySelector('#sleep-calendar-card');
+let sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-hours-average-weekly');
+let sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
+let sleepAllUsersLongestSleeper = document.querySelector('#sleep-all-users-longest-sleeper');
+let sleepAllUsersCard = document.querySelector('#sleep-all-users-card');
+let sleepAllUsersWorstSleeper = document.querySelector('#sleep-all-users-worst-sleeper');
+let sleepInfoCard = document.querySelector('#sleep-info-card');
+let sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
+let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
+let sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
+let sleepMainCard = document.querySelector('#sleep-main-card');
+let sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
+let sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
   if (Object.keys(a)[0] > Object.keys(b)[0]) {
     return -1;
   }
@@ -73,44 +74,44 @@ const sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
   }
   return 0;
 });
-const stairsCalendarCard = document.querySelector('#stairs-calendar-card');
-const stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
-const stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
-const stepsMainCard = document.querySelector('#steps-main-card');
-const stepsInfoCard = document.querySelector('#steps-info-card');
-const stepsAllUsersCard = document.querySelector('#steps-all-users-card');
-const stepsTrendingCard = document.querySelector('#steps-trending-card');
-const stepsCalendarCard = document.querySelector('#steps-calendar-card');
-const stairsAllUsersFlightsAverageToday = document.querySelector('#stairs-all-users-flights-average-today');
-const stairsAllUsersCard = document.querySelector('#stairs-all-users-card');
-const stairsInfoCard = document.querySelector('#stairs-info-card');
-const stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');
-const stairsMainCard = document.querySelector('#stairs-main-card');
-const stairsTrendingButton = document.querySelector('.stairs-trending-button');
-const stairsTrendingCard = document.querySelector('#stairs-trending-card');
-const stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
-const stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');
-const stepsCalendarTotalStepsWeekly = document.querySelector('#steps-calendar-total-steps-weekly');
-const stepsAllUsersAverageStepGoal = document.querySelector('#steps-all-users-average-step-goal');
-const stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
-const caloriesBurnedToday = document.querySelector('#calories-burned-today')
-const stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
-const stepsAllUsersActiveMinutesAverageToday = document.querySelector('#steps-all-users-active-minutes-average-today');
-const stepsAllUsersStepsAverageToday = document.querySelector('#steps-all-users-steps-average-today');
-const stepsTrendingButton = document.querySelector('.steps-trending-button');
-const stepsUserStepsToday = document.querySelector('#steps-user-steps-today');
-const trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
-const trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
-const userInfoDropdown = document.querySelector('#user-info-dropdown');
-const addButton = document.getElementById('add-instance-button');
-const newInstances = document.getElementById('add-instances-dropdown');
-const modalWindow = document.getElementById('mpopupBox');
-const sleepInput = document.querySelector('.mpopup-sleep');
-const hydrationInput = document.querySelector(".mpopup-hydration");
-const activityInput = document.querySelector(".mpopup-activity");
-const closeModal = document.querySelector('.close');
-const userActionTitle = document.querySelector('.action-title');
+let stairsCalendarCard = document.querySelector('#stairs-calendar-card');
+let stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
+let stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
+let stepsMainCard = document.querySelector('#steps-main-card');
+let stepsInfoCard = document.querySelector('#steps-info-card');
+let stepsAllUsersCard = document.querySelector('#steps-all-users-card');
+let stepsTrendingCard = document.querySelector('#steps-trending-card');
+let stepsCalendarCard = document.querySelector('#steps-calendar-card');
+let stairsAllUsersFlightsAverageToday = document.querySelector('#stairs-all-users-flights-average-today');
+let stairsAllUsersCard = document.querySelector('#stairs-all-users-card');
+let stairsInfoCard = document.querySelector('#stairs-info-card');
+let stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');
+let stairsMainCard = document.querySelector('#stairs-main-card');
+let stairsTrendingButton = document.querySelector('.stairs-trending-button');
+let stairsTrendingCard = document.querySelector('#stairs-trending-card');
+let stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
+let stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');
+let stepsCalendarTotalStepsWeekly = document.querySelector('#steps-calendar-total-steps-weekly');
+let stepsAllUsersAverageStepGoal = document.querySelector('#steps-all-users-average-step-goal');
+let stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
+let caloriesBurnedToday = document.querySelector('#calories-burned-today')
+let stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
+let stepsAllUsersActiveMinutesAverageToday = document.querySelector('#steps-all-users-active-minutes-average-today');
+let stepsAllUsersStepsAverageToday = document.querySelector('#steps-all-users-steps-average-today');
+let stepsTrendingButton = document.querySelector('.steps-trending-button');
+let stepsUserStepsToday = document.querySelector('#steps-user-steps-today');
+let trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
+let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
+let userInfoDropdown = document.querySelector('#user-info-dropdown');
+let addButton = document.querySelector('#add-instance-button');
+let newInstances = document.querySelector('#add-instances-dropdown');
+let modalWindow = document.getElementById('mpopupBox');
+let sleepInput = document.querySelector('.mpopup-sleep');
+let hydrationInput = document.querySelector(".mpopup-hydration");
+let activityInput = document.querySelector(".mpopup-activity");
+let closeModal = document.querySelector('.close');
 
+window.onload = loadDropdown;
 window.addEventListener('click', closeModalWindow);
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
@@ -124,19 +125,16 @@ function displayModal(event) {
   modalWindow.style.display = 'none';
   if (event.target.text === 'Add Sleep') {
     modalWindow.style.display = "block";
-    userActionTitle.innerText = 'New Sleep';
     sleepInput.classList.remove("hide");
     activityInput.classList.add("hide");
     hydrationInput.classList.add("hide");
   } else if (event.target.text === 'Add Activity') {
     modalWindow.style.display = "block";
-    userActionTitle.innerText = "New Activity";
     sleepInput.classList.add("hide");
     activityInput.classList.remove("hide");
     hydrationInput.classList.add("hide");
   } else if (event.target.text === 'Add Hydration') {
     modalWindow.style.display = "block";
-    userActionTitle.innerText = "New Hydration";
     sleepInput.classList.add("hide");
     activityInput.classList.add("hide");
     hydrationInput.classList.remove("hide");
@@ -223,6 +221,12 @@ function showInfo() {
   }
 }
 
+function loadDropdown() {
+  dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
+  dropdownEmail.innerText = `EMAIL | ${user.email}`;
+  dropdownName.innerText = user.name.toUpperCase();
+}
+
 function updateTrendingStairsDays() {
   user.findTrendingStairsDays();
   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
@@ -233,18 +237,15 @@ function updateTrendingStepDays() {
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 }
 
-const dailyOzArray = Array.from(dailyOz);
+for (let i = 0; i < dailyOz.length; i++) {
+  dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
+}
 
-dailyOzArray.forEach((drinkSlot, index) => {
-  console.log(sortedHydrationDataByDate);
-  drinkSlot.innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[index + 1])[0]);
-})
-
-dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
-
-dropdownEmail.innerText = `EMAIL | ${user.email}`;
-
-dropdownName.innerText = user.name.toUpperCase();
+// dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
+//
+// dropdownEmail.innerText = `EMAIL | ${user.email}`;
+//
+// dropdownName.innerText = user.name.toUpperCase();
 
 headerName.innerText = `${user.getFirstName()}'S `;
 
@@ -356,4 +357,4 @@ friendsStepsParagraphs.forEach(paragraph => {
   }
 });
 
-
+export {loadDropdown as default};
