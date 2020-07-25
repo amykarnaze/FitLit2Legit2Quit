@@ -61,6 +61,8 @@ getApiData().then(allData => {
     displayHydration()
     displaySleep()
     averageFlights()
+    displayCalenderSteps()
+    displayAllUsersSteps()
   }
 
 
@@ -110,14 +112,7 @@ const stairsMainCard = document.querySelector('#stairs-main-card');
 const stairsTrendingButton = document.querySelector('.stairs-trending-button');
 const stairsTrendingCard = document.querySelector('#stairs-trending-card');
 const stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
-const stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');
-const stepsCalendarTotalStepsWeekly = document.querySelector('#steps-calendar-total-steps-weekly');
-const stepsAllUsersAverageStepGoal = document.querySelector('#steps-all-users-average-step-goal');
-const stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
-const caloriesBurnedToday = document.querySelector('#calories-burned-today')
 const stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
-const stepsAllUsersActiveMinutesAverageToday = document.querySelector('#steps-all-users-active-minutes-average-today');
-const stepsAllUsersStepsAverageToday = document.querySelector('#steps-all-users-steps-average-today');
 const stepsTrendingButton = document.querySelector('.steps-trending-button');
 const stepsUserStepsToday = document.querySelector('#steps-user-steps-today');
 const trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
@@ -327,31 +322,38 @@ stairsUserStairsToday.innerText = activityData.find(activity => {
 }).flightsOfStairs * 12;
 stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
 stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
+}
+
 stairsTrendingButton.addEventListener('click', function() {
   user.findTrendingStairsDays();
   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
 });
-}
 
-
-stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);
-
+function displayCalenderSteps() {
+const stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');
+const stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
+const stepsCalendarTotalStepsWeekly = document.querySelector('#steps-calendar-total-steps-weekly');
 stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate);
+stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);
+stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
+  return activity.userID === user.id && activity.date === todayDate;
+}).minutesActive;
+}
 
 stepsTrendingButton.addEventListener('click', function() {
   user.findTrendingStepDays();
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 });
 
+function displayAllUsersSteps() {
+  const stepsAllUsersActiveMinutesAverageToday = document.querySelector('#steps-all-users-active-minutes-average-today');
+  const stepsAllUsersAverageStepGoal = document.querySelector('#steps-all-users-average-step-goal');
+  const stepsAllUsersStepsAverageToday = document.querySelector('#steps-all-users-steps-average-today');
 stepsAllUsersActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
-
 stepsAllUsersAverageStepGoal.innerText = `${userRepository.calculateAverageStepGoal()}`;
-
 stepsAllUsersStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
+}
 
-stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
-  return activity.userID === user.id && activity.date === todayDate;
-}).minutesActive;
 
 caloriesBurnedToday.innerText = user.calculateDailyCalories(todayDate);
 
