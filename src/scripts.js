@@ -434,6 +434,7 @@ function createSleepInstance() {
       sleepQuality: userSleepQuality,
     };
     const newSleepInstance = new Sleep(newSleep, userRepository);
+    displayRecordedAlert("Sleep");
   }
 }
 
@@ -446,6 +447,7 @@ function createHydrationInstance() {
       numOunces: userOunces,
     };
     const newHydrationInstance = new Hydration(newHydration, userRepository);
+    displayRecordedAlert("Hydration");
   }
 }
 
@@ -466,6 +468,7 @@ function createActivityInstance() {
       flightsOfStairs: userFlightsOfStairs,
     };
     const newActivityInstance = new Activity(newActivity, userRepository);
+    displayRecordedAlert("Activity");
   }
 }
 
@@ -497,6 +500,8 @@ function verifyNumberInput(amount, min, max) {
 
 function displayRecordedAlert(action) {
   const alertModal = document.querySelector('.alert-modal');
+  const alertText = document.querySelector('.alert-text');
   alertModal.style.display = "flex";
-  window.setTimeout(() => {alertModal.style.display = "none"}, 2500)
+  alertText.innerText = `${action} data recorded.`;
+  window.setTimeout(() => {alertModal.style.display = "none"}, 2500);
 }
