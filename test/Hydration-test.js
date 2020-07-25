@@ -5,7 +5,6 @@ import UserRepository from '../src/UserRepository';
 import User from '../src/User';
 
 describe('Hydration', function() {
-  let hydration;
   let user1;
   let user2;
   let userRepository;

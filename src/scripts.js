@@ -5,6 +5,7 @@ import userData from './data/users';
 import activityData from './data/activity';
 import sleepData from './data/sleep';
 import hydrationData from './data/hydration';
+
 import UserRepository from './UserRepository';
 import User from './User';
 import UserAction from '../src/UserAction';
@@ -13,7 +14,7 @@ import Hydration from './Hydration';
 import Sleep from './Sleep';
 import getApiData from './api';
 
-const userRepository = new UserRepository();
+let userRepository = new UserRepository();
 
 let user = {};
 let sortedHydrationDataByDate = [];
@@ -93,6 +94,7 @@ const sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today'
 const sleepMainCard = document.querySelector('#sleep-main-card');
 const sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
 
+
 const stairsCalendarCard = document.querySelector('#stairs-calendar-card');
 const stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
 const stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
@@ -118,27 +120,34 @@ const userInfoDropdown = document.querySelector('#user-info-dropdown');
 const addButton = document.getElementById('add-instance-button');
 const newInstances = document.getElementById('add-instances-dropdown');
 const modalWindow = document.getElementById('mpopupBox');
-const sleepInput = document.querySelector('.mpopup-sleep');
-const hydrationInput = document.querySelector(".mpopup-hydration");
-const activityInput = document.querySelector(".mpopup-activity");
+const sleepModal = document.querySelector('.mpopup-sleep');
+const hydrationModal = document.querySelector(".mpopup-hydration");
+const activityModal = document.querySelector(".mpopup-activity");
 const closeModal = document.querySelector('.close');
 const userActionTitle = document.querySelector('.action-title');
+const userHoursSleptInput = document.querySelector('.user-input-hours-slept');
+const userSleepQualityInput = document.querySelector('.user-input-sleep-quality');
+const userOuncesInput = document.querySelector('.user-input-ounces');
+const userNumberStepsInput = document.querySelector('.user-input-steps');
+const userMinutesActiveInput = document.querySelector('.user-input-minutes-active');
+const userFlightsOfStairsInput = document.querySelector('.user-input-flights');
 
+let userHoursSlept;
+let userSleepQuality;
+let userOunces;
+let userNumberOfSteps;
+let userMinutesActive;
+let userFlightsOfStairs;
+
+window.onload = loadDropdown;
 window.addEventListener('click', closeModalWindow);
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
 addButton.addEventListener("click", showInstanceDropdown);
 newInstances.addEventListener('click', displayModal);
 closeModal.addEventListener('click', closeWindow);
+
 stairsTrendingButton.addEventListener('click', handleStairsDaysButton);
-stairsTrendingButton.addEventListener('click', function () {
-  user.findTrendingStairsDays();
-  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
-});
-stepsTrendingButton.addEventListener('click', function () {
-  user.findTrendingStepDays();
-  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
-});
 stepsTrendingButton.addEventListener('click', handleStepDays);
 
 
@@ -148,6 +157,36 @@ function handleStairsDaysButton() {
 
 function handleStepDays() {
   updateTrendingStepDays()
+
+stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
+stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
+userHoursSleptInput.addEventListener('input', userInputHandler);
+userSleepQualityInput.addEventListener("input", userInputHandler);
+userOuncesInput.addEventListener("input", userInputHandler);
+userNumberStepsInput.addEventListener("input", userInputHandler);
+userMinutesActiveInput.addEventListener("input", userInputHandler);
+userFlightsOfStairsInput.addEventListener("input", userInputHandler);
+
+function userInputHandler(event) {
+  if (event.target.classList[0] === 'user-input-hours-slept') {
+    userHoursSlept = event.target.value;
+    console.log(userHoursSlept);
+  } else if(event.target.classList[0] === 'user-input-sleep-quality') {
+    userSleepQuality = event.target.value;
+    console.log(userSleepQuality);
+  } else if (event.target.classList[0] === 'user-input-ounces') {
+    userOunces = event.target.value;
+    console.log(userOunces);
+  } else if (event.target.classList[0] === 'user-input-steps') {
+    userNumberOfSteps = event.target.value;
+    console.log(userNumberOfSteps);
+  } else if (event.target.classList[0] === 'user-input-minutes-active') {
+    userMinutesActive = event.target.value;
+    console.log(userMinutesActive);
+  } else if (event.target.classList[0] === 'user-input-flights') {
+    userFlightsOfStairs = event.target.value;
+    console.log(userFlightsOfStairs);
+  }
 }
 
 function displayModal(event) {
@@ -155,21 +194,21 @@ function displayModal(event) {
   if (event.target.text === 'Add Sleep') {
     modalWindow.style.display = "block";
     userActionTitle.innerText = 'New Sleep';
-    sleepInput.classList.remove("hide");
-    activityInput.classList.add("hide");
-    hydrationInput.classList.add("hide");
+    sleepModal.classList.remove("hide");
+    activityModal.classList.add("hide");
+    hydrationModal.classList.add("hide");
   } else if (event.target.text === 'Add Activity') {
     modalWindow.style.display = "block";
     userActionTitle.innerText = "New Activity";
-    sleepInput.classList.add("hide");
-    activityInput.classList.remove("hide");
-    hydrationInput.classList.add("hide");
+    sleepModal.classList.add("hide");
+    activityModal.classList.remove("hide");
+    hydrationModal.classList.add("hide");
   } else if (event.target.text === 'Add Hydration') {
     modalWindow.style.display = "block";
     userActionTitle.innerText = "New Hydration";
-    sleepInput.classList.add("hide");
-    activityInput.classList.add("hide");
-    hydrationInput.classList.remove("hide");
+    sleepModal.classList.add("hide");
+    activityModal.classList.add("hide");
+    hydrationModal.classList.remove("hide");
   }
 }
 
@@ -253,6 +292,12 @@ function showInfo() {
   }
 }
 
+function loadDropdown() {
+  dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
+  dropdownEmail.innerText = `EMAIL | ${user.email}`;
+  dropdownName.innerText = user.name.toUpperCase();
+}
+
 function updateTrendingStairsDays() {
   user.findTrendingStairsDays();
   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
@@ -273,6 +318,9 @@ function dailyOzCreater() {
 // everything that moves user data around
 // call big page populating func in last .then
 
+dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
+
+dropdownEmail.innerText = `EMAIL | ${user.email}`;
 
 function displayDropDown() {
   const dropdownEmail = document.querySelector('#dropdown-email');
@@ -391,4 +439,5 @@ friendsStepsParagraphs.forEach(paragraph => {
 });
 }
 
+export {loadDropdown as default};
 
