@@ -11,10 +11,17 @@
     background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.4);
 }
+
 .mpopup-main {
   display: grid;
   grid-template-rows: 1fr 1fr;
   margin: 2%;
+}
+
+.date {
+  display: flex;
+  flex-direction: row;
+  padding-top: 1.5%;
 }
 
 .mpopup-sleep {
@@ -54,7 +61,7 @@
 }
 
 input {
-  width: 10%;
+  width: 5%;
   font-size: 35px;
 }
 
@@ -77,4 +84,18 @@ input {
     text-decoration: none;
     cursor: pointer;
   }
+}
+
+.alert-modal {
+  display: flex;
+  position: fixed;
+  align-items: center;
+  z-index: 101;
+  top: 80%;
+  left: 70%;
+  width: 25%;
+  height: 15%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.8);
 }
