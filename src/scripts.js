@@ -262,7 +262,9 @@ function displayDropDown() {
   dropdownName.innerText = user.name.toUpperCase();
 }
 
+displayName()
   headerName.innerText = `${user.getFirstName()}'S `;
+}
 
   hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
     return hydration.userID === user.id && hydration.date === todayDate;
