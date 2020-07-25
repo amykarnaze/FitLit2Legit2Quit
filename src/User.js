@@ -39,7 +39,7 @@
 
   updateHydration(action) {
     this.ouncesRecord.unshift({[action.date]: action.ounces});
-    this.updateOuncesAverage()
+    this.updateOuncesAverage();
   }
 
   updateOuncesAverage() {
@@ -56,8 +56,14 @@
 
   updateActivities(action) {
     this.activityRecord.unshift(action);
-    if (action.numSteps >= this.dailyStepGoal) {
-      this.accomplishedDays.unshift(action.date);
+    this.updateAccomplishedDays();
+  }
+
+  updateAccomplishedDays() {
+    let newSteps = this.activityRecord[0].numSteps
+    let newDate = this.activityRecord[0].date
+    if (newSteps >= this.dailyStepGoal) {
+      this.accomplishedDays.unshift(newDate);
     }
   }
 
