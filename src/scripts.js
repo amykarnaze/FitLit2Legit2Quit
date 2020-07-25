@@ -1,5 +1,6 @@
 import './css/base.scss';
 import './css/styles.scss';
+const moment = require("moment");
 
 import userData from './data/users';
 import activityData from './data/activity';
@@ -93,6 +94,7 @@ const sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quali
 const sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
 const sleepMainCard = document.querySelector('#sleep-main-card');
 const sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
+
 
 
 const stairsCalendarCard = document.querySelector('#stairs-calendar-card');
