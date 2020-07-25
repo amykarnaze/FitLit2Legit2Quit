@@ -37,6 +37,22 @@
     }, 0)
   }
 
+  updateActivities(action) {
+    this.activityRecord.unshift(action);
+    this.updateAccomplishedDays();
+  }
+
+  updateAccomplishedDays() {
+    let newSteps = this.activityRecord[0].numSteps
+    let newDate = this.activityRecord[0].date
+    if (newSteps >= this.dailyStepGoal) {
+      this.accomplishedDays.unshift(newDate);
+    }
+  }
+
+  // adds object to user.ouncesRecord with date and oz drank
+  // updates user.ouncesAverage with initial amount or average of 2 or more days using action object - instead use property added to User class
+
   updateHydration(action) {
     this.ouncesRecord.unshift({[action.date]: action.ounces});
     this.updateOuncesAverage();
@@ -48,22 +64,6 @@
       this.ouncesAverage = Math.round((newHydration + (this.ouncesAverage * (this.ouncesRecord.length - 1))) / this.ouncesRecord.length);
     } else {
       this.ouncesAverage = newHydration;
-    }
-  }
-  // adds object to user.ouncesRecord with date and oz drank
-  // updates user.ouncesAverage with initial amount or average of 2 or more days using action object - instead use property added to User class
-
-
-  updateActivities(action) {
-    this.activityRecord.unshift(action);
-    this.updateAccomplishedDays();
-  }
-
-  updateAccomplishedDays() {
-    let newSteps = this.activityRecord[0].numSteps
-    let newDate = this.activityRecord[0].date
-    if (newSteps >= this.dailyStepGoal) {
-      this.accomplishedDays.unshift(newDate);
     }
   }
 
