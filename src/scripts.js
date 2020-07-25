@@ -74,42 +74,56 @@ let sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
   }
   return 0;
 });
-let stairsCalendarCard = document.querySelector('#stairs-calendar-card');
-let stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
-let stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
-let stepsMainCard = document.querySelector('#steps-main-card');
-let stepsInfoCard = document.querySelector('#steps-info-card');
-let stepsAllUsersCard = document.querySelector('#steps-all-users-card');
-let stepsTrendingCard = document.querySelector('#steps-trending-card');
-let stepsCalendarCard = document.querySelector('#steps-calendar-card');
-let stairsAllUsersFlightsAverageToday = document.querySelector('#stairs-all-users-flights-average-today');
-let stairsAllUsersCard = document.querySelector('#stairs-all-users-card');
-let stairsInfoCard = document.querySelector('#stairs-info-card');
-let stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');
-let stairsMainCard = document.querySelector('#stairs-main-card');
-let stairsTrendingButton = document.querySelector('.stairs-trending-button');
-let stairsTrendingCard = document.querySelector('#stairs-trending-card');
-let stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
-let stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');
-let stepsCalendarTotalStepsWeekly = document.querySelector('#steps-calendar-total-steps-weekly');
-let stepsAllUsersAverageStepGoal = document.querySelector('#steps-all-users-average-step-goal');
-let stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
-let caloriesBurnedToday = document.querySelector('#calories-burned-today')
-let stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
-let stepsAllUsersActiveMinutesAverageToday = document.querySelector('#steps-all-users-active-minutes-average-today');
-let stepsAllUsersStepsAverageToday = document.querySelector('#steps-all-users-steps-average-today');
-let stepsTrendingButton = document.querySelector('.steps-trending-button');
-let stepsUserStepsToday = document.querySelector('#steps-user-steps-today');
-let trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
-let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
-let userInfoDropdown = document.querySelector('#user-info-dropdown');
-let addButton = document.querySelector('#add-instance-button');
-let newInstances = document.querySelector('#add-instances-dropdown');
-let modalWindow = document.getElementById('mpopupBox');
-let sleepInput = document.querySelector('.mpopup-sleep');
-let hydrationInput = document.querySelector(".mpopup-hydration");
-let activityInput = document.querySelector(".mpopup-activity");
-let closeModal = document.querySelector('.close');
+const stairsCalendarCard = document.querySelector('#stairs-calendar-card');
+const stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
+const stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
+const stepsMainCard = document.querySelector('#steps-main-card');
+const stepsInfoCard = document.querySelector('#steps-info-card');
+const stepsAllUsersCard = document.querySelector('#steps-all-users-card');
+const stepsTrendingCard = document.querySelector('#steps-trending-card');
+const stepsCalendarCard = document.querySelector('#steps-calendar-card');
+const stairsAllUsersFlightsAverageToday = document.querySelector('#stairs-all-users-flights-average-today');
+const stairsAllUsersCard = document.querySelector('#stairs-all-users-card');
+const stairsInfoCard = document.querySelector('#stairs-info-card');
+const stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');
+const stairsMainCard = document.querySelector('#stairs-main-card');
+const stairsTrendingButton = document.querySelector('.stairs-trending-button');
+const stairsTrendingCard = document.querySelector('#stairs-trending-card');
+const stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
+const stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');
+const stepsCalendarTotalStepsWeekly = document.querySelector('#steps-calendar-total-steps-weekly');
+const stepsAllUsersAverageStepGoal = document.querySelector('#steps-all-users-average-step-goal');
+const stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
+const caloriesBurnedToday = document.querySelector('#calories-burned-today')
+const stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
+const stepsAllUsersActiveMinutesAverageToday = document.querySelector('#steps-all-users-active-minutes-average-today');
+const stepsAllUsersStepsAverageToday = document.querySelector('#steps-all-users-steps-average-today');
+const stepsTrendingButton = document.querySelector('.steps-trending-button');
+const stepsUserStepsToday = document.querySelector('#steps-user-steps-today');
+const trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
+const trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
+const userInfoDropdown = document.querySelector('#user-info-dropdown');
+const addButton = document.getElementById('add-instance-button');
+const newInstances = document.getElementById('add-instances-dropdown');
+const modalWindow = document.getElementById('mpopupBox');
+const sleepModal = document.querySelector('.mpopup-sleep');
+const hydrationModal = document.querySelector(".mpopup-hydration");
+const activityModal = document.querySelector(".mpopup-activity");
+const closeModal = document.querySelector('.close');
+const userActionTitle = document.querySelector('.action-title');
+const userHoursSleptInput = document.querySelector('.user-input-hours-slept');
+const userSleepQualityInput = document.querySelector('.user-input-sleep-quality');
+const userOuncesInput = document.querySelector('.user-input-ounces');
+const userNumberStepsInput = document.querySelector('.user-input-steps');
+const userMinutesActiveInput = document.querySelector('.user-input-minutes-active');
+const userFlightsOfStairsInput = document.querySelector('.user-input-flights');
+
+let userHoursSlept;
+let userSleepQuality;
+let userOunces;
+let userNumberOfSteps;
+let userMinutesActive;
+let userFlightsOfStairs;
 
 window.onload = loadDropdown;
 window.addEventListener('click', closeModalWindow);
@@ -120,24 +134,55 @@ newInstances.addEventListener('click', displayModal);
 closeModal.addEventListener('click', closeWindow);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
+userHoursSleptInput.addEventListener('input', userInputHandler);
+userSleepQualityInput.addEventListener("input", userInputHandler);
+userOuncesInput.addEventListener("input", userInputHandler);
+userNumberStepsInput.addEventListener("input", userInputHandler);
+userMinutesActiveInput.addEventListener("input", userInputHandler);
+userFlightsOfStairsInput.addEventListener("input", userInputHandler);
+
+function userInputHandler(event) {
+  if (event.target.classList[0] === 'user-input-hours-slept') {
+    userHoursSlept = event.target.value;
+    console.log(userHoursSlept);
+  } else if(event.target.classList[0] === 'user-input-sleep-quality') {
+    userSleepQuality = event.target.value;
+    console.log(userSleepQuality);
+  } else if (event.target.classList[0] === 'user-input-ounces') {
+    userOunces = event.target.value;
+    console.log(userOunces);
+  } else if (event.target.classList[0] === 'user-input-steps') {
+    userNumberOfSteps = event.target.value;
+    console.log(userNumberOfSteps);
+  } else if (event.target.classList[0] === 'user-input-minutes-active') {
+    userMinutesActive = event.target.value;
+    console.log(userMinutesActive);
+  } else if (event.target.classList[0] === 'user-input-flights') {
+    userFlightsOfStairs = event.target.value;
+    console.log(userFlightsOfStairs);
+  }
+}
 
 function displayModal(event) {
   modalWindow.style.display = 'none';
   if (event.target.text === 'Add Sleep') {
     modalWindow.style.display = "block";
-    sleepInput.classList.remove("hide");
-    activityInput.classList.add("hide");
-    hydrationInput.classList.add("hide");
+    userActionTitle.innerText = 'New Sleep';
+    sleepModal.classList.remove("hide");
+    activityModal.classList.add("hide");
+    hydrationModal.classList.add("hide");
   } else if (event.target.text === 'Add Activity') {
     modalWindow.style.display = "block";
-    sleepInput.classList.add("hide");
-    activityInput.classList.remove("hide");
-    hydrationInput.classList.add("hide");
+    userActionTitle.innerText = "New Activity";
+    sleepModal.classList.add("hide");
+    activityModal.classList.remove("hide");
+    hydrationModal.classList.add("hide");
   } else if (event.target.text === 'Add Hydration') {
     modalWindow.style.display = "block";
-    sleepInput.classList.add("hide");
-    activityInput.classList.add("hide");
-    hydrationInput.classList.remove("hide");
+    userActionTitle.innerText = "New Hydration";
+    sleepModal.classList.add("hide");
+    activityModal.classList.add("hide");
+    hydrationModal.classList.remove("hide");
   }
 }
 
@@ -237,9 +282,15 @@ function updateTrendingStepDays() {
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 }
 
-for (let i = 0; i < dailyOz.length; i++) {
-  dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
-}
+const dailyOzArray = Array.from(dailyOz);
+
+dailyOzArray.forEach((drinkSlot, index) => {
+  drinkSlot.innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[index + 1])[0]);
+})
+
+dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
+
+dropdownEmail.innerText = `EMAIL | ${user.email}`;
 
 // dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
 //

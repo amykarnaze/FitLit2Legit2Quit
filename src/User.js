@@ -37,42 +37,81 @@
     }, 0)
   }
 
-  updateHydration(date, amount) {
-    this.ouncesRecord.unshift({[date]: amount});
+  // updateHydration(date, amount) {
+  //   this.ouncesRecord.unshift({[date]: amount});
+  //   if (this.ouncesRecord.length) {
+  //     this.ouncesAverage = Math.round((amount + (this.ouncesAverage * (this.ouncesRecord.length - 1))) / this.ouncesRecord.length);
+  //   } else {
+  //     this.ouncesAverage = amount;
+  //   }
+  // }
+  // adds object to user.ouncesRecord with date and oz drank
+  // updates user.ouncesAverage with initial amount or average of 2 or more days
+
+  updateHydration(action) {
+    this.ouncesRecord.unshift({[action.date]: action.ounces});
     if (this.ouncesRecord.length) {
-      this.ouncesAverage = Math.round((amount + (this.ouncesAverage * (this.ouncesRecord.length - 1))) / this.ouncesRecord.length);
+      this.ouncesAverage = Math.round((action.ounces + (this.ouncesAverage * (this.ouncesRecord.length - 1))) / this.ouncesRecord.length);
     } else {
-      this.ouncesAverage = amount;
+      this.ouncesAverage = action.ounces;
+    }
+  }
+  updateActivities(action) {
+    this.activityRecord.unshift(action);
+    if (action.numSteps >= this.dailyStepGoal) {
+      this.accomplishedDays.unshift(action.date);
     }
   }
 
-  updateActivities(activity) {
-    this.activityRecord.unshift(activity);
-    if (activity.numSteps >= this.dailyStepGoal) {
-      this.accomplishedDays.unshift(activity.date);
-    }
-  }
-
-  updateSleep(date, hours, quality) {
+  updateSleep(action) {
     this.sleepHoursRecord.unshift({
-      'date': date,
-      'hours': hours
+      'date': action.date,
+      'hours': action.hoursSlept
     });
     this.sleepQualityRecord.unshift({
-      'date': date,
-      'quality': quality
+      'date': action.date,
+      'quality': action.sleepQuality
     });
     if(this.sleepHoursRecord.length) {
-      this.hoursSleptAverage = ((hours + (this.hoursSleptAverage * (this.sleepHoursRecord.length - 1))) / this.sleepHoursRecord.length).toFixed(1);
+      this.hoursSleptAverage = ((action.hoursSlept + (this.hoursSleptAverage * (this.sleepHoursRecord.length - 1))) / this.sleepHoursRecord.length).toFixed(1);
     } else {
-      this.hoursSleptAverage = hours;
+      this.hoursSleptAverage = action.hoursSlept;
     }
     if (this.sleepQualityRecord.length) {
-      this.sleepQualityAverage = ((quality + (this.sleepQualityAverage * (this.sleepQualityRecord.length - 1))) / this.sleepQualityRecord.length).toFixed(1);
+      this.sleepQualityAverage = ((action.sleepQuality + (this.sleepQualityAverage * (this.sleepQualityRecord.length - 1))) / this.sleepQualityRecord.length).toFixed(1);
     } else {
-      this.sleepQualityAverage = quality;
+      this.sleepQualityAverage = action.sleepQuality;
     }
   }
+  
+  // adds activity object to this.activitiesRecord
+  // adds activity date to this.accomplishedDays if step goal is met that day
+
+  // updateSleep(date, hours, quality) {
+  //   this.sleepHoursRecord.unshift({
+  //     'date': date,
+  //     'hours': hours
+  //   });
+  //   this.sleepQualityRecord.unshift({
+  //     'date': date,
+  //     'quality': quality
+  //   });
+  //   if(this.sleepHoursRecord.length) {
+  //     this.hoursSleptAverage = ((hours + (this.hoursSleptAverage * (this.sleepHoursRecord.length - 1))) / this.sleepHoursRecord.length).toFixed(1);
+  //   } else {
+  //     this.hoursSleptAverage = hours;
+  //   }
+  //   if (this.sleepQualityRecord.length) {
+  //     this.sleepQualityAverage = ((quality + (this.sleepQualityAverage * (this.sleepQualityRecord.length - 1))) / this.sleepQualityRecord.length).toFixed(1);
+  //   } else {
+  //     this.sleepQualityAverage = quality;
+  //   }
+  // }
+
+
+// probably should be refactored
+// update user.sleepHoursRecord and user.sleepQualityRecord with object that contains date logged and hours slept; same for sleep quality
+//update user.hoursSleptAverage and user.sleepQualityAverage with that day's amount if only 1 day on record, or average of 2+ days
 
   calculateAverageHoursThisWeek(todayDate) {
     return (this.sleepHoursRecord.reduce((sum, sleepAct) => {
