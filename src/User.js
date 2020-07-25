@@ -76,15 +76,40 @@
       'date': action.date,
       'quality': action.sleepQuality
     });
-    if(this.sleepHoursRecord.length) {
-      this.hoursSleptAverage = ((action.hoursSlept + (this.hoursSleptAverage * (this.sleepHoursRecord.length - 1))) / this.sleepHoursRecord.length).toFixed(1);
+    // this.updateAverageSleep(this.sleepHoursRecord, this.sleepHoursRecord[0].hours, this.hoursSleptAverage)
+    this.updateHoursSleptAverage()
+    this.updateSleepQualityRecord()
+  }
+
+  updateHoursSleptAverage() {
+    let hoursRecord = this.sleepHoursRecord;
+    let newHours = hoursRecord[0].hours;
+
+    if (hoursRecord.length) {
+          let average = this.hoursSleptAverage
+      this.hoursSleptAverage = ((newHours + (this.hoursSleptAverage * (hoursRecord.length - 1))) / hoursRecord.length).toFixed(1);
+          console.log(average, this.hoursSleptAverage)
     } else {
-      this.hoursSleptAverage = action.hoursSlept;
+      this.hoursSleptAverage = newHours;
     }
-    if (this.sleepQualityRecord.length) {
-      this.sleepQualityAverage = ((action.sleepQuality + (this.sleepQualityAverage * (this.sleepQualityRecord.length - 1))) / this.sleepQualityRecord.length).toFixed(1);
+  }
+
+  updateSleepQualityRecord() {
+    let qualityRecord = this.sleepQualityRecord;
+    let newQuality = qualityRecord[0].quality;
+    if (qualityRecord.length) {
+      this.sleepQualityAverage = ((newQuality + (this.sleepQualityAverage * (qualityRecord.length - 1))) / qualityRecord.length).toFixed(1);
     } else {
-      this.sleepQualityAverage = action.sleepQuality;
+      this.sleepQualityAverage = newQuality;
+    }
+  }
+
+  updateAverageSleep(recordList, newLog, average) {
+    if (recordList.length) {
+      average = ((newLog + (average * (recordList.length - 1))) / recordList.length).toFixed(1);
+          console.log(average)
+    } else {
+      average = newLog;
     }
   }
 
