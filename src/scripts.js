@@ -73,15 +73,12 @@ getApiData().then(allData => {
 let todayDate = "2019/09/22";
 
 const dailyOz = document.querySelectorAll('.daily-oz');
-const dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
 
 const hydrationMainCard = document.querySelector('#hydration-main-card');
 const mainPage = document.querySelector('main');
 const profileButton = document.querySelector('#profile-button');
 const sleepCalendarCard = document.querySelector('#sleep-calendar-card');
 
-const sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
-const sleepAllUsersLongestSleeper = document.querySelector('#sleep-all-users-longest-sleeper');
 const sleepAllUsersCard = document.querySelector('#sleep-all-users-card');
 const sleepAllUsersWorstSleeper = document.querySelector('#sleep-all-users-worst-sleeper');
 const sleepInfoCard = document.querySelector('#sleep-info-card');
@@ -90,7 +87,6 @@ const sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quali
 const sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
 const sleepMainCard = document.querySelector('#sleep-main-card');
 const sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
-
 const stairsCalendarCard = document.querySelector('#stairs-calendar-card');
 const stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
 const stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
@@ -99,20 +95,14 @@ const stepsInfoCard = document.querySelector('#steps-info-card');
 const stepsAllUsersCard = document.querySelector('#steps-all-users-card');
 const stepsTrendingCard = document.querySelector('#steps-trending-card');
 const stepsCalendarCard = document.querySelector('#steps-calendar-card');
-const stairsAllUsersFlightsAverageToday = document.querySelector('#stairs-all-users-flights-average-today');
 const stairsAllUsersCard = document.querySelector('#stairs-all-users-card');
 const stairsInfoCard = document.querySelector('#stairs-info-card');
-const stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');
-const stairsMainCard = document.querySelector('#stairs-main-card');
-const stairsTrendingButton = document.querySelector('.stairs-trending-button');
 const stairsTrendingCard = document.querySelector('#stairs-trending-card');
-const stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
-const stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
+const stairsMainCard = document.querySelector('#stairs-main-card');
+
+const stairsTrendingButton = document.querySelector('.stairs-trending-button');
 const stepsTrendingButton = document.querySelector('.steps-trending-button');
-const stepsUserStepsToday = document.querySelector('#steps-user-steps-today');
-const trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
-const trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
-const userInfoDropdown = document.querySelector('#user-info-dropdown');
+
 const addButton = document.getElementById('add-instance-button');
 const newInstances = document.getElementById('add-instances-dropdown');
 const modalWindow = document.getElementById('mpopupBox');
@@ -178,6 +168,7 @@ function flipCard(cardToHide, cardToShow) {
 }
 
 function showDropdown() {
+  const userInfoDropdown = document.querySelector('#user-info-dropdown');
   userInfoDropdown.classList.toggle('hide');
 }
 
@@ -246,11 +237,13 @@ function showInfo() {
 }
 
 function updateTrendingStairsDays() {
+  const trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
   user.findTrendingStairsDays();
   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
 }
 
 function updateTrendingStepDays() {
+  const trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
   user.findTrendingStepDays();
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 }
@@ -260,10 +253,6 @@ function dailyOzCreater() {
     drinkSlot.innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[index + 1])[0]);
   })
 }
-// bury in functions so called only when want them
-// large function
-// everything that moves user data around
-// call big page populating func in last .then
 
 function displayDropDown() {
   const dropdownEmail = document.querySelector('#dropdown-email');
@@ -294,6 +283,10 @@ function displayHydration() {
 
 function displaySleep() {
   const sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-hours-average-weekly');
+  const sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
+  const sleepAllUsersLongestSleeper = document.querySelector('#sleep-all-users-longest-sleeper');
+  const stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
+
   sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
   sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
   sleepAllUsersLongestSleeper.innerText = userRepository.users.find(user => {
@@ -316,6 +309,10 @@ function displaySleep() {
 }
 
 function averageFlights() {
+  const stairsAllUsersFlightsAverageToday = document.querySelector('#stairs-all-users-flights-average-today');
+  const stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');
+  const stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
+
   stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate); 
   stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
   stairsAllUsersFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
@@ -344,6 +341,7 @@ function displayAllUsersSteps() {
   const stepsAllUsersActiveMinutesAverageToday = document.querySelector('#steps-all-users-active-minutes-average-today');
   const stepsAllUsersAverageStepGoal = document.querySelector('#steps-all-users-average-step-goal');
   const stepsAllUsersStepsAverageToday = document.querySelector('#steps-all-users-steps-average-today');
+  const stepsUserStepsToday = document.querySelector('#steps-user-steps-today');
   stepsAllUsersActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
   stepsAllUsersAverageStepGoal.innerText = `${userRepository.calculateAverageStepGoal()}`;
   stepsAllUsersStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
@@ -359,6 +357,7 @@ function displayCaloriesBurnedToday() {
 
 
 function displayFriendsSteps() {
+  const dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
   user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
   user.friendsActivityRecords.forEach(friend => {
     dropdownFriendsStepsContainer.innerHTML += `
