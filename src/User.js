@@ -37,25 +37,23 @@
     }, 0)
   }
 
-  // updateHydration(date, amount) {
-  //   this.ouncesRecord.unshift({[date]: amount});
-  //   if (this.ouncesRecord.length) {
-  //     this.ouncesAverage = Math.round((amount + (this.ouncesAverage * (this.ouncesRecord.length - 1))) / this.ouncesRecord.length);
-  //   } else {
-  //     this.ouncesAverage = amount;
-  //   }
-  // }
-  // adds object to user.ouncesRecord with date and oz drank
-  // updates user.ouncesAverage with initial amount or average of 2 or more days
-
   updateHydration(action) {
     this.ouncesRecord.unshift({[action.date]: action.ounces});
+    this.updateOuncesAverage()
+  }
+
+  updateOuncesAverage() {
+    let newHydration = Object.values(this.ouncesRecord[0])[0]
     if (this.ouncesRecord.length) {
-      this.ouncesAverage = Math.round((action.ounces + (this.ouncesAverage * (this.ouncesRecord.length - 1))) / this.ouncesRecord.length);
+      this.ouncesAverage = Math.round((newHydration + (this.ouncesAverage * (this.ouncesRecord.length - 1))) / this.ouncesRecord.length);
     } else {
-      this.ouncesAverage = action.ounces;
+      this.ouncesAverage = newHydration;
     }
   }
+  // adds object to user.ouncesRecord with date and oz drank
+  // updates user.ouncesAverage with initial amount or average of 2 or more days using action object - instead use property added to User class
+
+
   updateActivities(action) {
     this.activityRecord.unshift(action);
     if (action.numSteps >= this.dailyStepGoal) {
@@ -83,31 +81,12 @@
       this.sleepQualityAverage = action.sleepQuality;
     }
   }
-  
+
+
+
+
   // adds activity object to this.activitiesRecord
   // adds activity date to this.accomplishedDays if step goal is met that day
-
-  // updateSleep(date, hours, quality) {
-  //   this.sleepHoursRecord.unshift({
-  //     'date': date,
-  //     'hours': hours
-  //   });
-  //   this.sleepQualityRecord.unshift({
-  //     'date': date,
-  //     'quality': quality
-  //   });
-  //   if(this.sleepHoursRecord.length) {
-  //     this.hoursSleptAverage = ((hours + (this.hoursSleptAverage * (this.sleepHoursRecord.length - 1))) / this.sleepHoursRecord.length).toFixed(1);
-  //   } else {
-  //     this.hoursSleptAverage = hours;
-  //   }
-  //   if (this.sleepQualityRecord.length) {
-  //     this.sleepQualityAverage = ((quality + (this.sleepQualityAverage * (this.sleepQualityRecord.length - 1))) / this.sleepQualityRecord.length).toFixed(1);
-  //   } else {
-  //     this.sleepQualityAverage = quality;
-  //   }
-  // }
-
 
 // probably should be refactored
 // update user.sleepHoursRecord and user.sleepQualityRecord with object that contains date logged and hours slept; same for sleep quality

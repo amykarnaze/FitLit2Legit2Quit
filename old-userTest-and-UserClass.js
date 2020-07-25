@@ -279,3 +279,49 @@ describe('User', function() {
     expect(user.friendsActivityRecords).to.deep.equal([{"firstName": "JOHN", "id": 4, "totalWeeklySteps": 734}, {"firstName":"BEN", "id": 16, "totalWeeklySteps": 248}, {"firstName": "NICK", "id": 8, "totalWeeklySteps": 34}, {"firstName": "YOU", "id": 1, "totalWeeklySteps": 0}]);
   });
 });
+
+
+
+//OLD USER METHODS
+
+  updateHydration(date, amount) {
+    this.ouncesRecord.unshift({[date]: amount});
+    if (this.ouncesRecord.length) {
+      this.ouncesAverage = Math.round((amount + (this.ouncesAverage * (this.ouncesRecord.length - 1))) / this.ouncesRecord.length);
+    } else {
+      this.ouncesAverage = amount;
+    }
+  }
+
+  updateActivities(action) {
+    this.activityRecord.unshift(action);
+    if (action.numSteps >= this.dailyStepGoal) {
+      this.accomplishedDays.unshift(action.date);
+    }
+  }
+
+  // updateSleep(date, hours, quality) {
+  //   this.sleepHoursRecord.unshift({
+  //     'date': date,
+  //     'hours': hours
+  //   });
+  //   this.sleepQualityRecord.unshift({
+  //     'date': date,
+  //     'quality': quality
+  //   });
+  //   if(this.sleepHoursRecord.length) {
+  //     this.hoursSleptAverage = ((hours + (this.hoursSleptAverage * (this.sleepHoursRecord.length - 1))) / this.sleepHoursRecord.length).toFixed(1);
+  //   } else {
+  //     this.hoursSleptAverage = hours;
+  //   }
+  //   if (this.sleepQualityRecord.length) {
+  //     this.sleepQualityAverage = ((quality + (this.sleepQualityAverage * (this.sleepQualityRecord.length - 1))) / this.sleepQualityRecord.length).toFixed(1);
+  //   } else {
+  //     this.sleepQualityAverage = quality;
+  //   }
+  // }
+
+
+  // break down User upate functions into helper functions:
+  // 1. ounces/activity/sleepHoursRecord
+  // 2. if they use #1 to update other properties -- those should be separate functions called inside update methods
