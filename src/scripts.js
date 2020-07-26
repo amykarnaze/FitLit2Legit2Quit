@@ -66,6 +66,7 @@ let userOunces;
 let userNumberOfSteps;
 let userMinutesActive;
 let userFlightsOfStairs;
+
 //used w event listeners
 const hydrationMainCard = document.querySelector('#hydration-main-card');
 const mainPage = document.querySelector('main');
@@ -445,10 +446,12 @@ function createSleepInstance() {
       sleepQuality: userSleepQuality,
     };
     const newSleepInstance = new Sleep(newSleep, userRepository);
+      postSleepData(newSleepInstance);
+
   }
 }
 
-function createHydrationInstance() {
+function createHydrationInstance(newHydration) {
   let verifiedNumber = verifyNumberInput(userOunces, 0, 200);
   if (verifiedNumber === true) {
     const newHydration = {
@@ -457,6 +460,7 @@ function createHydrationInstance() {
       numOunces: userOunces,
     };
     const newHydrationInstance = new Hydration(newHydration, userRepository);
+    // also get? so can update variable to include all plus new
   }
 }
 
