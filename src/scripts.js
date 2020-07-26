@@ -16,7 +16,6 @@ import Sleep from './Sleep';
 import getApiData from './api';
 
 let userRepository = new UserRepository();
-
 let user = {};
 let sortedHydrationDataByDate = [];
 
@@ -34,84 +33,61 @@ getApiData().then(allData => {
   allData.hydrationData.forEach(hydration => {
     hydration = new Hydration(hydration, userRepository);
   });
-  // keep in mind if yo need soemthing from a then, you need ot return so next then has it
-  // return allData- just an exp
-  // drag whatever you return through .then chain
 })
 .then(() => {
   user = userRepository.users[0]
   user.findFriendsNames(userRepository.users)
   // console.warn(user.ouncesRecord)
-  sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
-    if (Object.keys(a)[0] > Object.keys(b)[0]) {
-      return -1;
-    }
-    if (Object.keys(a)[0] < Object.keys(b)[0]) {
-      return 1;
-    }
-    return 0;
-  });
-  })
-  .then(() => populatePage());
+})
+.then(() => populatePage());
 
-  // whatever is returned out of a then goes into next then as the data
-  function populatePage() {
-    // call all sub functions
-    dailyOzCreater();
-    displayDropDown();
-    displayName();
-    displayHydration();
-    displaySleep();
-    averageFlights();
-    displayCalenderSteps();
-    displayAllUsersSteps();
-    displayCaloriesBurnedToday();
-    displayFriendsSteps()
-    displayFriendsStepsColor();
-  }
+function populatePage() {
+  sortHydrationData()
+  dailyOzCreater();
+  displayDropDown();
+  displayName();
+  displayHydration();
+  displaySleep();
+  displayUsersSleepComparison();
+  displaySleepQuality()
+  averageFlights();
+  displayCalenderSteps();
+  displayAllUsersSteps();
+  displayCaloriesBurnedToday();
+  displayFriendsSteps()
+  displayFriendsStepsColor();
+}
+
 
 let todayDate = "2019/09/22";
-
-const dailyOz = document.querySelectorAll('.daily-oz');
-
+let userHoursSlept;
+let userSleepQuality;
+let userOunces;
+let userNumberOfSteps;
+let userMinutesActive;
+let userFlightsOfStairs;
+//used w event listeners
 const hydrationMainCard = document.querySelector('#hydration-main-card');
 const mainPage = document.querySelector('main');
 const profileButton = document.querySelector('#profile-button');
-const sleepCalendarCard = document.querySelector('#sleep-calendar-card');
-
-const sleepAllUsersCard = document.querySelector('#sleep-all-users-card');
-const sleepAllUsersWorstSleeper = document.querySelector('#sleep-all-users-worst-sleeper');
-const sleepInfoCard = document.querySelector('#sleep-info-card');
-const sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
-const sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
-const sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
-const sleepMainCard = document.querySelector('#sleep-main-card');
-const sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
-const stairsCalendarCard = document.querySelector('#stairs-calendar-card');
-const stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
-const stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
-const stepsMainCard = document.querySelector('#steps-main-card');
-const stepsInfoCard = document.querySelector('#steps-info-card');
-const stepsAllUsersCard = document.querySelector('#steps-all-users-card');
-const stepsTrendingCard = document.querySelector('#steps-trending-card');
-const stepsCalendarCard = document.querySelector('#steps-calendar-card');
-const stairsAllUsersCard = document.querySelector('#stairs-all-users-card');
-const stairsInfoCard = document.querySelector('#stairs-info-card');
-const stairsTrendingCard = document.querySelector('#stairs-trending-card');
-const stairsMainCard = document.querySelector('#stairs-main-card');
-
-const stairsTrendingButton = document.querySelector('.stairs-trending-button');
-const stepsTrendingButton = document.querySelector('.steps-trending-button');
-
 const addButton = document.getElementById('add-instance-button');
 const newInstances = document.getElementById('add-instances-dropdown');
-const modalWindow = document.getElementById('mpopupBox');
-const sleepModal = document.querySelector('.mpopup-sleep');
-const hydrationModal = document.querySelector(".mpopup-hydration");
-const activityModal = document.querySelector(".mpopup-activity");
 const closeModal = document.querySelector('.close');
-const userActionTitle = document.querySelector('.action-title');
+const stairsTrendingButton = document.querySelector('.stairs-trending-button');
+const stepsTrendingButton = document.querySelector('.steps-trending-button');
+const userHoursSleptInput = document.querySelector(".user-input-hours-slept");
+const userSleepQualityInput = document.querySelector(".user-input-sleep-quality");
+const userOuncesInput = document.querySelector(".user-input-ounces");
+const userNumberStepsInput = document.querySelector(".user-input-steps");
+const userMinutesActiveInput = document.querySelector(".user-input-minutes-active");
+const userFlightsOfStairsInput = document.querySelector(".user-input-flights");
+const sleepInputButton = document.querySelector(".sleep-button");
+const hydrationInputButton = document.querySelector(".hydration-button");
+const activityInputButton = document.querySelector(".activity-button");
 
+// called mult times
+const modalWindow = document.getElementById('mpopupBox');
+// event listeners
 window.addEventListener('click', closeModalWindow);
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
@@ -120,6 +96,15 @@ newInstances.addEventListener('click', displayModal);
 closeModal.addEventListener('click', closeWindow);
 stairsTrendingButton.addEventListener('click', handleStairsDaysButton);
 stepsTrendingButton.addEventListener('click', handleStepDays);
+userHoursSleptInput.addEventListener("input", userInputHandler);
+userSleepQualityInput.addEventListener("input", userInputHandler);
+userOuncesInput.addEventListener("input", userInputHandler);
+userNumberStepsInput.addEventListener("input", userInputHandler);
+userMinutesActiveInput.addEventListener("input", userInputHandler);
+userFlightsOfStairsInput.addEventListener("input", userInputHandler);
+sleepInputButton.addEventListener("click", createInstance);
+hydrationInputButton.addEventListener("click", createInstance);
+activityInputButton.addEventListener("click", createInstance);
 
 function handleStairsDaysButton() {
   updateTrendingStairsDays();
@@ -130,6 +115,10 @@ function handleStepDays() {
 } 
 
 function displayModal(event) {
+  const sleepModal = document.querySelector('.mpopup-sleep');
+  const hydrationModal = document.querySelector(".mpopup-hydration");
+  const activityModal = document.querySelector(".mpopup-activity");
+  const userActionTitle = document.querySelector('.action-title');
   modalWindow.style.display = 'none';
   if (event.target.text === 'Add Sleep') {
     modalWindow.style.display = "block";
@@ -176,19 +165,26 @@ function showInstanceDropdown() {
   newInstances.classList.toggle("hide");
 }
 
+function sortHydrationData() {
+sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
+  if (Object.keys(a)[0] > Object.keys(b)[0]) {
+    return -1;
+  }
+  if (Object.keys(a)[0] < Object.keys(b)[0]) {
+    return 1;
+  }
+  return 0;
+});
+}
+
 function showInfo() {
-  if (event.target.classList.contains('steps-info-button')) {
-    flipCard(stepsMainCard, stepsInfoCard);
-  }
-  if (event.target.classList.contains('steps-all-users-button')) {
-    flipCard(stepsMainCard, stepsAllUsersCard);
-  }
-  if (event.target.classList.contains('steps-trending-button')) {
-    flipCard(stepsMainCard, stepsTrendingCard);
-  }
-  if (event.target.classList.contains('steps-calendar-button')) {
-    flipCard(stepsMainCard, stepsCalendarCard);
-  }
+  hydrationHandler();
+  stepsHandler();
+  sleepHandler();
+  stairsHandler();
+}
+
+function hydrationHandler() {
   const hydrationInfoCard = document.querySelector('#hydration-info-card');
   if (event.target.classList.contains('hydration-info-button')) {
     flipCard(hydrationMainCard, hydrationInfoCard);
@@ -201,6 +197,59 @@ function showInfo() {
   if (event.target.classList.contains('hydration-calendar-button')) {
     flipCard(hydrationMainCard, hydrationCalendarCard);
   }
+  if (event.target.classList.contains('hydration-go-back-button')) {
+    flipCard(event.target.parentNode, hydrationMainCard);
+  }
+}
+
+function stepsHandler() {
+  const stepsMainCard = document.querySelector('#steps-main-card');
+  const stepsInfoCard = document.querySelector('#steps-info-card');
+  if (event.target.classList.contains('steps-info-button')) {
+    flipCard(stepsMainCard, stepsInfoCard);
+  }
+  const stepsAllUsersCard = document.querySelector('#steps-all-users-card');
+  if (event.target.classList.contains('steps-all-users-button')) {
+    flipCard(stepsMainCard, stepsAllUsersCard);
+  }
+  const stepsTrendingCard = document.querySelector('#steps-trending-card');
+  if (event.target.classList.contains('steps-trending-button')) {
+    flipCard(stepsMainCard, stepsTrendingCard);
+  }
+  const stepsCalendarCard = document.querySelector('#steps-calendar-card');
+  if (event.target.classList.contains('steps-calendar-button')) {
+    flipCard(stepsMainCard, stepsCalendarCard);
+  }
+  if (event.target.classList.contains('steps-go-back-button')) {
+    flipCard(event.target.parentNode, stepsMainCard);
+  }
+}
+
+function sleepHandler() {
+  const sleepMainCard = document.querySelector('#sleep-main-card');
+  const sleepInfoCard = document.querySelector('#sleep-info-card');
+  const sleepAllUsersCard = document.querySelector('#sleep-all-users-card');
+  const sleepCalendarCard = document.querySelector('#sleep-calendar-card');
+  if (event.target.classList.contains('sleep-info-button')) {
+    flipCard(sleepMainCard, sleepInfoCard);
+  }
+  if (event.target.classList.contains('sleep-all-users-button')) {
+    flipCard(sleepMainCard, sleepAllUsersCard);
+  }
+  if (event.target.classList.contains('sleep-calendar-button')) {
+    flipCard(sleepMainCard, sleepCalendarCard);
+  }
+  if (event.target.classList.contains('sleep-go-back-button')) {
+    flipCard(event.target.parentNode, sleepMainCard);
+  }
+}
+
+function stairsHandler() {
+  const stairsMainCard = document.querySelector('#stairs-main-card');
+  const stairsInfoCard = document.querySelector('#stairs-info-card');
+  const stairsAllUsersCard = document.querySelector('#stairs-all-users-card');
+  const stairsTrendingCard = document.querySelector('#stairs-trending-card');
+  const stairsCalendarCard = document.querySelector('#stairs-calendar-card');
   if (event.target.classList.contains('stairs-info-button')) {
     flipCard(stairsMainCard, stairsInfoCard);
   }
@@ -213,26 +262,8 @@ function showInfo() {
   if (event.target.classList.contains('stairs-calendar-button')) {
     flipCard(stairsMainCard, stairsCalendarCard);
   }
-  if (event.target.classList.contains('sleep-info-button')) {
-    flipCard(sleepMainCard, sleepInfoCard);
-  }
-  if (event.target.classList.contains('sleep-all-users-button')) {
-    flipCard(sleepMainCard, sleepAllUsersCard);
-  }
-  if (event.target.classList.contains('sleep-calendar-button')) {
-    flipCard(sleepMainCard, sleepCalendarCard);
-  }
-  if (event.target.classList.contains('steps-go-back-button')) {
-    flipCard(event.target.parentNode, stepsMainCard);
-  }
-  if (event.target.classList.contains('hydration-go-back-button')) {
-    flipCard(event.target.parentNode, hydrationMainCard);
-  }
   if (event.target.classList.contains('stairs-go-back-button')) {
     flipCard(event.target.parentNode, stairsMainCard);
-  }
-  if (event.target.classList.contains('sleep-go-back-button')) {
-    flipCard(event.target.parentNode, sleepMainCard);
   }
 }
 
@@ -249,6 +280,7 @@ function updateTrendingStepDays() {
 }
 
 function dailyOzCreater() {
+  const dailyOz = document.querySelectorAll('.daily-oz');
   Array.from(dailyOz).forEach((drinkSlot, index) => {
     drinkSlot.innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[index + 1])[0]);
   })
@@ -283,36 +315,43 @@ function displayHydration() {
 
 function displaySleep() {
   const sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-hours-average-weekly');
-  const sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
-  const sleepAllUsersLongestSleeper = document.querySelector('#sleep-all-users-longest-sleeper');
-  const stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
-
+  const sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
+  const sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
+  sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
   sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
-  sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
+  sleepUserHoursToday.innerText = sleepData.find(sleep => {
+    return sleep.userID === user.id && sleep.date === todayDate;
+  }).hoursSlept;
+}
+
+function displayUsersSleepComparison() {
+  const sleepAllUsersLongestSleeper = document.querySelector('#sleep-all-users-longest-sleeper');
+  const sleepAllUsersWorstSleeper = document.querySelector('#sleep-all-users-worst-sleeper');
   sleepAllUsersLongestSleeper.innerText = userRepository.users.find(user => {
     return user.id === userRepository.getLongestSleepers(todayDate)
   }).getFirstName();
   sleepAllUsersWorstSleeper.innerText = userRepository.users.find(user => {
     return user.id === userRepository.getWorstSleepers(sleepData, todayDate)
   }).getFirstName();
-  sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
-  stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
-    return (activity.date === todayDate && activity.userId === user.id)
-  }).calculateMiles(userRepository);
+}
+
+function displaySleepQuality() {
+  const sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
+  const sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
+  const sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
+  sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
   sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;
   sleepInfoQualityToday.innerText = sleepData.find(sleep => {
     return sleep.userID === user.id && sleep.date === todayDate;
   }).sleepQuality;
-  sleepUserHoursToday.innerText = sleepData.find(sleep => {
-    return sleep.userID === user.id && sleep.date === todayDate;
-  }).hoursSlept;
 }
 
 function averageFlights() {
   const stairsAllUsersFlightsAverageToday = document.querySelector('#stairs-all-users-flights-average-today');
   const stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');
   const stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
-
+  const stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
+  const stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
   stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate); 
   stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
   stairsAllUsersFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
@@ -330,6 +369,10 @@ function displayCalenderSteps() {
   const stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');
   const stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
   const stepsCalendarTotalStepsWeekly = document.querySelector('#steps-calendar-total-steps-weekly');
+  const stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
+  stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
+    return (activity.date === todayDate && activity.userId === user.id)
+  }).calculateMiles(userRepository);
   stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate);
   stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);
   stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
@@ -380,38 +423,6 @@ function displayFriendsStepsColor() {
     }
   });
 }
-
-const userHoursSleptInput = document.querySelector(".user-input-hours-slept");
-const userSleepQualityInput = document.querySelector(
-  ".user-input-sleep-quality"
-);
-const userOuncesInput = document.querySelector(".user-input-ounces");
-const userNumberStepsInput = document.querySelector(".user-input-steps");
-const userMinutesActiveInput = document.querySelector(
-  ".user-input-minutes-active"
-);
-const userFlightsOfStairsInput = document.querySelector(".user-input-flights");
-const sleepInputButton = document.querySelector(".sleep-button");
-const hydrationInputButton = document.querySelector(".hydration-button");
-const activityInputButton = document.querySelector(".activity-button");
-const submitButton = document.getElementsByClassName("submit");
-
-let userHoursSlept;
-let userSleepQuality;
-let userOunces;
-let userNumberOfSteps;
-let userMinutesActive;
-let userFlightsOfStairs;
-
-userHoursSleptInput.addEventListener("input", userInputHandler);
-userSleepQualityInput.addEventListener("input", userInputHandler);
-userOuncesInput.addEventListener("input", userInputHandler);
-userNumberStepsInput.addEventListener("input", userInputHandler);
-userMinutesActiveInput.addEventListener("input", userInputHandler);
-userFlightsOfStairsInput.addEventListener("input", userInputHandler);
-sleepInputButton.addEventListener("click", createInstance);
-hydrationInputButton.addEventListener("click", createInstance);
-activityInputButton.addEventListener("click", createInstance);
 
 function createInstance(event) {
   if (event.target.classList[0] === "sleep-button") {
@@ -486,6 +497,7 @@ function userInputHandler(event) {
 }
 
 function verifyNumberInput(amount, min, max) {
+  const submitButton = document.getElementsByClassName("submit");
   if (amount < min || amount >= max) {
     alert(`Please enter a number between ${min} - ${max}`);
     submitButton.disabled = true;
