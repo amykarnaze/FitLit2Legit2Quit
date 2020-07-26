@@ -85,9 +85,9 @@ let activityPostData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/a
     headers: {
       'content-Type': 'application/json'
     },
-    body: JSON.stringify(),
+    body: JSON.stringify(activityInputInstance),
   })
-  .then(response => response.json(activityInputInstance))
+  .then(response => response.json())
   // .then(json => )
   .catch(error => console.log(error));
 // // resolve promise

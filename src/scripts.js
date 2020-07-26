@@ -14,6 +14,8 @@ import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
 import getApiData from './api';
+// import postSleepData from './api';
+
 
 let userRepository = new UserRepository();
 let user = {};
@@ -460,6 +462,7 @@ function createHydrationInstance(newHydration) {
       numOunces: userOunces,
     };
     const newHydrationInstance = new Hydration(newHydration, userRepository);
+    postHydrationData(newHydrationInstance)
     // also get? so can update variable to include all plus new
   }
 }
@@ -481,6 +484,7 @@ function createActivityInstance() {
       flightsOfStairs: userFlightsOfStairs,
     };
     const newActivityInstance = new Activity(newActivity, userRepository);
+    postActivityData(newActivityInstance);
   }
 }
 
