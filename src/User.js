@@ -55,13 +55,16 @@
 
   updateHydration(action) {
     this.ouncesRecord.unshift({[action.date]: action.ounces});
-    this.updateOuncesAverage();
+    let newHydration = Object.values(this.ouncesRecord[0])[0]
+    this.updateAverage(newHydration, this.ouncesRecord, this.ouncesAverage, 'ouncesAverage', 0)
+    // this.updateOuncesAverage();
   }
 
   updateOuncesAverage() {
     let newHydration = Object.values(this.ouncesRecord[0])[0]
+    console.log(Object.values(this.ouncesRecord[0]))
     if (this.ouncesRecord.length) {
-      this.ouncesAverage = Math.round((newHydration + (this.ouncesAverage * (this.ouncesRecord.length - 1))) / this.ouncesRecord.length);
+      this.ouncesAverage = Math.round(this.calculateAverage(newHydration, this.ouncesRecord, this.ouncesAverage));
     } else {
       this.ouncesAverage = newHydration;
     }
@@ -76,26 +79,24 @@
       'date': action.date,
       'quality': action.sleepQuality
     });
-    this.updateAverageSleep(this.sleepQualityRecord[0].quality, this.sleepQualityRecord, this.sleepQualityAverage, 'sleepQualityAverage')
-    this.updateAverageSleep(this.sleepHoursRecord[0].hours, this.sleepHoursRecord, this.hoursSleptAverage, 'hoursSleptAverage')
+    this.updateAverage(this.sleepQualityRecord[0].quality, this.sleepQualityRecord, this.sleepQualityAverage, 'sleepQualityAverage', 1)
+    this.updateAverage(this.sleepHoursRecord[0].hours, this.sleepHoursRecord, this.hoursSleptAverage, 'hoursSleptAverage', 1)
   }
 
   calculateAverage(newLog, recordList, average) {
-    return ((newLog + (average * (recordList.length - 1))) / recordList.length).toFixed(1);
+    return ((newLog + (average * (recordList.length - 1))) / recordList.length)
   }
 
-  updateAverageSleep(newLog, recordList, average, attributeName) {
+  updateAverage(newLog, recordList, average, attributeName, decimal) {
     if (recordList.length > 1) {
-      console.log('before' + this[attributeName])
-      this[attributeName] = this.calculateAverage(newLog, recordList, average)
-      console.log('after' + this[attributeName])
+      this[attributeName] = this.calculateAverage(newLog, recordList, average).toFixed(decimal);
     } else {
       this[attributeName] = newLog;
     }
   }
 
 // sad path test potentially -- if a value is 0 --would mess up averages
-
+// don't need conditional inside update average?
   // adds activity object to this.activitiesRecord
   // adds activity date to this.accomplishedDays if step goal is met that day
 
