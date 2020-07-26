@@ -321,6 +321,36 @@ describe('User', function() {
     }
   }
 
+  ---
+
+  // updateHoursSleptAverage() {
+  //   let hoursRecord = this.sleepHoursRecord;
+  //   let newHours = hoursRecord[0].hours;
+  //
+  //   if (hoursRecord.length) {
+  //         let average = this.hoursSleptAverage
+  //     this.hoursSleptAverage = ((newHours + (this.hoursSleptAverage * (hoursRecord.length - 1))) / hoursRecord.length).toFixed(1);
+  //         console.log(average, this.hoursSleptAverage)
+  //   } else {
+  //     this.hoursSleptAverage = newHours;
+  //   }
+  // }
+  //
+  // updateSleepQualityRecord() {
+  //   let qualityRecord = this.sleepQualityRecord;
+  //   let newQuality = qualityRecord[0].quality;
+  //   if (qualityRecord.length) {
+  //     // will need to pass in string as 4th argument if want to refer to this.sleepQualityAverage
+  //     this.sleepQualityAverage = this.calculateAverage(newQuality, qualityRecord, this.sleepQualityAverage)
+  //   } else {
+  //     this.sleepQualityAverage = newQuality;
+  //   }
+  // }
+
+  // ((newHours + (this.hoursSleptAverage * (hoursRecord.length - 1))) / hoursRecord.length); --- just make this piece a function -- calculateAverage
+  // what are similar things in every single function? -
+
+
 
   // break down User upate functions into helper functions:
   // 1. ounces/activity/sleepHoursRecord

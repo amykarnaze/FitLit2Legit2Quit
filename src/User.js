@@ -76,45 +76,25 @@
       'date': action.date,
       'quality': action.sleepQuality
     });
-    // this.updateAverageSleep(this.sleepHoursRecord, this.sleepHoursRecord[0].hours, this.hoursSleptAverage)
-    this.updateHoursSleptAverage()
-    this.updateSleepQualityRecord()
+    this.updateAverageSleep(this.sleepQualityRecord[0].quality, this.sleepQualityRecord, this.sleepQualityAverage, 'sleepQualityAverage')
+    this.updateAverageSleep(this.sleepHoursRecord[0].hours, this.sleepHoursRecord, this.hoursSleptAverage, 'hoursSleptAverage')
   }
 
-  updateHoursSleptAverage() {
-    let hoursRecord = this.sleepHoursRecord;
-    let newHours = hoursRecord[0].hours;
+  calculateAverage(newLog, recordList, average) {
+    return ((newLog + (average * (recordList.length - 1))) / recordList.length).toFixed(1);
+  }
 
-    if (hoursRecord.length) {
-          let average = this.hoursSleptAverage
-      this.hoursSleptAverage = ((newHours + (this.hoursSleptAverage * (hoursRecord.length - 1))) / hoursRecord.length).toFixed(1);
-          console.log(average, this.hoursSleptAverage)
+  updateAverageSleep(newLog, recordList, average, attributeName) {
+    if (recordList.length > 1) {
+      console.log('before' + this[attributeName])
+      this[attributeName] = this.calculateAverage(newLog, recordList, average)
+      console.log('after' + this[attributeName])
     } else {
-      this.hoursSleptAverage = newHours;
+      this[attributeName] = newLog;
     }
   }
 
-  updateSleepQualityRecord() {
-    let qualityRecord = this.sleepQualityRecord;
-    let newQuality = qualityRecord[0].quality;
-    if (qualityRecord.length) {
-      this.sleepQualityAverage = ((newQuality + (this.sleepQualityAverage * (qualityRecord.length - 1))) / qualityRecord.length).toFixed(1);
-    } else {
-      this.sleepQualityAverage = newQuality;
-    }
-  }
-
-  updateAverageSleep(recordList, newLog, average) {
-    if (recordList.length) {
-      average = ((newLog + (average * (recordList.length - 1))) / recordList.length).toFixed(1);
-          console.log(average)
-    } else {
-      average = newLog;
-    }
-  }
-
-
-
+// sad path test potentially -- if a value is 0 --would mess up averages
 
   // adds activity object to this.activitiesRecord
   // adds activity date to this.accomplishedDays if step goal is met that day
