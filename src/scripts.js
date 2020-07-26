@@ -1,6 +1,6 @@
 import './css/base.scss';
 import './css/styles.scss';
-const moment = require("moment");
+// const moment = require("moment");
 
 import userData from './data/users';
 import activityData from './data/activity';
@@ -112,7 +112,7 @@ function handleStairsDaysButton() {
 
 function handleStepDays() {
   updateTrendingStepDays()
-} 
+}
 
 function displayModal(event) {
   const sleepModal = document.querySelector('.mpopup-sleep');
@@ -296,7 +296,7 @@ function displayDropDown() {
 }
 
 function displayName() {
-  const headerName = document.querySelector('#header-name');  
+  const headerName = document.querySelector('#header-name');
   headerName.innerText = `${user.getFirstName()}'S `;
 }
 
@@ -407,7 +407,7 @@ function displayFriendsSteps() {
     <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
     `;
   });
-} 
+}
 
 function displayFriendsStepsColor() {
   let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
@@ -445,6 +445,7 @@ function createSleepInstance() {
       sleepQuality: userSleepQuality,
     };
     const newSleepInstance = new Sleep(newSleep, userRepository);
+    displayRecordedAlert("Sleep");
   }
 }
 
@@ -457,6 +458,7 @@ function createHydrationInstance() {
       numOunces: userOunces,
     };
     const newHydrationInstance = new Hydration(newHydration, userRepository);
+    displayRecordedAlert("Hydration");
   }
 }
 
@@ -477,6 +479,7 @@ function createActivityInstance() {
       flightsOfStairs: userFlightsOfStairs,
     };
     const newActivityInstance = new Activity(newActivity, userRepository);
+    displayRecordedAlert("Activity");
   }
 }
 
@@ -505,4 +508,12 @@ function verifyNumberInput(amount, min, max) {
   } else {
     return true;
   }
+}
+
+function displayRecordedAlert(action) {
+  const alertModal = document.querySelector('.alert-modal');
+  const alertText = document.querySelector('.alert-text');
+  alertModal.style.display = "flex";
+  alertText.innerText = `${action} data recorded.`;
+  window.setTimeout(() => {alertModal.style.display = "none"}, 2500);
 }
