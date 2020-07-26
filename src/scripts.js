@@ -178,10 +178,32 @@ sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
 }
 
 function showInfo() {
-  const sleepMainCard = document.querySelector('#sleep-main-card');
-  const stepsMainCard = document.querySelector('#steps-main-card');
-  const stairsMainCard = document.querySelector('#stairs-main-card');
+  hydrationHandler();
+  stepsHandler();
+  sleepHandler();
+  stairsHandler();
+}
 
+function hydrationHandler() {
+  const hydrationInfoCard = document.querySelector('#hydration-info-card');
+  if (event.target.classList.contains('hydration-info-button')) {
+    flipCard(hydrationMainCard, hydrationInfoCard);
+  }
+  const hydrationAllUsersCard = document.querySelector('#hydration-all-users-card');
+  if (event.target.classList.contains('hydration-all-users-button')) {
+    flipCard(hydrationMainCard, hydrationAllUsersCard);
+  }
+  const hydrationCalendarCard = document.querySelector('#hydration-calendar-card');
+  if (event.target.classList.contains('hydration-calendar-button')) {
+    flipCard(hydrationMainCard, hydrationCalendarCard);
+  }
+  if (event.target.classList.contains('hydration-go-back-button')) {
+    flipCard(event.target.parentNode, hydrationMainCard);
+  }
+}
+
+function stepsHandler() {
+  const stepsMainCard = document.querySelector('#steps-main-card');
   const stepsInfoCard = document.querySelector('#steps-info-card');
   if (event.target.classList.contains('steps-info-button')) {
     flipCard(stepsMainCard, stepsInfoCard);
@@ -198,57 +220,50 @@ function showInfo() {
   if (event.target.classList.contains('steps-calendar-button')) {
     flipCard(stepsMainCard, stepsCalendarCard);
   }
-  const hydrationInfoCard = document.querySelector('#hydration-info-card');
-  if (event.target.classList.contains('hydration-info-button')) {
-    flipCard(hydrationMainCard, hydrationInfoCard);
-  }
-  const hydrationAllUsersCard = document.querySelector('#hydration-all-users-card');
-  if (event.target.classList.contains('hydration-all-users-button')) {
-    flipCard(hydrationMainCard, hydrationAllUsersCard);
-  }
-  const hydrationCalendarCard = document.querySelector('#hydration-calendar-card');
-  if (event.target.classList.contains('hydration-calendar-button')) {
-    flipCard(hydrationMainCard, hydrationCalendarCard);
-  }
-  const stairsInfoCard = document.querySelector('#stairs-info-card');
-  if (event.target.classList.contains('stairs-info-button')) {
-    flipCard(stairsMainCard, stairsInfoCard);
-  }
-  const stairsAllUsersCard = document.querySelector('#stairs-all-users-card');
-  if (event.target.classList.contains('stairs-all-users-button')) {
-    flipCard(stairsMainCard, stairsAllUsersCard);
-  }
-  const stairsTrendingCard = document.querySelector('#stairs-trending-card');
-  if (event.target.classList.contains('stairs-trending-button')) {
-    flipCard(stairsMainCard, stairsTrendingCard);
-  }
-  const stairsCalendarCard = document.querySelector('#stairs-calendar-card');
-  if (event.target.classList.contains('stairs-calendar-button')) {
-    flipCard(stairsMainCard, stairsCalendarCard);
-  }
-  const sleepInfoCard = document.querySelector('#sleep-info-card');
-  if (event.target.classList.contains('sleep-info-button')) {
-    flipCard(sleepMainCard, sleepInfoCard);
-  }
-  const sleepAllUsersCard = document.querySelector('#sleep-all-users-card');
-  if (event.target.classList.contains('sleep-all-users-button')) {
-    flipCard(sleepMainCard, sleepAllUsersCard);
-  }
-  const sleepCalendarCard = document.querySelector('#sleep-calendar-card');
-  if (event.target.classList.contains('sleep-calendar-button')) {
-    flipCard(sleepMainCard, sleepCalendarCard);
-  }
   if (event.target.classList.contains('steps-go-back-button')) {
     flipCard(event.target.parentNode, stepsMainCard);
   }
-  if (event.target.classList.contains('hydration-go-back-button')) {
-    flipCard(event.target.parentNode, hydrationMainCard);
+}
+
+function sleepHandler() {
+  const sleepMainCard = document.querySelector('#sleep-main-card');
+  const sleepInfoCard = document.querySelector('#sleep-info-card');
+  const sleepAllUsersCard = document.querySelector('#sleep-all-users-card');
+  const sleepCalendarCard = document.querySelector('#sleep-calendar-card');
+  if (event.target.classList.contains('sleep-info-button')) {
+    flipCard(sleepMainCard, sleepInfoCard);
   }
-  if (event.target.classList.contains('stairs-go-back-button')) {
-    flipCard(event.target.parentNode, stairsMainCard);
+  if (event.target.classList.contains('sleep-all-users-button')) {
+    flipCard(sleepMainCard, sleepAllUsersCard);
+  }
+  if (event.target.classList.contains('sleep-calendar-button')) {
+    flipCard(sleepMainCard, sleepCalendarCard);
   }
   if (event.target.classList.contains('sleep-go-back-button')) {
     flipCard(event.target.parentNode, sleepMainCard);
+  }
+}
+
+function stairsHandler() {
+  const stairsMainCard = document.querySelector('#stairs-main-card');
+  const stairsInfoCard = document.querySelector('#stairs-info-card');
+  const stairsAllUsersCard = document.querySelector('#stairs-all-users-card');
+  const stairsTrendingCard = document.querySelector('#stairs-trending-card');
+  const stairsCalendarCard = document.querySelector('#stairs-calendar-card');
+  if (event.target.classList.contains('stairs-info-button')) {
+    flipCard(stairsMainCard, stairsInfoCard);
+  }
+  if (event.target.classList.contains('stairs-all-users-button')) {
+    flipCard(stairsMainCard, stairsAllUsersCard);
+  }
+  if (event.target.classList.contains('stairs-trending-button')) {
+    flipCard(stairsMainCard, stairsTrendingCard);
+  }
+  if (event.target.classList.contains('stairs-calendar-button')) {
+    flipCard(stairsMainCard, stairsCalendarCard);
+  }
+  if (event.target.classList.contains('stairs-go-back-button')) {
+    flipCard(event.target.parentNode, stairsMainCard);
   }
 }
 
