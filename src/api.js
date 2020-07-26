@@ -65,13 +65,13 @@ function getApiData() {
 
 
 // sleep data
-function postSleepData(inputSleepObj) {
-  let sleepData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData', {
+function postSleepData(sleepInputInstance) {
+  let sleepPostData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData', {
   method: 'POST',
   headers: {
     'content-Type': 'application/json'
   },
-  body: JSON.stringify(inputSleepObj)
+  body: JSON.stringify(sleepInputInstance)
   })
   .then(response => response.json())
   // .then(json => )
@@ -79,41 +79,33 @@ function postSleepData(inputSleepObj) {
 // resolve promise
 }
 // //activity data
-// fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData', {
-//     method: 'POST',
-//     headers: {
-//       'content-Type': 'application/json'
-//     },
-//     body: JSON.stringify({
-//       "userID": integer,
-//       "date": string,
-//       "numSteps": integer,
-//       "minutesActive": integer,
-//       "flightsOfStairs": integer
-//     }),
-//   })
-//   .then(response => response.json())
+function postActivityData(activityInputInstance) {
+let activityPostData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData', {
+    method: 'POST',
+    headers: {
+      'content-Type': 'application/json'
+    },
+    body: JSON.stringify(),
+  })
+  .then(response => response.json(activityInputInstance))
   // .then(json => )
-//   .catch(error => console.log(error));
+  .catch(error => console.log(error));
 // // resolve promise
+}
 
-// //hydration data
-// fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData', {
-//     method: 'POST',
-//     headers: {
-//       'content-Type': 'application/json'
-//     },
-//     body: JSON.stringify({
-//       "userID": user.id,
-//       "date": todayDate,
-//       "numOunces": 
-//     }),
-//   })
-//   .then(response => response.json())
-//   // .then(json => )
-//   .catch(error => console.log(error));
+function postHydrationData(hydrationInputInstance) {
+fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData', {
+    method: 'POST',
+    headers: {
+      'content-Type': 'application/json'
+    },
+    body: JSON.stringify(hydrationInputInstance),
+  })
+  .then(response => response.json())
+  // .then(json => )
+  .catch(error => console.log(error));
 // //resolve promise
-
+}
 // // when doing a fetch call
 // // a promise is unresolved result of an async action
 // // calling a method in .then, waiting for result of promise. takes time
