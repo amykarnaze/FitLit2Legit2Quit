@@ -50,24 +50,11 @@
     }
   }
 
-  // adds object to user.ouncesRecord with date and oz drank
-  // updates user.ouncesAverage with initial amount or average of 2 or more days using action object - instead use property added to User class
-
   updateHydration(action) {
     this.ouncesRecord.unshift({[action.date]: action.ounces});
     let newHydration = Object.values(this.ouncesRecord[0])[0]
-    this.updateAverage(newHydration, this.ouncesRecord, this.ouncesAverage, 'ouncesAverage', 0)
-    // this.updateOuncesAverage();
-  }
-
-  updateOuncesAverage() {
-    let newHydration = Object.values(this.ouncesRecord[0])[0]
-    console.log(Object.values(this.ouncesRecord[0]))
-    if (this.ouncesRecord.length) {
-      this.ouncesAverage = Math.round(this.calculateAverage(newHydration, this.ouncesRecord, this.ouncesAverage));
-    } else {
-      this.ouncesAverage = newHydration;
-    }
+    this.updateAverage(newHydration, this.ouncesRecord, this.ouncesAverage, 'ouncesAverage')
+    this.ouncesAverage = parseInt(this.ouncesAverage)
   }
 
   updateSleep(action) {
@@ -79,8 +66,8 @@
       'date': action.date,
       'quality': action.sleepQuality
     });
-    this.updateAverage(this.sleepQualityRecord[0].quality, this.sleepQualityRecord, this.sleepQualityAverage, 'sleepQualityAverage', 1)
-    this.updateAverage(this.sleepHoursRecord[0].hours, this.sleepHoursRecord, this.hoursSleptAverage, 'hoursSleptAverage', 1)
+    this.updateAverage(this.sleepQualityRecord[0].quality, this.sleepQualityRecord, this.sleepQualityAverage, 'sleepQualityAverage')
+    this.updateAverage(this.sleepHoursRecord[0].hours, this.sleepHoursRecord, this.hoursSleptAverage, 'hoursSleptAverage')
   }
 
   calculateAverage(newLog, recordList, average) {
@@ -89,20 +76,11 @@
 
   updateAverage(newLog, recordList, average, attributeName, decimal) {
     if (recordList.length > 1) {
-      this[attributeName] = this.calculateAverage(newLog, recordList, average).toFixed(decimal);
+      this[attributeName] = this.calculateAverage(newLog, recordList, average).toFixed(1);
     } else {
       this[attributeName] = newLog;
     }
   }
-
-// sad path test potentially -- if a value is 0 --would mess up averages
-// don't need conditional inside update average?
-  // adds activity object to this.activitiesRecord
-  // adds activity date to this.accomplishedDays if step goal is met that day
-
-// probably should be refactored
-// update user.sleepHoursRecord and user.sleepQualityRecord with object that contains date logged and hours slept; same for sleep quality
-//update user.hoursSleptAverage and user.sleepQualityAverage with that day's amount if only 1 day on record, or average of 2+ days
 
   calculateAverageHoursThisWeek(todayDate) {
     return (this.sleepHoursRecord.reduce((sum, sleepAct) => {

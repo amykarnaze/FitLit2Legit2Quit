@@ -323,18 +323,29 @@ describe('User', function() {
 
   ---
 
-  // updateHoursSleptAverage() {
-  //   let hoursRecord = this.sleepHoursRecord;
-  //   let newHours = hoursRecord[0].hours;
-  //
-  //   if (hoursRecord.length) {
-  //         let average = this.hoursSleptAverage
-  //     this.hoursSleptAverage = ((newHours + (this.hoursSleptAverage * (hoursRecord.length - 1))) / hoursRecord.length).toFixed(1);
-  //         console.log(average, this.hoursSleptAverage)
-  //   } else {
-  //     this.hoursSleptAverage = newHours;
-  //   }
-  // }
+  updateHoursSleptAverage() {
+    let hoursRecord = this.sleepHoursRecord;
+    let newHours = hoursRecord[0].hours;
+
+    if (hoursRecord.length) {
+          let average = this.hoursSleptAverage
+      this.hoursSleptAverage = ((newHours + (this.hoursSleptAverage * (hoursRecord.length - 1))) / hoursRecord.length).toFixed(1);
+          console.log(average, this.hoursSleptAverage)
+    } else {
+      this.hoursSleptAverage = newHours;
+    }
+  }
+  --
+
+  updateOuncesAverage() {
+    let newHydration = Object.values(this.ouncesRecord[0])[0]
+    console.log(Object.values(this.ouncesRecord[0]))
+    if (this.ouncesRecord.length) {
+      this.ouncesAverage = Math.round(this.calculateAverage(newHydration, this.ouncesRecord, this.ouncesAverage));
+    } else {
+      this.ouncesAverage = newHydration;
+    }
+  }
   //
   // updateSleepQualityRecord() {
   //   let qualityRecord = this.sleepQualityRecord;
@@ -346,6 +357,15 @@ describe('User', function() {
   //     this.sleepQualityAverage = newQuality;
   //   }
   // }
+  // sad path test potentially -- if a value is 0 --would mess up averages
+  // don't need conditional inside update average?
+    // adds activity object to this.activitiesRecord
+    // adds activity date to this.accomplishedDays if step goal is met that day
+
+  // probably should be refactored
+  // update user.sleepHoursRecord and user.sleepQualityRecord with object that contains date logged and hours slept; same for sleep quality
+  //update user.hoursSleptAverage and user.sleepQualityAverage with that day's amount if only 1 day on record, or average of 2+ days
+
 
   // ((newHours + (this.hoursSleptAverage * (hoursRecord.length - 1))) / hoursRecord.length); --- just make this piece a function -- calculateAverage
   // what are similar things in every single function? -
