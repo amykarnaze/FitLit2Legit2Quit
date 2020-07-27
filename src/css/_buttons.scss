@@ -93,9 +93,16 @@ button:active {
 }
 
 .stairs-button {
-  background-color: $stairs-color;
+  background-color: $stairs-color
 }
 
 .sleep-button {
-  background-color: $sleep-color;
+  background-color: $sleep-color
+}
+
+.submit {
+  margin-left: 70%;
+  width: 20%;
+  height: 150%;
+  font-size: 20px
 }

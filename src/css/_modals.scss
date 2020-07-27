@@ -55,8 +55,8 @@
 }
 
 input {
-  width: 5%;
-  font-size: 35px;
+  width: 10%;
+  font-size: 30px;
 }
 
 .modal-div {
@@ -83,13 +83,19 @@ input {
 .alert-modal {
   display: none;
   position: fixed;
-  align-items: center;
+  justify-content: flex-start;
+  align-content: flex-start;
   z-index: 101;
   top: 80%;
   left: 70%;
   width: 25%;
-  height: 10%;
-  overflow: auto;
+  height: auto;
   background-color: rgb(0,0,0);
   background-color: rgba(0,0,0,0.9);
+}
+
+.alert-text {
+  margin-right: 0px;
+  align-items: flex-start;
+  text-align: left;
 }

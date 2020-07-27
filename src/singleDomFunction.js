@@ -9,7 +9,7 @@ class domTestTest{
   dropdownEmailTest() {
     let dropdownEmail = document.querySelector('#dropdown-email');
     dropdownEmail.innerText = "email";
-  } 
+  }
 
   friendsStepContainerTest() {
     let dropdownFriendsStepsContainer = document.querySelector(
@@ -46,6 +46,26 @@ class domTestTest{
     let hydrationAllUsersCard = document.querySelector(
       "#hydration-all-users-card");
     hydrationAllUsersCard.innerText = 'people should drink water';
+  }
+  dailyOzCreaterTest() {
+    let dailyOz = document.querySelectorAll('.daily-oz');
+    Array.from(dailyOz).forEach((drinkSlot, index) => {
+      drinkSlot.innerText = "##";
+    })
+  }
+  displayFriendsStepsColorTest() {
+    let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
+    Array.from(friendsStepsParagraphs).forEach(paragraph => {
+      if (friendsStepsParagraphs[0] === paragraph) {
+        paragraph.classList.add('green-text');
+      }
+      if (friendsStepsParagraphs[friendsStepsParagraphs.length - 1] === paragraph) {
+        paragraph.classList.add('red-text');
+      }
+      if (paragraph.innerText.includes('YOU')) {
+        paragraph.classList.add('yellow-text');
+      }
+    });
   }
  }
 

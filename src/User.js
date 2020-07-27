@@ -37,30 +37,36 @@
     }, 0)
   }
 
-  // updateHydration(date, amount) {
-  //   this.ouncesRecord.unshift({[date]: amount});
-  //   if (this.ouncesRecord.length) {
-  //     this.ouncesAverage = Math.round((amount + (this.ouncesAverage * (this.ouncesRecord.length - 1))) / this.ouncesRecord.length);
-  //   } else {
-  //     this.ouncesAverage = amount;
-  //   }
-  // }
-  // adds object to user.ouncesRecord with date and oz drank
-  // updates user.ouncesAverage with initial amount or average of 2 or more days
+  updateAccomplishedDays() {
+    let newSteps = this.activityRecord[0].numSteps
+    let newDate = this.activityRecord[0].date
+    if (newSteps >= this.dailyStepGoal) {
+      this.accomplishedDays.unshift(newDate);
+    }
+  }
+
+  calculateAverage(newLog, recordList, average) {
+    return ((newLog + (average * (recordList.length - 1))) / recordList.length)
+  }
+
+  updateAverage(newLog, recordList, average, attributeName, decimal) {
+    if (recordList.length > 1) {
+      this[attributeName] = this.calculateAverage(newLog, recordList, average).toFixed(1);
+    } else {
+      this[attributeName] = newLog;
+    }
+  }
+
+  updateActivities(action) {
+    this.activityRecord.unshift(action);
+    this.updateAccomplishedDays();
+  }
 
   updateHydration(action) {
     this.ouncesRecord.unshift({[action.date]: action.ounces});
-    if (this.ouncesRecord.length) {
-      this.ouncesAverage = Math.round((action.ounces + (this.ouncesAverage * (this.ouncesRecord.length - 1))) / this.ouncesRecord.length);
-    } else {
-      this.ouncesAverage = action.ounces;
-    }
-  }
-  updateActivities(action) {
-    this.activityRecord.unshift(action);
-    if (action.numSteps >= this.dailyStepGoal) {
-      this.accomplishedDays.unshift(action.date);
-    }
+    let newHydration = Object.values(this.ouncesRecord[0])[0]
+    this.updateAverage(newHydration, this.ouncesRecord, this.ouncesAverage, 'ouncesAverage')
+    this.ouncesAverage = parseInt(this.ouncesAverage)
   }
 
   updateSleep(action) {
@@ -72,65 +78,36 @@
       'date': action.date,
       'quality': action.sleepQuality
     });
-    if(this.sleepHoursRecord.length) {
-      this.hoursSleptAverage = ((action.hoursSlept + (this.hoursSleptAverage * (this.sleepHoursRecord.length - 1))) / this.sleepHoursRecord.length).toFixed(1);
-    } else {
-      this.hoursSleptAverage = action.hoursSlept;
-    }
-    if (this.sleepQualityRecord.length) {
-      this.sleepQualityAverage = ((action.sleepQuality + (this.sleepQualityAverage * (this.sleepQualityRecord.length - 1))) / this.sleepQualityRecord.length).toFixed(1);
-    } else {
-      this.sleepQualityAverage = action.sleepQuality;
-    }
-  }
-  
-  // adds activity object to this.activitiesRecord
-  // adds activity date to this.accomplishedDays if step goal is met that day
-
-  // updateSleep(date, hours, quality) {
-  //   this.sleepHoursRecord.unshift({
-  //     'date': date,
-  //     'hours': hours
-  //   });
-  //   this.sleepQualityRecord.unshift({
-  //     'date': date,
-  //     'quality': quality
-  //   });
-  //   if(this.sleepHoursRecord.length) {
-  //     this.hoursSleptAverage = ((hours + (this.hoursSleptAverage * (this.sleepHoursRecord.length - 1))) / this.sleepHoursRecord.length).toFixed(1);
-  //   } else {
-  //     this.hoursSleptAverage = hours;
-  //   }
-  //   if (this.sleepQualityRecord.length) {
-  //     this.sleepQualityAverage = ((quality + (this.sleepQualityAverage * (this.sleepQualityRecord.length - 1))) / this.sleepQualityRecord.length).toFixed(1);
-  //   } else {
-  //     this.sleepQualityAverage = quality;
-  //   }
-  // }
-
-
-// probably should be refactored
-// update user.sleepHoursRecord and user.sleepQualityRecord with object that contains date logged and hours slept; same for sleep quality
-//update user.hoursSleptAverage and user.sleepQualityAverage with that day's amount if only 1 day on record, or average of 2+ days
-
-  calculateAverageHoursThisWeek(todayDate) {
-    return (this.sleepHoursRecord.reduce((sum, sleepAct) => {
-      let index = this.sleepHoursRecord.indexOf(this.sleepHoursRecord.find(sleep => sleep.date === todayDate));
-      if (index <= this.sleepHoursRecord.indexOf(sleepAct) && this.sleepHoursRecord.indexOf(sleepAct) <= (index + 6)) {
-        sum += sleepAct.hours;
-      }
-      return sum;
-    }, 0) / 7).toFixed(1);
+    this.updateAverage(this.sleepQualityRecord[0].quality, this.sleepQualityRecord, this.sleepQualityAverage, 'sleepQualityAverage')
+    this.updateAverage(this.sleepHoursRecord[0].hours, this.sleepHoursRecord, this.hoursSleptAverage, 'hoursSleptAverage')
   }
 
-  calculateAverageQualityThisWeek(todayDate) {
-    return (this.sleepQualityRecord.reduce((sum, sleepAct) => {
-      let index = this.sleepQualityRecord.indexOf(this.sleepQualityRecord.find(sleep => sleep.date === todayDate));
-      if (index <= this.sleepQualityRecord.indexOf(sleepAct) && this.sleepQualityRecord.indexOf(sleepAct) <= (index + 6)) {
-        sum += sleepAct.quality;
+  //average this week methods are all similar (5x -- possibly calculateTotalStepsThisWeek for 6th -- difference = / 7 at the end)
+  // ****REMEMBER TO CHECK SCRIPTS FOR METHOD USE****
+
+  calculateTotalStepsThisWeek(todayDate) {
+    this.totalStepsThisWeek = (this.activityRecord.reduce((sum, activity) => {
+      let index = this.activityRecord.indexOf(this.activityRecord.find(activity => activity.date === todayDate));
+      if (index <= this.activityRecord.indexOf(activity) && this.activityRecord.indexOf(activity) <= (index + 6)) {
+        sum += activity.steps;
       }
       return sum;
-    }, 0) / 7).toFixed(1);
+    }, 0));
+  }
+
+  calculateIndexToday(todayDate, record) {
+    return this[record].indexOf(this[record].find(action => action.date === todayDate));
+  }
+
+  calculateWeeklyAverage(todayDate, actionDetail, record) {
+    return (this[record].reduce((sum, action) => {
+      let indexToday = this.calculateIndexToday(todayDate, record)
+      let indexAction = this[record].indexOf(action)
+      if (indexToday <= indexAction && indexAction <= (indexToday + 6)) {
+        sum += action[actionDetail];
+      }
+      return sum;
+    }, 0) / 7);
   }
 
   findClimbingRecord() {
@@ -148,35 +125,7 @@
     return Math.round(totalMinutes * 7.6);
   }
 
-  calculateAverageMinutesActiveThisWeek(todayDate) {
-    return (this.activityRecord.reduce((sum, activity) => {
-      let index = this.activityRecord.indexOf(this.activityRecord.find(activity => activity.date === todayDate));
-      if (index <= this.activityRecord.indexOf(activity) && this.activityRecord.indexOf(activity) <= (index + 6)) {
-        sum += activity.minutesActive;
-      }
-      return sum;
-    }, 0) / 7).toFixed(0);
-  }
-
-  calculateAverageStepsThisWeek(todayDate) {
-    return (this.activityRecord.reduce((sum, activity) => {
-      let index = this.activityRecord.indexOf(this.activityRecord.find(activity => activity.date === todayDate));
-      if (index <= this.activityRecord.indexOf(activity) && this.activityRecord.indexOf(activity) <= (index + 6)) {
-        sum += activity.steps;
-      }
-      return sum;
-    }, 0) / 7).toFixed(0);
-  }
-
-  calculateAverageFlightsThisWeek(todayDate) {
-    return (this.activityRecord.reduce((sum, activity) => {
-      let index = this.activityRecord.indexOf(this.activityRecord.find(activity => activity.date === todayDate));
-      if (index <= this.activityRecord.indexOf(activity) && this.activityRecord.indexOf(activity) <= (index + 6)) {
-        sum += activity.flightsOfStairs;
-      }
-      return sum;
-    }, 0) / 7).toFixed(1);
-  }
+  //trending functions 2x similar
 
   findTrendingStepDays() {
     let positiveDays = [];
@@ -222,16 +171,6 @@
     this.friends.forEach(friend => {
       this.friendsNames.push(users.find(user => user.id === friend).getFirstName());
     })
-  }
-
-  calculateTotalStepsThisWeek(todayDate) {
-    this.totalStepsThisWeek = (this.activityRecord.reduce((sum, activity) => {
-      let index = this.activityRecord.indexOf(this.activityRecord.find(activity => activity.date === todayDate));
-      if (index <= this.activityRecord.indexOf(activity) && this.activityRecord.indexOf(activity) <= (index + 6)) {
-        sum += activity.steps;
-      }
-      return sum;
-    }, 0));
   }
 
   findFriendsTotalStepsForWeek(users, date) {

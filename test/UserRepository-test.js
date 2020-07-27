@@ -148,7 +148,7 @@ describe('UserRepository', function() {
       "hoursSlept": 9.3,
       "sleepQuality": 1.4
     }, userRepository);
-    expect(userRepository.findBestSleepers("2019/06/16")).to.deep.equal([user1, user2]);
+    expect(userRepository.findBestSleepers("2019/06/16", 'quality', 'sleepQualityRecord')).to.deep.equal([user1, user2]);
   });
   it('should have a method that finds the longest sleepers', function() {
     const sleepData = [{

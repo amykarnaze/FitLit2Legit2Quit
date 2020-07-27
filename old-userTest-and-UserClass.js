@@ -279,3 +279,125 @@ describe('User', function() {
     expect(user.friendsActivityRecords).to.deep.equal([{"firstName": "JOHN", "id": 4, "totalWeeklySteps": 734}, {"firstName":"BEN", "id": 16, "totalWeeklySteps": 248}, {"firstName": "NICK", "id": 8, "totalWeeklySteps": 34}, {"firstName": "YOU", "id": 1, "totalWeeklySteps": 0}]);
   });
 });
+
+
+
+//OLD USER METHODS
+
+  updateHydration(date, amount) {
+    this.ouncesRecord.unshift({[date]: amount});
+    if (this.ouncesRecord.length) {
+      this.ouncesAverage = Math.round((amount + (this.ouncesAverage * (this.ouncesRecord.length - 1))) / this.ouncesRecord.length);
+    } else {
+      this.ouncesAverage = amount;
+    }
+  }
+
+  updateActivities(action) {
+    this.activityRecord.unshift(action);
+    if (action.numSteps >= this.dailyStepGoal) {
+      this.accomplishedDays.unshift(action.date);
+    }
+  }
+
+  updateSleep(date, hours, quality) {
+    this.sleepHoursRecord.unshift({
+      'date': date,
+      'hours': hours
+    });
+    this.sleepQualityRecord.unshift({
+      'date': date,
+      'quality': quality
+    });
+    if(this.sleepHoursRecord.length) {
+      this.hoursSleptAverage = ((hours + (this.hoursSleptAverage * (this.sleepHoursRecord.length - 1))) / this.sleepHoursRecord.length).toFixed(1);
+    } else {
+      this.hoursSleptAverage = hours;
+    }
+    if (this.sleepQualityRecord.length) {
+      this.sleepQualityAverage = ((quality + (this.sleepQualityAverage * (this.sleepQualityRecord.length - 1))) / this.sleepQualityRecord.length).toFixed(1);
+    } else {
+      this.sleepQualityAverage = quality;
+    }
+  }
+
+  ---
+
+  updateHoursSleptAverage() {
+    let hoursRecord = this.sleepHoursRecord;
+    let newHours = hoursRecord[0].hours;
+
+    if (hoursRecord.length) {
+          let average = this.hoursSleptAverage
+      this.hoursSleptAverage = ((newHours + (this.hoursSleptAverage * (hoursRecord.length - 1))) / hoursRecord.length).toFixed(1);
+          console.log(average, this.hoursSleptAverage)
+    } else {
+      this.hoursSleptAverage = newHours;
+    }
+  }
+  --
+
+  updateOuncesAverage() {
+    let newHydration = Object.values(this.ouncesRecord[0])[0]
+    console.log(Object.values(this.ouncesRecord[0]))
+    if (this.ouncesRecord.length) {
+      this.ouncesAverage = Math.round(this.calculateAverage(newHydration, this.ouncesRecord, this.ouncesAverage));
+    } else {
+      this.ouncesAverage = newHydration;
+    }
+  }
+  //
+  // updateSleepQualityRecord() {
+  //   let qualityRecord = this.sleepQualityRecord;
+  //   let newQuality = qualityRecord[0].quality;
+  //   if (qualityRecord.length) {
+  //     // will need to pass in string as 4th argument if want to refer to this.sleepQualityAverage
+  //     this.sleepQualityAverage = this.calculateAverage(newQuality, qualityRecord, this.sleepQualityAverage)
+  //   } else {
+  //     this.sleepQualityAverage = newQuality;
+  //   }
+  // }
+  // sad path test potentially -- if a value is 0 --would mess up averages
+  // don't need conditional inside update average?
+    // adds activity object to this.activitiesRecord
+    // adds activity date to this.accomplishedDays if step goal is met that day
+
+  // probably should be refactored
+  // update user.sleepHoursRecord and user.sleepQualityRecord with object that contains date logged and hours slept; same for sleep quality
+  //update user.hoursSleptAverage and user.sleepQualityAverage with that day's amount if only 1 day on record, or average of 2+ days
+
+
+  // ((newHours + (this.hoursSleptAverage * (hoursRecord.length - 1))) / hoursRecord.length); --- just make this piece a function -- calculateAverage
+  // what are similar things in every single function? -
+
+
+
+  // break down User upate functions into helper functions:
+  // 1. ounces/activity/sleepHoursRecord
+  // 2. if they use #1 to update other properties -- those should be separate functions called inside update methods
+
+
+  ----WEEKLY AVERAGE METHODS----
+  // calculateAverageHoursThisWeek
+  // user.calculateWeeklyAverage('2019/09/21', 'hours', 'sleepHoursRecord')
+
+  // calculateAverageHoursThisWeek(todayDate) {
+  //   return (this.sleepHoursRecord.reduce((sum, sleepAct) => {
+  //     let index = this.sleepHoursRecord.indexOf(this.sleepHoursRecord.find(sleep => sleep.date === todayDate));
+  //
+  //     if (index <= this.sleepHoursRecord.indexOf(sleepAct) && this.sleepHoursRecord.indexOf(sleepAct) <= (index + 6)) {
+  //       sum += sleepAct.hours;
+  //     }
+  //     return sum;
+  //   }, 0) / 7).toFixed(1);
+  // }
+
+  calculateAverageQualityThisWeek(todayDate) {
+    return (this.sleepQualityRecord.reduce((sum, sleepAct) => {
+      let index = this.sleepQualityRecord.indexOf(this.sleepQualityRecord.find(sleep => sleep.date === todayDate));
+      if (index <= this.sleepQualityRecord.indexOf(sleepAct) && this.sleepQualityRecord.indexOf(sleepAct) <= (index + 6)) {
+        sum += sleepAct.quality;
+      }
+      return sum;
+    }, 0) / 7).toFixed(1);
+  }
