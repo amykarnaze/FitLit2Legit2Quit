@@ -110,19 +110,6 @@
     }, 0) / 7);
   }
 
-  // ***NOTE: toFixed() needs to be accounted for to use calculateWeeklyAverage!!!!
-  // user.calculateWeeklyAverage('2019/09/17', 'minutesActive', 'activityRecord').toFixed(0)
-
-  calculateAverageFlightsThisWeek(todayDate) {
-    return (this.activityRecord.reduce((sum, activity) => {
-      let index = this.activityRecord.indexOf(this.activityRecord.find(activity => activity.date === todayDate));
-      if (index <= this.activityRecord.indexOf(activity) && this.activityRecord.indexOf(activity) <= (index + 6)) {
-        sum += activity.flightsOfStairs;
-      }
-      return sum;
-    }, 0) / 7).toFixed(1);
-  }
-
   findClimbingRecord() {
     return this.activityRecord.sort((a, b) => {
       return b.flightsOfStairs - a.flightsOfStairs;
