@@ -110,16 +110,6 @@
     }, 0) / 7);
   }
 
-  // calculateAverageQualityThisWeek(todayDate) {
-  //   return (this.sleepQualityRecord.reduce((sum, sleepAct) => {
-  //     let index = this.sleepQualityRecord.indexOf(this.sleepQualityRecord.find(sleep => sleep.date === todayDate));
-  //     if (index <= this.sleepQualityRecord.indexOf(sleepAct) && this.sleepQualityRecord.indexOf(sleepAct) <= (index + 6)) {
-  //       sum += sleepAct.quality;
-  //     }
-  //     return sum;
-  //   }, 0) / 7).toFixed(1);
-  // }
-
   // ***NOTE: toFixed() needs to be accounted for to use calculateWeeklyAverage!!!!
   // user.calculateWeeklyAverage('2019/09/17', 'minutesActive', 'activityRecord').toFixed(0)
 

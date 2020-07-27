@@ -373,7 +373,7 @@ function displayCalenderSteps() {
   stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
     return (activity.date === todayDate && activity.userId === user.id)
   }).calculateMiles(userRepository);
-  stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate);
+  stepsCalendarTotalStepsWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'steps', 'activityRecord').toFixed(0)
   stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'minutesActive', 'activityRecord').toFixed(0)
   stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
     return activity.userID === user.id && activity.date === todayDate;
