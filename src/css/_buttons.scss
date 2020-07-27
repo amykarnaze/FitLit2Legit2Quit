@@ -39,16 +39,6 @@ button:active {
   width: 5.6vw;
 }
 
-.submit {
-  @extend buttons;
-  font-size: 3em;
-  color: $white;
-  background-color: $primary-background;
-  padding-left: 37%;
-  padding-top: 2%;
-  font-weight: bold;
-}
-
 .info-button {
   @extend buttons;
   display: inline;
@@ -101,6 +91,9 @@ button:active {
 }
 
 .submit {
+  background-color: $primary-background;
+  color: $white;
+  border: solid;
   margin-left: 70%;
   width: 20%;
   height: 150%;
