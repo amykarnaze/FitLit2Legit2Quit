@@ -1,0 +1,27 @@
+#add-instances-dropdown {
+  background-color: $primary-background;
+  color: $white;
+  margin-right: 70%;
+  margin-top: -1.2%;
+  text-align: center;
+  position: absolute;
+  margin-top: 8%;
+  padding: 0 7%;
+  z-index: 100;
+  border-style: solid;
+  border-color: $white;
+}
+
+#add-instances-dropdown a {
+  display: block;
+  float: none;
+}
+
+.add-sleep, .add-hydration, .add-activity {
+  font-size: 2.2vw;
+  font-weight: 300;
+  padding-bottom: 1vw;
+  padding-top: 0;
+  text-align: center;
+  width: 100%;
+}

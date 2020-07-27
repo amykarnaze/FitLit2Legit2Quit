@@ -3,6 +3,8 @@
 @import 'modals';
 @import 'text';
 @import 'buttons';
+@import 'instance-dropdown';
+@import 'media-queries';
 
 *,
 *:after,
@@ -49,10 +51,11 @@ header {
   background-color: $primary-background;
   color: $white;
   margin-left: 60%;
-  margin-top: -1.2%;
   position: relative;
   text-align: center;
   z-index: 100;
+  border-style: solid;
+  border-color: $white;
 }
 
 .dropdown-p {
