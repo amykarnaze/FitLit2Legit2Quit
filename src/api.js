@@ -36,8 +36,8 @@ function fetchedHydrationData() {
 //   // call then on the promises after promise All resolved
 //   // (creating a 5th promise w promise.ALL)
 //   // array of promises and turn it into an array of data with map
-//   // reduce into the object we want to return 
-  
+//   // reduce into the object we want to return
+
 // }
 
 
@@ -58,7 +58,7 @@ const getApiData = () => {
   // have asyn func that depends on the funcitonality somewere else
   // promise.all.then on 48. we could chain what on script on left w getApiData
   // need to return promise from apiData
-  // then we can call .then on it in scripts 
+  // then we can call .then on it in scripts
   // code is not run top to bottom
   // after bchunch of work finishes, then do the thing (left side)
 

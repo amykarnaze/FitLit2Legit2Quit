@@ -454,7 +454,7 @@ function createSleepInstance() {
 }
 
 function createHydrationInstance(newHydration) {
-  let verifiedNumber = verifyNumberInput(userOunces, 0, 200);
+  let verifiedNumber = verifyNumberInput(userOunces, 1, 200);
   if (verifiedNumber === true) {
     const newHydration = {
       userID: user.id,
@@ -469,8 +469,8 @@ function createHydrationInstance(newHydration) {
 }
 
 function createActivityInstance() {
-  let verifiedNumber1 = verifyNumberInput(userNumberOfSteps, 0, 25000);
-  let verifiedNumber2 = verifyNumberInput(userMinutesActive, 0, 480);
+  let verifiedNumber1 = verifyNumberInput(userNumberOfSteps, 1, 25000);
+  let verifiedNumber2 = verifyNumberInput(userMinutesActive, 1, 480);
   let verifiedNumber3 = verifyNumberInput(userFlightsOfStairs, 0, 500);
   if (
     verifiedNumber1 === true &&
@@ -507,16 +507,16 @@ function userInputHandler(event) {
 }
 
 function verifyNumberInput(amount, min, max) {
+  const alertText = document.querySelector('.alert-text');
   const submitButton = document.getElementsByClassName("submit");
-  if (amount < min || amount >= max) {
-    alert(`Please enter a number between ${min} - ${max}`);
+  if (amount < min || amount >= max || !amount) {
+    displayRecordedAlert(null, true, min, max);
     submitButton.disabled = true;
     return false;
   } else {
     return true;
   }
 }
-
 
 function postSleepData(sleepInputInstance) {
   let sleepPostData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData', {
@@ -564,10 +564,14 @@ function postHydrationData(hydrationInputInstance) {
   // //resolve promise
 }
 
-function displayRecordedAlert(action) {
+function displayRecordedAlert(action, isInvalid, min, max) {
   const alertModal = document.querySelector('.alert-modal');
   const alertText = document.querySelector('.alert-text');
   alertModal.style.display = "flex";
-  alertText.innerText = `${action} data recorded.`;
+  if (isInvalid) {
+    alertText.innerText = `Please enter a number between ${min} - ${max}`;
+  } else {
+    alertText.innerText = `${action} data recorded.`;
+  }
   window.setTimeout(() => {alertModal.style.display = "none"}, 2500);
 }
