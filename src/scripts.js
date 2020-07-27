@@ -64,6 +64,7 @@ function populatePage() {
 
 let currentDate = moment().format('YYYY/MM/DD')
 let todayDate = "2019/09/22";
+let currentDate = moment().format('YYYY/MM/DD');
 let userHoursSlept;
 let userSleepQuality;
 let userOunces;
@@ -117,7 +118,7 @@ function handleStairsDaysButton() {
 
 function handleStepDays() {
   updateTrendingStepDays()
-} 
+}
 
 function displayModal(event) {
   const sleepModal = document.querySelector('.mpopup-sleep');
@@ -301,7 +302,7 @@ function displayDropDown() {
 }
 
 function displayName() {
-  const headerName = document.querySelector('#header-name');  
+  const headerName = document.querySelector('#header-name');
   headerName.innerText = `${user.getFirstName()}'S `;
 }
 
@@ -412,7 +413,7 @@ function displayFriendsSteps() {
     <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
     `;
   });
-} 
+}
 
 function displayFriendsStepsColor() {
   let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
@@ -450,9 +451,8 @@ function createSleepInstance() {
       sleepQuality: userSleepQuality,
     };
     const newSleepInstance = new Sleep(newSleep, userRepository);
-      postSleepData(newSleep);
-
-
+    postSleepData(newSleep);
+    displayRecordedAlert("Sleep");
   }
 }
 
@@ -465,10 +465,9 @@ function createHydrationInstance(newHydration) {
       numOunces: userOunces,
     };
     const newHydrationInstance = new Hydration(newHydration, userRepository);
-        console.log('var', newHydration)
-
     postHydrationData(newHydration)
     // also get? so can update variable to include all plus new
+    displayRecordedAlert("Hydration");
   }
 }
 
@@ -490,6 +489,7 @@ function createActivityInstance() {
     };
     const newActivityInstance = new Activity(newActivity, userRepository);
     postActivityData(newActivity);
+    displayRecordedAlert("Activity");
   }
 }
 
@@ -519,6 +519,7 @@ function verifyNumberInput(amount, min, max) {
     return true;
   }
 }
+
 
 function postSleepData(sleepInputInstance) {
   let sleepPostData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData', {
@@ -564,4 +565,12 @@ function postHydrationData(hydrationInputInstance) {
     .then(data => console.log('data', data))
     .catch(error => console.log(error));
   // //resolve promise
+}
+
+function displayRecordedAlert(action) {
+  const alertModal = document.querySelector('.alert-modal');
+  const alertText = document.querySelector('.alert-text');
+  alertModal.style.display = "flex";
+  alertText.innerText = `${action} data recorded.`;
+  window.setTimeout(() => {alertModal.style.display = "none"}, 2500);
 }
