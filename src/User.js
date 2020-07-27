@@ -83,6 +83,7 @@
   }
 
   //average this week methods are all similar (5x -- possibly calculateTotalStepsThisWeek for 6th -- difference = / 7 at the end)
+  // ****REMEMBER TO CHECK SCRIPTS FOR METHOD USE****
 
   calculateTotalStepsThisWeek(todayDate) {
     this.totalStepsThisWeek = (this.activityRecord.reduce((sum, activity) => {
@@ -98,28 +99,29 @@
     return this[record].indexOf(this[record].find(action => action.date === todayDate));
   }
 
-  calculateI(todayDate, actionDetail, record) {
+  calculateWeeklyAverage(todayDate, actionDetail, record) {
     return (this[record].reduce((sum, action) => {
       let indexToday = this.calculateIndexToday(todayDate, record)
-      if (indexToday <= this[record].indexOf(action) && this[record].indexOf(action) <= (indexToday + 6)) {
+      let indexAction = this[record].indexOf(action)
+      if (indexToday <= indexAction && indexAction <= (indexToday + 6)) {
         sum += action[actionDetail];
       }
       return sum;
     }, 0) / 7).toFixed(1);
   }
   // calculateAverageHoursThisWeek
-  // user.calculateI('2019/09/21', 'hours', this.sleepHoursRecord)
+  // user.calculateWeeklyAverage('2019/09/21', 'hours', 'sleepHoursRecord')
 
-  calculateAverageHoursThisWeek(todayDate) {
-    return (this.sleepHoursRecord.reduce((sum, sleepAct) => {
-      let index = this.sleepHoursRecord.indexOf(this.sleepHoursRecord.find(sleep => sleep.date === todayDate));
-
-      if (index <= this.sleepHoursRecord.indexOf(sleepAct) && this.sleepHoursRecord.indexOf(sleepAct) <= (index + 6)) {
-        sum += sleepAct.hours;
-      }
-      return sum;
-    }, 0) / 7).toFixed(1);
-  }
+  // calculateAverageHoursThisWeek(todayDate) {
+  //   return (this.sleepHoursRecord.reduce((sum, sleepAct) => {
+  //     let index = this.sleepHoursRecord.indexOf(this.sleepHoursRecord.find(sleep => sleep.date === todayDate));
+  //
+  //     if (index <= this.sleepHoursRecord.indexOf(sleepAct) && this.sleepHoursRecord.indexOf(sleepAct) <= (index + 6)) {
+  //       sum += sleepAct.hours;
+  //     }
+  //     return sum;
+  //   }, 0) / 7).toFixed(1);
+  // }
 
   calculateAverageQualityThisWeek(todayDate) {
     return (this.sleepQualityRecord.reduce((sum, sleepAct) => {

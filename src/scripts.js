@@ -1,6 +1,6 @@
 import './css/base.scss';
 import './css/styles.scss';
-// const moment = require("moment");
+const moment = require("moment");
 
 import userData from './data/users';
 import activityData from './data/activity';
@@ -58,7 +58,7 @@ function populatePage() {
   displayFriendsStepsColor();
 }
 
-
+let currentDate = moment().format('YYYY/MM/DD')
 let todayDate = "2019/09/22";
 let userHoursSlept;
 let userSleepQuality;
@@ -318,7 +318,7 @@ function displaySleep() {
   const sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
   const sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
   sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
-  sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
+  sleepCalendarHoursAverageWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'hours', 'sleepHoursRecord');
   sleepUserHoursToday.innerText = sleepData.find(sleep => {
     return sleep.userID === user.id && sleep.date === todayDate;
   }).hoursSlept;
@@ -352,7 +352,7 @@ function averageFlights() {
   const stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
   const stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
   const stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
-  stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate); 
+  stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
   stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
   stairsAllUsersFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
   stairsInfoFlightsToday.innerText = activityData.find(activity => {
