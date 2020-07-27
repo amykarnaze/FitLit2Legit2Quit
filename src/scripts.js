@@ -405,7 +405,7 @@ function displayFriendsSteps() {
   user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
   user.friendsActivityRecords.forEach(friend => {
     dropdownFriendsStepsContainer.innerHTML += `
-    <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
+    <p class='dropdown-p friends-steps' id='p-friends'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
     `;
   });
 }
