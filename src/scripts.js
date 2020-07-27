@@ -352,8 +352,8 @@ function averageFlights() {
   const stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
   const stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
   const stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
-  stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
-  stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
+  stairsCalendarFlightsAverageWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'quality', 'sleepQualityRecord').toFixed(1);
+  stairsCalendarStairsAverageWeekly.innerText = (user.calculateWeeklyAverage(todayDate, 'quality', 'sleepQualityRecord').toFixed(1) * 12).toFixed(0);
   stairsAllUsersFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
   stairsInfoFlightsToday.innerText = activityData.find(activity => {
     return activity.userID === user.id && activity.date === todayDate;
@@ -361,8 +361,6 @@ function averageFlights() {
   stairsUserStairsToday.innerText = activityData.find(activity => {
     return activity.userID === user.id && activity.date === todayDate;
   }).flightsOfStairs * 12;
-  stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
-  stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
 }
 
 function displayCalenderSteps() {

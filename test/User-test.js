@@ -179,7 +179,7 @@ describe('User', function() {
   });
   it('calculateAverageFlightsThisWeek should calculate the average flights of stairs taken in a given week', function() {
     user.activityRecord = [{date: "2019/09/18", flightsOfStairs: 4}, {date: "2019/09/17", flightsOfStairs: 6}, {date: "2019/09/16", flightsOfStairs: 1}, {date: "2019/09/15", flightsOfStairs: 2}, {date: "2019/09/14", flightsOfStairs: 12}, {date: "2019/09/13", flightsOfStairs: 21}, {date: "2019/06/12", flightsOfStairs: 3}, {date: "2019/09/11", flightsOfStairs: 14}, {date: "2019/09/10", flightsOfStairs: 2}, {date: "2019/09/09", flightsOfStairs: 8}];
-    expect(user.calculateAverageFlightsThisWeek("2019/09/17")).to.equal('8.4')
+    expect(user.calculateWeeklyAverage("2019/09/17", 'flightsOfStairs', 'activityRecord').toFixed(1)).to.equal('8.4')
   });
 
   it('updateAccomplishedDays should create an array of good days', function() {
