@@ -64,7 +64,6 @@ function populatePage() {
 
 let currentDate = moment().format('YYYY/MM/DD')
 let todayDate = "2019/09/22";
-let currentDate = moment().format('YYYY/MM/DD');
 let userHoursSlept;
 let userSleepQuality;
 let userOunces;
@@ -521,10 +520,6 @@ function verifyNumberInput(amount, min, max) {
   }
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 8b179f33f7b713e79326baf8eb620fd69113c746
 function postSleepData(sleepInputInstance) {
   let sleepPostData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData', {
       method: 'POST',
