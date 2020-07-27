@@ -42,12 +42,14 @@ button:active {
   @extend buttons;
   display: inline;
   margin-left: 1vw;
+  background-image: url(../images/information.png);
 }
 
 .all-users-button {
   @extend buttons;
   display: inline;
   margin-right: 1vw;
+  background-image: url(../images/group.png);
 }
 
 .calendar-button {
@@ -55,90 +57,42 @@ button:active {
   display: inline;
   float: right;
   margin-right: 1vw;
+  background-image: url(../images/calendar.png);
 }
 
 .trending-button {
   @extend buttons;
   margin-left: 1vw;
+  background-image: url(../images/line-chart.png);
 }
 
 .go-back-button {
   @extend buttons;
   margin-left: 1vw;
+  margin-top: 2vw;
+  background-image: url(../images/return.png);
 }
 
+.steps-button {
+  background-color: $steps-color;
 .steps-go-back-button {
   background-image: url(../images/steps-goback.png);
 }
 
+.hydration-button {
+  background-color: $hydration-color;
 .steps-info-button {
   background-image: url(../images/steps-info.png);
 }
 
+.stairs-button {
+  background-color: $stairs-color;
 .steps-all-users-button {
   background-image: url(../images/steps-friends.png);
 }
 
-.steps-calendar-button {
-  background-image: url(../images/steps-calendar.png);
-}
-
-.hydration-go-back-button {
-  background-image: url(../images/hydration-goback.png);
-}
-
-.hydration-info-button {
-  background-image: url(../images/hydration-info.png);
-}
-
-.hydration-all-users-button {
-  background-image: url(../images/hydration-friends.png);
-}
-
-.hydration-calendar-button {
-  background-image: url(../images/hydration-calendar.png);
-}
-
-.stairs-go-back-button {
-  background-image: url(../images/stairs-goback.png);
-}
-
-.stairs-info-button {
-  background-image: url(../images/stairs-info.png);
-}
-
-.stairs-all-users-button {
-  background-image: url(../images/stairs-friends.png);
-}
-
-.stairs-calendar-button {
-  background-image: url(../images/stairs-calendar.png);
-}
-
-.sleep-go-back-button {
-  background-image: url(../images/sleep-goback.png);
-}
-
-.sleep-info-button {
-  background-image: url(../images/sleep-info.png);
-}
-
-.sleep-all-users-button {
-  background-image: url(../images/sleep-friends.png);
-}
-
-.sleep-calendar-button {
-  background-image: url(../images/sleep-calendar.png);
-}
-
-
-.steps-trending-button {
-  background-image: url(../images/steps-trending.png);
-}
-
-.stairs-trending-button {
-  background-image: url(../images/stairs-trending.png);
-}
+.sleep-button {
+  background-color: $sleep-color;
 
 .submit {
   margin-left: 70%;
