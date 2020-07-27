@@ -339,7 +339,7 @@ function displaySleepQuality() {
   const sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
   const sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
   const sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
-  sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
+  sleepCalendarQualityAverageWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'quality', 'sleepQualityRecord')
   sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;
   sleepInfoQualityToday.innerText = sleepData.find(sleep => {
     return sleep.userID === user.id && sleep.date === todayDate;
