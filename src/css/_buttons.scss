@@ -26,16 +26,17 @@ button:active {
 }
 
 #profile-button {
-  background-image: url(../images/profile.png);
+  background-image: url(../images/user.png);
+  background-color: $primary-background;
   background-position: center;
-  background-size: 5.6vw;
+  background-size: 5vw;
   border: none;
   display: inline;
   float: right;
-  height: 5.6vw;
-  margin-right: .5vw;
+  height: 5vw;
+  margin-right: 2vw;
   margin-top: 1.6vw;
-  width: 5.6vw;
+  width: 5vw;
 }
 
 .info-button {
