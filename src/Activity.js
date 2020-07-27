@@ -8,7 +8,6 @@ class Activity extends UserAction {
     this.flightsOfStairs = data.flightsOfStairs;
     this.milesWalked = 0;
     this.reachedStepGoal = null;
-    // this.doActivity(userRepository);
     this.doActivity(userRepository)
   }
 
