@@ -125,19 +125,20 @@ function displayModal(event) {
   const activityModal = document.querySelector(".mpopup-activity");
   const userActionTitle = document.querySelector('.action-title');
   modalWindow.style.display = 'none';
-  if (event.target.text === 'Add Sleep') {
+  console.log(event);
+  if (event.target.textContent === 'Add Sleep') {
     modalWindow.style.display = "block";
     userActionTitle.innerText = 'New Sleep';
     sleepModal.classList.remove("hide");
     activityModal.classList.add("hide");
     hydrationModal.classList.add("hide");
-  } else if (event.target.text === 'Add Activity') {
+  } else if (event.target.textContent === 'Add Activity') {
     modalWindow.style.display = "block";
     userActionTitle.innerText = "New Activity";
     sleepModal.classList.add("hide");
     activityModal.classList.remove("hide");
     hydrationModal.classList.add("hide");
-  } else if (event.target.text === 'Add Hydration') {
+  } else if (event.target.textContent === 'Add Hydration') {
     modalWindow.style.display = "block";
     userActionTitle.innerText = "New Hydration";
     sleepModal.classList.add("hide");
