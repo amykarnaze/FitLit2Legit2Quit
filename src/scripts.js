@@ -20,8 +20,10 @@ import getApiData from './api'
 
 
 let userRepository = new UserRepository();
-let user = {};
+let user;
 let sortedHydrationDataByDate = [];
+let currentUser;
+
 
 getApiData().then(allData => {
   allData.userData.forEach(person => {
@@ -39,11 +41,17 @@ getApiData().then(allData => {
   });
 })
 .then(() => {
-  user = userRepository.users[0]
+
+  user = userRepository.users[getRandomUser()]
   user.findFriendsNames(userRepository.users)
-  // console.warn(user.ouncesRecord)
 })
 .then(() => populatePage());
+
+
+function getRandomUser() {
+  currentUser = Math.floor(Math.random() * userRepository.users.length - 1);
+  return currentUser;
+}
 
 function populatePage() {
   sortHydrationData();
@@ -63,6 +71,7 @@ function populatePage() {
 }
 
 let todayDate = "2019/09/22";
+let currentDate = moment().format('YYYY/MM/DD');
 let userHoursSlept;
 let userSleepQuality;
 let userOunces;
@@ -85,8 +94,8 @@ const userOuncesInput = document.querySelector(".user-input-ounces");
 const userNumberStepsInput = document.querySelector(".user-input-steps");
 const userMinutesActiveInput = document.querySelector(".user-input-minutes-active");
 const userFlightsOfStairsInput = document.querySelector(".user-input-flights");
-const sleepInputButton = document.querySelector(".add-sleep-button");
-const hydrationInputButton = document.querySelector(".add-hydration-button");
+const sleepInputButton = document.querySelector(".sleep-button");
+const hydrationInputButton = document.querySelector(".hydration-button");
 const activityInputButton = document.querySelector(".activity-button");
 
 // called mult times
@@ -124,20 +133,19 @@ function displayModal(event) {
   const activityModal = document.querySelector(".mpopup-activity");
   const userActionTitle = document.querySelector('.action-title');
   modalWindow.style.display = 'none';
-  console.log(event);
-  if (event.target.textContent === 'Add Sleep') {
+  if (event.target.text === 'Add Sleep') {
     modalWindow.style.display = "block";
     userActionTitle.innerText = 'New Sleep';
     sleepModal.classList.remove("hide");
     activityModal.classList.add("hide");
     hydrationModal.classList.add("hide");
-  } else if (event.target.textContent === 'Add Activity') {
+  } else if (event.target.text === 'Add Activity') {
     modalWindow.style.display = "block";
     userActionTitle.innerText = "New Activity";
     sleepModal.classList.add("hide");
     activityModal.classList.remove("hide");
     hydrationModal.classList.add("hide");
-  } else if (event.target.textContent === 'Add Hydration') {
+  } else if (event.target.text === 'Add Hydration') {
     modalWindow.style.display = "block";
     userActionTitle.innerText = "New Hydration";
     sleepModal.classList.add("hide");
@@ -323,7 +331,7 @@ function displaySleep() {
   const sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
   const sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
   sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
-  sleepCalendarHoursAverageWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'hours', 'sleepHoursRecord').toFixed(1);
+  sleepCalendarHoursAverageWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'hours', 'sleepHoursRecord').toFixed(1);;
   sleepUserHoursToday.innerText = sleepData.find(sleep => {
     return sleep.userID === user.id && sleep.date === todayDate;
   }).hoursSlept;
@@ -407,14 +415,14 @@ function displayFriendsSteps() {
   user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
   user.friendsActivityRecords.forEach(friend => {
     dropdownFriendsStepsContainer.innerHTML += `
-    <p class='dropdown-p friends-steps' id='p-friends'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
+    <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
     `;
   });
 }
 
 function displayFriendsStepsColor() {
   let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
-  Array.from(friendsStepsParagraphs).forEach(paragraph => {
+  friendsStepsParagraphs.forEach(paragraph => {
     if (friendsStepsParagraphs[0] === paragraph) {
       paragraph.classList.add('green-text');
     }
@@ -428,9 +436,9 @@ function displayFriendsStepsColor() {
 }
 
 function createInstance(event) {
-  if (event.target.classList[0] === "add-sleep-button") {
+  if (event.target.classList[0] === "sleep-button") {
     createSleepInstance();
-  } else if (event.target.classList[0] === "add-hydration-button") {
+  } else if (event.target.classList[0] === "hydration-button") {
     createHydrationInstance();
   } else if (event.target.classList[0] === "activity-button") {
     createActivityInstance(event);
@@ -448,13 +456,15 @@ function createSleepInstance() {
       sleepQuality: userSleepQuality,
     };
     const newSleepInstance = new Sleep(newSleep, userRepository);
-    postSleepData(newSleep);
+    console.log('new', newSleep)
+    console.log('instance', newSleepInstance)
+    // postSleepData(newSleep);
     displayRecordedAlert("Sleep");
   }
 }
 
 function createHydrationInstance(newHydration) {
-  let verifiedNumber = verifyNumberInput(userOunces, 1, 200);
+  let verifiedNumber = verifyNumberInput(userOunces, 0, 200);
   if (verifiedNumber === true) {
     const newHydration = {
       userID: user.id,
@@ -462,15 +472,17 @@ function createHydrationInstance(newHydration) {
       numOunces: userOunces,
     };
     const newHydrationInstance = new Hydration(newHydration, userRepository);
-    postHydrationData(newHydration)
+    console.log('new', newHydration)
+    console.log('instance', newHydrationInstance)
+    // postHydrationData(newHydration)
     // also get? so can update variable to include all plus new
     displayRecordedAlert("Hydration");
   }
 }
 
 function createActivityInstance() {
-  let verifiedNumber1 = verifyNumberInput(userNumberOfSteps, 1, 25000);
-  let verifiedNumber2 = verifyNumberInput(userMinutesActive, 1, 480);
+  let verifiedNumber1 = verifyNumberInput(userNumberOfSteps, 0, 25000);
+  let verifiedNumber2 = verifyNumberInput(userMinutesActive, 0, 480);
   let verifiedNumber3 = verifyNumberInput(userFlightsOfStairs, 0, 500);
   if (
     verifiedNumber1 === true &&
@@ -485,7 +497,9 @@ function createActivityInstance() {
       flightsOfStairs: userFlightsOfStairs,
     };
     const newActivityInstance = new Activity(newActivity, userRepository);
-    postActivityData(newActivity);
+    // postActivityData(newActivity);
+    console.log('new', newActivity)
+    console.log('instance', newActivityInstance)
     displayRecordedAlert("Activity");
   }
 }
@@ -507,16 +521,16 @@ function userInputHandler(event) {
 }
 
 function verifyNumberInput(amount, min, max) {
-  const alertText = document.querySelector('.alert-text');
   const submitButton = document.getElementsByClassName("submit");
-  if (amount < min || amount >= max || !amount) {
-    displayRecordedAlert(null, true, min, max);
+  if (amount < min || amount >= max) {
+    alert(`Please enter a number between ${min} - ${max}`);
     submitButton.disabled = true;
     return false;
   } else {
     return true;
   }
 }
+
 
 function postSleepData(sleepInputInstance) {
   let sleepPostData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData', {
@@ -556,7 +570,7 @@ function postHydrationData(hydrationInputInstance) {
       body: JSON.stringify(hydrationInputInstance),
     })
     .then(response => {
-      console.log(response)
+      console.log(response)      
       return response.json()
     })
     .then(data => console.log('data', data))
@@ -564,14 +578,10 @@ function postHydrationData(hydrationInputInstance) {
   // //resolve promise
 }
 
-function displayRecordedAlert(action, isInvalid, min, max) {
+function displayRecordedAlert(action) {
   const alertModal = document.querySelector('.alert-modal');
   const alertText = document.querySelector('.alert-text');
   alertModal.style.display = "flex";
-  if (isInvalid) {
-    alertText.innerText = `Please enter a number between ${min} - ${max}`;
-  } else {
-    alertText.innerText = `${action} data recorded.`;
-  }
+  alertText.innerText = `${action} data recorded.`;
   window.setTimeout(() => {alertModal.style.display = "none"}, 2500);
 }
