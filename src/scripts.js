@@ -451,7 +451,7 @@ function createSleepInstance() {
 }
 
 function createHydrationInstance() {
-  let verifiedNumber = verifyNumberInput(userOunces, 0, 200);
+  let verifiedNumber = verifyNumberInput(userOunces, 1, 200);
   if (verifiedNumber === true) {
     const newHydration = {
       userID: user.id,
@@ -464,8 +464,8 @@ function createHydrationInstance() {
 }
 
 function createActivityInstance() {
-  let verifiedNumber1 = verifyNumberInput(userNumberOfSteps, 0, 25000);
-  let verifiedNumber2 = verifyNumberInput(userMinutesActive, 0, 480);
+  let verifiedNumber1 = verifyNumberInput(userNumberOfSteps, 1, 25000);
+  let verifiedNumber2 = verifyNumberInput(userMinutesActive, 1, 480);
   let verifiedNumber3 = verifyNumberInput(userFlightsOfStairs, 0, 500);
   if (
     verifiedNumber1 === true &&
@@ -503,7 +503,7 @@ function userInputHandler(event) {
 function verifyNumberInput(amount, min, max) {
   const alertText = document.querySelector('.alert-text');
   const submitButton = document.getElementsByClassName("submit");
-  if (amount < min || amount >= max) {
+  if (amount < min || amount >= max || !amount) {
     displayRecordedAlert(null, true, min, max);
     submitButton.disabled = true;
     return false;
