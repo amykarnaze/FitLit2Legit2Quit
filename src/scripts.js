@@ -1,6 +1,6 @@
 import './css/base.scss';
 import './css/styles.scss';
-// const moment = require("moment");
+const moment = require("moment");
 
 import userData from './data/users';
 import activityData from './data/activity';
@@ -60,6 +60,7 @@ function populatePage() {
 
 
 let todayDate = "2019/09/22";
+let currentDate = moment().format('YYYY/MM/DD');
 let userHoursSlept;
 let userSleepQuality;
 let userOunces;
