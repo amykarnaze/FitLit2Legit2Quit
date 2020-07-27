@@ -353,7 +353,7 @@ function averageFlights() {
   const stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
   const stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
   const stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
-  stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate); 
+  stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
   stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
   stairsAllUsersFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
   stairsInfoFlightsToday.innerText = activityData.find(activity => {
@@ -501,9 +501,10 @@ function userInputHandler(event) {
 }
 
 function verifyNumberInput(amount, min, max) {
+  const alertText = document.querySelector('.alert-text');
   const submitButton = document.getElementsByClassName("submit");
   if (amount < min || amount >= max) {
-    alert(`Please enter a number between ${min} - ${max}`);
+    displayRecordedAlert(null, true, min, max);
     submitButton.disabled = true;
     return false;
   } else {
@@ -511,10 +512,14 @@ function verifyNumberInput(amount, min, max) {
   }
 }
 
-function displayRecordedAlert(action) {
+function displayRecordedAlert(action, isInvalid, min, max) {
   const alertModal = document.querySelector('.alert-modal');
   const alertText = document.querySelector('.alert-text');
   alertModal.style.display = "flex";
-  alertText.innerText = `${action} data recorded.`;
+  if (isInvalid) {
+    alertText.innerText = `Please enter a number between ${min} - ${max}`;
+  } else {
+    alertText.innerText = `${action} data recorded.`;
+  }
   window.setTimeout(() => {alertModal.style.display = "none"}, 2500);
 }
