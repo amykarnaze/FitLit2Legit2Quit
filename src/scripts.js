@@ -1,13 +1,10 @@
 import './css/base.scss';
 import './css/styles.scss';
-// import './api';
 const moment = require("moment");
-
 import userData from './data/users';
 import activityData from './data/activity';
 import sleepData from './data/sleep';
 import hydrationData from './data/hydration';
-
 import UserRepository from './UserRepository';
 import User from './User';
 import UserAction from '../src/UserAction';
@@ -15,21 +12,16 @@ import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
 import getApiData from './api'
-// import getApiData from './api';
-// import postHydrationData from './api';
-
 
 let userRepository = new UserRepository();
 let user;
 let sortedHydrationDataByDate = [];
 let currentUser;
 
-
 getApiData().then(allData => {
   allData.userData.forEach(person => {
     userRepository.users.push(new User(person));
   });
-  // console.log('users array', userRepository.users);
   allData.sleepData.forEach(sleep => {
     sleep = new Sleep(sleep, userRepository);
   });
@@ -46,7 +38,6 @@ getApiData().then(allData => {
   user.findFriendsNames(userRepository.users)
 })
 .then(() => populatePage());
-
 
 function getRandomUser() {
   currentUser = Math.floor(Math.random() * userRepository.users.length - 1);
@@ -79,7 +70,6 @@ let userNumberOfSteps;
 let userMinutesActive;
 let userFlightsOfStairs;
 
-//used w event listeners
 const hydrationMainCard = document.querySelector('#hydration-main-card');
 const mainPage = document.querySelector('main');
 const profileButton = document.querySelector('#profile-button');
@@ -97,10 +87,8 @@ const userFlightsOfStairsInput = document.querySelector(".user-input-flights");
 const sleepInputButton = document.querySelector(".sleep-button");
 const hydrationInputButton = document.querySelector(".hydration-button");
 const activityInputButton = document.querySelector(".activity-button");
-
-// called mult times
 const modalWindow = document.getElementById('mpopupBox');
-// event listeners
+
 window.addEventListener('click', closeModalWindow);
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
@@ -179,14 +167,14 @@ function showInstanceDropdown() {
 }
 
 function sortHydrationData() {
-sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
-  if (Object.keys(a)[0] > Object.keys(b)[0]) {
-    return -1;
-  }
-  if (Object.keys(a)[0] < Object.keys(b)[0]) {
-    return 1;
-  }
-  return 0;
+  sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
+    if (Object.keys(a)[0] > Object.keys(b)[0]) {
+      return -1;
+    }
+    if (Object.keys(a)[0] < Object.keys(b)[0]) {
+      return 1;
+    }
+    return 0;
 });
 }
 
@@ -456,9 +444,7 @@ function createSleepInstance() {
       sleepQuality: userSleepQuality,
     };
     const newSleepInstance = new Sleep(newSleep, userRepository);
-    console.log('new', newSleep)
-    console.log('instance', newSleepInstance)
-    // postSleepData(newSleep);
+    postSleepData(newSleep);
     displayRecordedAlert("Sleep");
   }
 }
@@ -472,10 +458,7 @@ function createHydrationInstance(newHydration) {
       numOunces: userOunces,
     };
     const newHydrationInstance = new Hydration(newHydration, userRepository);
-    console.log('new', newHydration)
-    console.log('instance', newHydrationInstance)
-    // postHydrationData(newHydration)
-    // also get? so can update variable to include all plus new
+    postHydrationData(newHydration)
     displayRecordedAlert("Hydration");
   }
 }
@@ -497,9 +480,7 @@ function createActivityInstance() {
       flightsOfStairs: userFlightsOfStairs,
     };
     const newActivityInstance = new Activity(newActivity, userRepository);
-    // postActivityData(newActivity);
-    console.log('new', newActivity)
-    console.log('instance', newActivityInstance)
+    postActivityData(newActivity);
     displayRecordedAlert("Activity");
   }
 }
@@ -531,51 +512,42 @@ function verifyNumberInput(amount, min, max) {
   }
 }
 
-
 function postSleepData(sleepInputInstance) {
-  let sleepPostData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData', {
-      method: 'POST',
-      headers: {
-        'content-Type': 'application/json'
-      },
-      body: JSON.stringify(sleepInputInstance)
-    })
-    .then(response => response.json())
-    // .then(json => )
-    .catch(error => console.log(error));
-  // resolve promise
+  fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData', {
+    method: 'POST',
+    headers: {
+      'content-Type': 'application/json'
+    },
+    body: JSON.stringify(sleepInputInstance)
+  })
+  .then(response => response.json())
+  .catch(error => console.log(error));
 }
-// //activity data
+
 function postActivityData(activityInputInstance) {
-  let activityPostData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData', {
-      method: 'POST',
-      headers: {
-        'content-Type': 'application/json'
-      },
-      body: JSON.stringify(activityInputInstance),
-    })
-    .then(response => response.json())
-    // .then(json => )
-    .catch(error => console.log(error));
-  // // resolve promise
+  fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData', {
+    method: 'POST',
+    headers: {
+      'content-Type': 'application/json'
+    },
+    body: JSON.stringify(activityInputInstance),
+  })
+  .then(response => response.json())
+  .catch(error => console.log(error));
 }
 
 function postHydrationData(hydrationInputInstance) {
-  console.log('postme')
   fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData', {
-      method: 'POST',
-      headers: {
-        'content-Type': 'application/json'
-      },
-      body: JSON.stringify(hydrationInputInstance),
-    })
-    .then(response => {
-      console.log(response)      
-      return response.json()
-    })
-    .then(data => console.log('data', data))
-    .catch(error => console.log(error));
-  // //resolve promise
+    method: 'POST',
+    headers: {
+      'content-Type': 'application/json'
+    },
+    body: JSON.stringify(hydrationInputInstance),
+  })
+  .then(response => {
+    return response.json()
+  })
+  .catch(error => console.log(error));
 }
 
 function displayRecordedAlert(action) {
