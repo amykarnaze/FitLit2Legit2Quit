@@ -105,6 +105,18 @@ describe('domTestTest', function() {
     expect(document.querySelectorAll).to.have.been.called.with('.friends-steps');
   });
 
+  // it("should be able to use an array prototype method", () => {
+  //   chai.spy.on(friendsStepsParagraphs, 'forEach', () => {
+  //     return { innerText: ''};)
+  //
+  //   let domTest = new domTestTest();
+  //   const friendsStepsParagraphs = ['First Person', 'YOU', 'Third Person', 'Fourth Person']
+  //
+  //   friendsStepsParagraphs.forEach(console.log('hello'))
+  //
+  //   expect(friendsStepsParagraphs.forEach).to.
+  // });
+
 });
 
 //test on other class methods -- can also spy on arrays - check spies mdn
