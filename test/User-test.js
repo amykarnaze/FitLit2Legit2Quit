@@ -171,7 +171,7 @@ describe('User', function() {
   });
   it('calculateAverageMinutesActiveThisWeek should calculate the average minutes active', function() {
     user.activityRecord = [{date: "2019/09/18", minutesActive: 78}, {date: "2019/09/17", minutesActive: 100}, {date: "2019/09/16", minutesActive: 20}, {date: "2019/09/15", minutesActive: 21}, {date: "2019/09/14", minutesActive: 35}, {date: "2019/09/13", minutesActive: 37}, {date: "2019/06/12", minutesActive: 42}, {date: "2019/09/11", minutesActive: 18}, {date: "2019/09/10", minutesActive: 16}, {date: "2019/09/09", minutesActive: 81}];
-    expect(user.calculateAverageMinutesActiveThisWeek("2019/09/17")).to.equal('39')
+    expect(user.calculateWeeklyAverage('2019/09/17', 'minutesActive', 'activityRecord').toFixed(0)).to.equal('39')
   });
   it('calculateAverageStepsThisWeek should calculate the average steps taken in a given week', function() {
     user.activityRecord = [{date: "2019/09/18", steps: 1178}, {date: "2019/09/17", steps: 1080}, {date: "2019/09/16", steps: 120}, {date: "2019/09/15", steps: 891}, {date: "2019/09/14", steps: 380}, {date: "2019/09/13", steps: 3234}, {date: "2019/06/12", steps: 1111}, {date: "2019/09/11", steps: 18}, {date: "2019/09/10", steps: 345}, {date: "2019/09/09", steps: 81}];

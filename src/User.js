@@ -121,6 +121,7 @@
   // }
 
   // ***NOTE: toFixed() needs to be accounted for to use calculateWeeklyAverage!!!!
+  // user.calculateWeeklyAverage('2019/09/17', 'minutesActive', 'activityRecord').toFixed(0)
 
   calculateAverageMinutesActiveThisWeek(todayDate) {
     return (this.activityRecord.reduce((sum, activity) => {
