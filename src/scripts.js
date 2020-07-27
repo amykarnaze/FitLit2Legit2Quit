@@ -414,7 +414,7 @@ function displayFriendsSteps() {
 
 function displayFriendsStepsColor() {
   let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
-  friendsStepsParagraphs.forEach(paragraph => {
+  Array.from(friendsStepsParagraphs).forEach(paragraph => {
     if (friendsStepsParagraphs[0] === paragraph) {
       paragraph.classList.add('green-text');
     }

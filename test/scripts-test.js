@@ -95,7 +95,19 @@ describe('domTestTest', function() {
     expect(document.querySelectorAll).to.have.been.called(1);
     expect(document.querySelectorAll).to.have.been.called.with('.daily-oz');
   });
+
+  it("should change the inner text of all elements in the nodelist for friendsStepsParagraphs", () => {
+    let domTest = new domTestTest();
+
+    domTest.displayFriendsStepsColorTest();
+
+    expect(document.querySelectorAll).to.have.been.called(1);
+    expect(document.querySelectorAll).to.have.been.called.with('.friends-steps');
+  });
+
 });
+
+//test on other class methods -- can also spy on arrays - check spies mdn
 
 // describe('loadDropdown', () => {
 //   beforeEach(() => {
