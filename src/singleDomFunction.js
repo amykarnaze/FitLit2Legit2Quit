@@ -9,7 +9,7 @@ class domTestTest{
   dropdownEmailTest() {
     let dropdownEmail = document.querySelector('#dropdown-email');
     dropdownEmail.innerText = "email";
-  } 
+  }
 
   friendsStepContainerTest() {
     let dropdownFriendsStepsContainer = document.querySelector(
@@ -46,6 +46,12 @@ class domTestTest{
     let hydrationAllUsersCard = document.querySelector(
       "#hydration-all-users-card");
     hydrationAllUsersCard.innerText = 'people should drink water';
+  }
+  dailyOzCreaterTest() {
+    let dailyOz = document.querySelectorAll('.daily-oz');
+    Array.from(dailyOz).forEach((drinkSlot, index) => {
+      drinkSlot.innerText = "##";
+    })
   }
  }
 

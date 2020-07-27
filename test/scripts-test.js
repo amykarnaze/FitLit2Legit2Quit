@@ -8,7 +8,7 @@ chai.use(spies);
 describe('domTestTest', function() {
   beforeEach(() => {
     global.document = {};
-    chai.spy.on(document, ['querySelector'], () => {
+    chai.spy.on(document, ['querySelector', 'querySelectorAll'], () => {
       return { innerText: ''};
     })
   })
@@ -85,6 +85,15 @@ describe('domTestTest', function() {
     expect(document.querySelector).to.have.been.called(1);
     expect(document.querySelector).to.have.been.called.with(
       "#hydration-all-users-card");
+  });
+
+  it("should change the inner text of all elements in the nodelist for dailyOz", () => {
+    let domTest = new domTestTest();
+
+    domTest.dailyOzCreaterTest();
+
+    expect(document.querySelectorAll).to.have.been.called(1);
+    expect(document.querySelectorAll).to.have.been.called.with('.daily-oz');
   });
 });
 

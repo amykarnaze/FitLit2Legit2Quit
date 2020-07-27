@@ -62,7 +62,6 @@ function populatePage() {
   displayFriendsStepsColor();
 }
 
-let currentDate = moment().format('YYYY/MM/DD')
 let todayDate = "2019/09/22";
 let currentDate = moment().format('YYYY/MM/DD');
 let userHoursSlept;
