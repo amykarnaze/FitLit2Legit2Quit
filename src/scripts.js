@@ -1,5 +1,6 @@
 import './css/base.scss';
 import './css/styles.scss';
+// import './api';
 const moment = require("moment");
 
 import userData from './data/users';
@@ -13,8 +14,9 @@ import UserAction from '../src/UserAction';
 import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
-import getApiData from './api';
-// import postSleepData from './api';
+import getApiData from './api'
+// import getApiData from './api';
+// import postHydrationData from './api';
 
 
 let userRepository = new UserRepository();
@@ -44,23 +46,23 @@ getApiData().then(allData => {
 .then(() => populatePage());
 
 function populatePage() {
-  sortHydrationData()
+  sortHydrationData();
   dailyOzCreater();
   displayDropDown();
   displayName();
   displayHydration();
   displaySleep();
   displayUsersSleepComparison();
-  displaySleepQuality()
+  displaySleepQuality();
   averageFlights();
   displayCalenderSteps();
   displayAllUsersSteps();
   displayCaloriesBurnedToday();
-  displayFriendsSteps()
+  displayFriendsSteps();
   displayFriendsStepsColor();
 }
 
-
+let currentDate = moment().format('YYYY/MM/DD')
 let todayDate = "2019/09/22";
 let userHoursSlept;
 let userSleepQuality;
@@ -448,7 +450,8 @@ function createSleepInstance() {
       sleepQuality: userSleepQuality,
     };
     const newSleepInstance = new Sleep(newSleep, userRepository);
-      postSleepData(newSleepInstance);
+      postSleepData(newSleep);
+
 
   }
 }
@@ -462,7 +465,9 @@ function createHydrationInstance(newHydration) {
       numOunces: userOunces,
     };
     const newHydrationInstance = new Hydration(newHydration, userRepository);
-    postHydrationData(newHydrationInstance)
+        console.log('var', newHydration)
+
+    postHydrationData(newHydration)
     // also get? so can update variable to include all plus new
   }
 }
@@ -484,7 +489,7 @@ function createActivityInstance() {
       flightsOfStairs: userFlightsOfStairs,
     };
     const newActivityInstance = new Activity(newActivity, userRepository);
-    postActivityData(newActivityInstance);
+    postActivityData(newActivity);
   }
 }
 
@@ -513,4 +518,50 @@ function verifyNumberInput(amount, min, max) {
   } else {
     return true;
   }
+}
+
+function postSleepData(sleepInputInstance) {
+  let sleepPostData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData', {
+      method: 'POST',
+      headers: {
+        'content-Type': 'application/json'
+      },
+      body: JSON.stringify(sleepInputInstance)
+    })
+    .then(response => response.json())
+    // .then(json => )
+    .catch(error => console.log(error));
+  // resolve promise
+}
+// //activity data
+function postActivityData(activityInputInstance) {
+  let activityPostData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData', {
+      method: 'POST',
+      headers: {
+        'content-Type': 'application/json'
+      },
+      body: JSON.stringify(activityInputInstance),
+    })
+    .then(response => response.json())
+    // .then(json => )
+    .catch(error => console.log(error));
+  // // resolve promise
+}
+
+function postHydrationData(hydrationInputInstance) {
+  console.log('postme')
+  fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData', {
+      method: 'POST',
+      headers: {
+        'content-Type': 'application/json'
+      },
+      body: JSON.stringify(hydrationInputInstance),
+    })
+    .then(response => {
+      console.log(response)      
+      return response.json()
+    })
+    .then(data => console.log('data', data))
+    .catch(error => console.log(error));
+  // //resolve promise
 }
