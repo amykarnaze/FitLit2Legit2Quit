@@ -107,7 +107,7 @@
         sum += action[actionDetail];
       }
       return sum;
-    }, 0) / 7).toFixed(1);
+    }, 0) / 7);
   }
 
   // calculateAverageQualityThisWeek(todayDate) {
@@ -119,6 +119,8 @@
   //     return sum;
   //   }, 0) / 7).toFixed(1);
   // }
+
+  // ***NOTE: toFixed() needs to be accounted for to use calculateWeeklyAverage!!!!
 
   calculateAverageMinutesActiveThisWeek(todayDate) {
     return (this.activityRecord.reduce((sum, activity) => {

@@ -318,7 +318,7 @@ function displaySleep() {
   const sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
   const sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
   sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
-  sleepCalendarHoursAverageWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'hours', 'sleepHoursRecord');
+  sleepCalendarHoursAverageWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'hours', 'sleepHoursRecord').toFixed(1);
   sleepUserHoursToday.innerText = sleepData.find(sleep => {
     return sleep.userID === user.id && sleep.date === todayDate;
   }).hoursSlept;
@@ -339,7 +339,7 @@ function displaySleepQuality() {
   const sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
   const sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
   const sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
-  sleepCalendarQualityAverageWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'quality', 'sleepQualityRecord')
+  sleepCalendarQualityAverageWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'quality', 'sleepQualityRecord').toFixed(1)
   sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;
   sleepInfoQualityToday.innerText = sleepData.find(sleep => {
     return sleep.userID === user.id && sleep.date === todayDate;
