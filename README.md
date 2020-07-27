@@ -106,3 +106,7 @@ If you _are_ done, you can follow [this procedure](./gh-pages-procedure.md) to g
 
 
 Plus icon from www.iconsdb.com
+Line chart icon from Vitaly Gorbachev from www.flaticon.com
+Return arrow and calendar icon from Freepik from www.flaticon.com
+Group icon from Prosymbols from www.flaticon.com
+Info icon from Those Icons from www.flaticon.com
