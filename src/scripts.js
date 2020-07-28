@@ -20,7 +20,7 @@ getApiData().then(allData => {
     userRepository.users.push(new User(person));
     user = userRepository.users[getRandomUser()];
   });
-    allData.sleepData.forEach(sleep => {
+  allData.sleepData.forEach(sleep => {
     sleep = new Sleep(sleep, userRepository);
     allSleepData.push(sleep);
   });
@@ -81,8 +81,8 @@ const userOuncesInput = document.querySelector(".user-input-ounces");
 const userNumberStepsInput = document.querySelector(".user-input-steps");
 const userMinutesActiveInput = document.querySelector(".user-input-minutes-active");
 const userFlightsOfStairsInput = document.querySelector(".user-input-flights");
-const sleepInputButton = document.querySelector(".sleep-button");
-const hydrationInputButton = document.querySelector(".hydration-button");
+const sleepInputButton = document.querySelector(".add-sleep-button");
+const hydrationInputButton = document.querySelector(".add-hydration-button");
 const activityInputButton = document.querySelector(".activity-button");
 const modalWindow = document.getElementById('mpopupBox');
 
@@ -176,7 +176,7 @@ function sortHydrationData() {
       return 1;
     }
     return 0;
-});
+  });
 }
 
 function showInfo() {
@@ -411,9 +411,9 @@ function displayFriendsStepsColor() {
 }
 
 function createInstance(event) {
-  if (event.target.classList[0] === "sleep-button") {
+  if (event.target.classList[0] === "add-sleep-button") {
     createSleepInstance();
-  } else if (event.target.classList[0] === "hydration-button") {
+  } else if (event.target.classList[0] === "add-hydration-button") {
     createHydrationInstance();
   } else if (event.target.classList[0] === "activity-button") {
     createActivityInstance(event);
