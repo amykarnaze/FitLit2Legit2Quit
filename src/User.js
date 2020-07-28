@@ -1,4 +1,4 @@
- class User {
+class User {
   constructor(userData) {
     this.id = userData.id;
     this.name = userData.name;
@@ -49,7 +49,7 @@
     return ((newLog + (average * (recordList.length - 1))) / recordList.length)
   }
 
-  updateAverage(newLog, recordList, average, attributeName, decimal) {
+  updateAverage(newLog, recordList, average, attributeName) {
     if (recordList.length > 1) {
       this[attributeName] = this.calculateAverage(newLog, recordList, average).toFixed(1);
     } else {
@@ -158,14 +158,6 @@
       }
     })
   }
-    // for (let i = 0; i < this.activityRecord.length; i++) {
-    //   if (this.activityRecord[i + 1] && this.activityRecord[i].flightsOfStairs > this.activityRecord[i + 1].flightsOfStairs) {
-    //     positiveDays.unshift(this.activityRecord[i].date);
-    //   } else if (positiveDays.length > 2) {
-    //     this.trendingStairsDays.push(`Your most recent positive climbing streak was ${positiveDays[0]} - ${positiveDays[positiveDays.length - 1]}!`);
-    //     positiveDays = [];
-    //   }
-    // }
 
   findFriendsNames(users) {
     this.friends.forEach(friend => {

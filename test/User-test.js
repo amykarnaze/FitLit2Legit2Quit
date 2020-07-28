@@ -200,8 +200,8 @@ describe('User', function() {
     expect(user.accomplishedDays.length).to.equal(1);
   })
   it('findTrendingStepDays should find 3+ days with positive trend', function() {
-    user.activityRecord = [{
-    "date": "2019/06/29", "steps": 2},
+    user.activityRecord = [
+    {"date": "2019/06/29", "steps": 2},
     {"date": "2019/06/28", "steps": 1},
     {"date": "2019/06/27", "steps": 4},
     {"date": "2019/06/26", "steps": 3},

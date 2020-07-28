@@ -2,9 +2,10 @@ import './css/base.scss';
 import './css/styles.scss';
 const moment = require("moment");
 import userData from './data/users';
-import activityData from './data/activity';
-import sleepData from './data/sleep';
-import hydrationData from './data/hydration';
+
+// import activityData from './data/activity';
+// import sleepData from './data/sleep';
+// import hydrationData from './data/hydration';
 import UserRepository from './UserRepository';
 import User from './User';
 import UserAction from '../src/UserAction';
@@ -14,15 +15,16 @@ import Sleep from './Sleep';
 import getApiData from './api'
 
 let userRepository = new UserRepository();
-let user;
+let user = {};
 let sortedHydrationDataByDate = [];
 let currentUser;
 
 getApiData().then(allData => {
   allData.userData.forEach(person => {
     userRepository.users.push(new User(person));
+    user = userRepository.users[getRandomUser()];
   });
-  allData.sleepData.forEach(sleep => {
+    allData.sleepData.forEach(sleep => {
     sleep = new Sleep(sleep, userRepository);
   });
   allData.activityData.forEach(activity => {
@@ -30,14 +32,12 @@ getApiData().then(allData => {
   });
   allData.hydrationData.forEach(hydration => {
     hydration = new Hydration(hydration, userRepository);
-  });
+  })
 })
-.then(() => {
-
-  user = userRepository.users[getRandomUser()]
-  user.findFriendsNames(userRepository.users)
-})
-.then(() => populatePage());
+  .then(() => {
+    user.findFriendsNames(userRepository.users)
+  })
+  .then(() => populatePage());
 
 function getRandomUser() {
   currentUser = Math.floor(Math.random() * userRepository.users.length - 1);
@@ -121,19 +121,19 @@ function displayModal(event) {
   const activityModal = document.querySelector(".mpopup-activity");
   const userActionTitle = document.querySelector('.action-title');
   modalWindow.style.display = 'none';
-  if (event.target.text === 'Add Sleep') {
+  if (event.target.textContent === 'Add Sleep') {
     modalWindow.style.display = "block";
     userActionTitle.innerText = 'New Sleep';
     sleepModal.classList.remove("hide");
     activityModal.classList.add("hide");
     hydrationModal.classList.add("hide");
-  } else if (event.target.text === 'Add Activity') {
+  } else if (event.target.textContent === 'Add Activity') {
     modalWindow.style.display = "block";
     userActionTitle.innerText = "New Activity";
     sleepModal.classList.add("hide");
     activityModal.classList.remove("hide");
     hydrationModal.classList.add("hide");
-  } else if (event.target.text === 'Add Hydration') {
+  } else if (event.target.textContent === 'Add Hydration') {
     modalWindow.style.display = "block";
     userActionTitle.innerText = "New Hydration";
     sleepModal.classList.add("hide");
@@ -190,6 +190,7 @@ function hydrationHandler() {
   if (event.target.classList.contains('hydration-info-button')) {
     flipCard(hydrationMainCard, hydrationInfoCard);
   }
+
   const hydrationAllUsersCard = document.querySelector('#hydration-all-users-card');
   if (event.target.classList.contains('hydration-all-users-button')) {
     flipCard(hydrationMainCard, hydrationAllUsersCard);
@@ -305,13 +306,9 @@ function displayHydration() {
   const hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today');
   const hydrationAllUsersOuncesToday = document.querySelector('#hydration-all-users-ounces-today');
   const hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today');
-  hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
-  return hydration.userID === user.id && hydration.date === todayDate;
-  }).numOunces;
+  hydrationUserOuncesToday.innerText = Object.values(user.ouncesRecord[0]);
   hydrationAllUsersOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
-  hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
-    return hydration.userID === user.id && hydration.date === todayDate;
-  }).numOunces / 8;
+  hydrationInfoGlassesToday.innerText = (Object.values(user.ouncesRecord[0])[0]) / 8;
 }
 
 function displaySleep() {
@@ -319,10 +316,8 @@ function displaySleep() {
   const sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
   const sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
   sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
-  sleepCalendarHoursAverageWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'hours', 'sleepHoursRecord').toFixed(1);;
-  sleepUserHoursToday.innerText = sleepData.find(sleep => {
-    return sleep.userID === user.id && sleep.date === todayDate;
-  }).hoursSlept;
+  sleepCalendarHoursAverageWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'hours', 'sleepHoursRecord').toFixed(1);
+  sleepUserHoursToday.innerText = Object.values(user.sleepHoursRecord[0])[1];
 }
 
 function displayUsersSleepComparison() {
@@ -331,9 +326,9 @@ function displayUsersSleepComparison() {
   sleepAllUsersLongestSleeper.innerText = userRepository.users.find(user => {
     return user.id === userRepository.getLongestSleepers(todayDate)
   }).getFirstName();
-  sleepAllUsersWorstSleeper.innerText = userRepository.users.find(user => {
-    return user.id === userRepository.getWorstSleepers(sleepData, todayDate)
-  }).getFirstName();
+  // sleepAllUsersWorstSleeper.innerText = userRepository.users.find(user => {
+  //   return user.id === userRepository.getWorstSleepers(sleepData, todayDate)
+  // }).getFirstName();
 }
 
 function displaySleepQuality() {
@@ -342,9 +337,7 @@ function displaySleepQuality() {
   const sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
   sleepCalendarQualityAverageWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'quality', 'sleepQualityRecord').toFixed(1)
   sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;
-  sleepInfoQualityToday.innerText = sleepData.find(sleep => {
-    return sleep.userID === user.id && sleep.date === todayDate;
-  }).sleepQuality;
+  sleepInfoQualityToday.innerText = Object.values(user.sleepQualityRecord[0])[1];
 }
 
 function averageFlights() {
@@ -356,12 +349,9 @@ function averageFlights() {
   stairsCalendarFlightsAverageWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'quality', 'sleepQualityRecord').toFixed(1);
   stairsCalendarStairsAverageWeekly.innerText = (user.calculateWeeklyAverage(todayDate, 'quality', 'sleepQualityRecord').toFixed(1) * 12).toFixed(0);
   stairsAllUsersFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
-  stairsInfoFlightsToday.innerText = activityData.find(activity => {
-    return activity.userID === user.id && activity.date === todayDate;
-  }).flightsOfStairs;
-  stairsUserStairsToday.innerText = activityData.find(activity => {
-    return activity.userID === user.id && activity.date === todayDate;
-  }).flightsOfStairs * 12;
+  //console.log(user.activityRecord);
+  stairsInfoFlightsToday.innerText = user.activityRecord[0].flightsOfStairs;
+  stairsUserStairsToday.innerText = user.activityRecord[0].flightsOfStairs * 12;
 }
 
 function displayCalenderSteps() {
@@ -443,22 +433,20 @@ function createSleepInstance() {
       hoursSlept: userHoursSlept,
       sleepQuality: userSleepQuality,
     };
-    const newSleepInstance = new Sleep(newSleep, userRepository);
     postSleepData(newSleep);
     displayRecordedAlert("Sleep");
   }
 }
 
-function createHydrationInstance(newHydration) {
-  let verifiedNumber = verifyNumberInput(userOunces, 0, 200);
+function createHydrationInstance() {
+  let verifiedNumber = verifyNumberInput(userOunces, 1, 200);
   if (verifiedNumber === true) {
     const newHydration = {
       userID: user.id,
       date: currentDate,
       numOunces: userOunces,
     };
-    const newHydrationInstance = new Hydration(newHydration, userRepository);
-    postHydrationData(newHydration)
+    postHydrationData(newHydration);
     displayRecordedAlert("Hydration");
   }
 }
@@ -479,7 +467,6 @@ function createActivityInstance() {
       minutesActive: userMinutesActive,
       flightsOfStairs: userFlightsOfStairs,
     };
-    const newActivityInstance = new Activity(newActivity, userRepository);
     postActivityData(newActivity);
     displayRecordedAlert("Activity");
   }
@@ -520,8 +507,8 @@ function postSleepData(sleepInputInstance) {
     },
     body: JSON.stringify(sleepInputInstance)
   })
-  .then(response => response.json())
-  .catch(error => console.log(error));
+    .then(response => response.json())
+    .catch(error => console.log(error));
 }
 
 function postActivityData(activityInputInstance) {
@@ -532,8 +519,8 @@ function postActivityData(activityInputInstance) {
     },
     body: JSON.stringify(activityInputInstance),
   })
-  .then(response => response.json())
-  .catch(error => console.log(error));
+    .then(response => response.json())
+    .catch(error => console.log(error));
 }
 
 function postHydrationData(hydrationInputInstance) {
@@ -544,16 +531,25 @@ function postHydrationData(hydrationInputInstance) {
     },
     body: JSON.stringify(hydrationInputInstance),
   })
-  .then(response => {
-    return response.json()
-  })
-  .catch(error => console.log(error));
+    .then(response => {
+      console.log(response)
+      return response.json()
+    })
+    .then(data => console.log('data', data))
+    .catch(error => console.log(error));
 }
 
-function displayRecordedAlert(action) {
+function displayRecordedAlert(action, isInvalid, min, max) {
   const alertModal = document.querySelector('.alert-modal');
   const alertText = document.querySelector('.alert-text');
   alertModal.style.display = "flex";
-  alertText.innerText = `${action} data recorded.`;
-  window.setTimeout(() => {alertModal.style.display = "none"}, 2500);
+  if (isInvalid) {
+    alertText.innerText = `Please enter a number between ${min} - ${max}`;
+  } else {
+    alertText.innerText = `${action} data recorded.`;
+  }
+
+  window.setTimeout(() => {
+    alertModal.style.display = "none"
+  }, 2500);
 }
