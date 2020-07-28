@@ -1,14 +1,9 @@
 import './css/base.scss';
 import './css/styles.scss';
 const moment = require("moment");
-import userData from './data/users';
 
-// import activityData from './data/activity';
-// import sleepData from './data/sleep';
-// import hydrationData from './data/hydration';
 import UserRepository from './UserRepository';
 import User from './User';
-import UserAction from '../src/UserAction';
 import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
@@ -16,6 +11,7 @@ import getApiData from './api'
 
 let userRepository = new UserRepository();
 let user = {};
+let allSleepData = [];
 let sortedHydrationDataByDate = [];
 let currentUser;
 
@@ -26,6 +22,7 @@ getApiData().then(allData => {
   });
     allData.sleepData.forEach(sleep => {
     sleep = new Sleep(sleep, userRepository);
+    allSleepData.push(sleep);
   });
   allData.activityData.forEach(activity => {
     activity = new Activity(activity, userRepository);
@@ -324,11 +321,11 @@ function displayUsersSleepComparison() {
   const sleepAllUsersLongestSleeper = document.querySelector('#sleep-all-users-longest-sleeper');
   const sleepAllUsersWorstSleeper = document.querySelector('#sleep-all-users-worst-sleeper');
   sleepAllUsersLongestSleeper.innerText = userRepository.users.find(user => {
-    return user.id === userRepository.getLongestSleepers(todayDate)
+    return user.id === userRepository.getLongestSleepers(allSleepData, todayDate)
   }).getFirstName();
-  // sleepAllUsersWorstSleeper.innerText = userRepository.users.find(user => {
-  //   return user.id === userRepository.getWorstSleepers(sleepData, todayDate)
-  // }).getFirstName();
+  sleepAllUsersWorstSleeper.innerText = userRepository.users.find(user => {
+    return user.id === userRepository.getWorstSleepers(allSleepData, todayDate)
+  }).getFirstName();
 }
 
 function displaySleepQuality() {
@@ -364,9 +361,7 @@ function displayCalenderSteps() {
   }).calculateMiles(userRepository);
   stepsCalendarTotalStepsWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'steps', 'activityRecord').toFixed(0)
   stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'minutesActive', 'activityRecord').toFixed(0)
-  stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
-    return activity.userID === user.id && activity.date === todayDate;
-  }).minutesActive;
+  stepsInfoActiveMinutesToday.innerText = user.activityRecord[0].minutesActive;
 }
 
 function displayAllUsersSteps() {
@@ -377,9 +372,7 @@ function displayAllUsersSteps() {
   stepsAllUsersActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
   stepsAllUsersAverageStepGoal.innerText = `${userRepository.calculateAverageStepGoal()}`;
   stepsAllUsersStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
-  stepsUserStepsToday.innerText = activityData.find(activity => {
-    return activity.userID === user.id && activity.date === todayDate;
-  }).numSteps;
+  stepsUserStepsToday.innerText = user.activityRecord[0].steps;
 }
 
 function displayCaloriesBurnedToday() {
