@@ -60,6 +60,12 @@
     font-size: 3vw;
   }
 
+  .instance-button {
+    font-size: 1.8vw;
+    height: auto;
+    width: auto;
+  }
+
   .action-title {
     font-size: 5vw;
   }
@@ -70,6 +76,10 @@
 
   .submit {
     font-size: 1.5vw;
+  }
+
+  .close {
+    font-size: 4vw;
   }
 
   #add-instances-dropdown {
@@ -85,14 +95,16 @@
     font-size: 3em;
   }
 
-  #user-info-dropdown {
-    padding: 3% 5%
-  }
+  // #user-info-dropdown {
+  //   text-align: left;
+  // }
 
   #dropdown-email,
   #dropdown-goal,
   #dropdown-friends {
-    font-size: 2vw;
+    text-align: left;
+    margin-left: 1%;
+    font-size: 1.5vw;
   }
 
   #p-friends {
