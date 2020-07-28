@@ -1,9 +1,14 @@
 import './css/base.scss';
 import './css/styles.scss';
 const moment = require("moment");
+import userData from './data/users';
 
+// import activityData from './data/activity';
+// import sleepData from './data/sleep';
+// import hydrationData from './data/hydration';
 import UserRepository from './UserRepository';
 import User from './User';
+import UserAction from '../src/UserAction';
 import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
@@ -11,9 +16,9 @@ import getApiData from './api'
 
 let userRepository = new UserRepository();
 let user = {};
-let allSleepData = [];
 let sortedHydrationDataByDate = [];
 let currentUser;
+
 
 getApiData().then(allData => {
   allData.userData.forEach(person => {
@@ -22,7 +27,6 @@ getApiData().then(allData => {
   });
     allData.sleepData.forEach(sleep => {
     sleep = new Sleep(sleep, userRepository);
-    allSleepData.push(sleep);
   });
   allData.activityData.forEach(activity => {
     activity = new Activity(activity, userRepository);
@@ -67,7 +71,6 @@ let userNumberOfSteps;
 let userMinutesActive;
 let userFlightsOfStairs;
 
-const hydrationMainCard = document.querySelector('#hydration-main-card');
 const mainPage = document.querySelector('main');
 const profileButton = document.querySelector('#profile-button');
 const addButton = document.getElementById('add-instance-button');
@@ -160,11 +163,7 @@ function showDropdown() {
 }
 
 function showInstanceDropdown() {
-  if (newInstances.style.display === "flex") {
-  newInstances.style.display = "none";
-} else {
-  newInstances.style.display = "flex";
-}
+  newInstances.classList.toggle("hide");
 }
 
 function sortHydrationData() {
@@ -187,6 +186,7 @@ function showInfo() {
 }
 
 function hydrationHandler() {
+  const hydrationMainCard = document.querySelector('#hydration-main-card');
   const hydrationInfoCard = document.querySelector('#hydration-info-card');
   if (event.target.classList.contains('hydration-info-button')) {
     flipCard(hydrationMainCard, hydrationInfoCard);
@@ -325,12 +325,12 @@ function displayUsersSleepComparison() {
   const sleepAllUsersLongestSleeper = document.querySelector('#sleep-all-users-longest-sleeper');
   const sleepAllUsersWorstSleeper = document.querySelector('#sleep-all-users-worst-sleeper');
   sleepAllUsersLongestSleeper.innerText = userRepository.users.find(user => {
-    return user.id === userRepository.getLongestSleepers(allSleepData, todayDate)
+    return user.id === userRepository.getLongestSleepers(todayDate)
   }).getFirstName();
-  sleepAllUsersWorstSleeper.innerText = userRepository.users.find(user => {
-    return user.id === userRepository.getWorstSleepers(allSleepData, todayDate)
-  }).getFirstName();
-}
+//   sleepAllUsersWorstSleeper.innerText = userRepository.users.find(user => {
+//     return user.id === userRepository.getWorstSleepers(sleepData, todayDate)
+//   }).getFirstName();
+// }
 
 function displaySleepQuality() {
   const sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
@@ -365,7 +365,9 @@ function displayCalenderSteps() {
   }).calculateMiles(userRepository);
   stepsCalendarTotalStepsWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'steps', 'activityRecord').toFixed(0)
   stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'minutesActive', 'activityRecord').toFixed(0)
-  stepsInfoActiveMinutesToday.innerText = user.activityRecord[0].minutesActive;
+  stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).minutesActive;
 }
 
 function displayAllUsersSteps() {
@@ -376,7 +378,9 @@ function displayAllUsersSteps() {
   stepsAllUsersActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
   stepsAllUsersAverageStepGoal.innerText = `${userRepository.calculateAverageStepGoal()}`;
   stepsAllUsersStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
-  stepsUserStepsToday.innerText = user.activityRecord[0].steps;
+  stepsUserStepsToday.innerText = activityData.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).numSteps;
 }
 
 function displayCaloriesBurnedToday() {
@@ -466,6 +470,7 @@ function createActivityInstance() {
     };
     postActivityData(newActivity);
     displayRecordedAlert("Activity");
+    
   }
 }
 
@@ -497,18 +502,20 @@ function verifyNumberInput(amount, min, max) {
 }
 
 function postSleepData(sleepInputInstance) {
-  fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData', {
+ fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData', {
     method: 'POST',
     headers: {
       'content-Type': 'application/json'
     },
     body: JSON.stringify(sleepInputInstance)
   })
-    .then(response => response.json())
+    .then(response => await response.json())
+    .then(data => console.log('data', data))
     .catch(error => console.log(error));
 }
-
+//async
 function postActivityData(activityInputInstance) {
+  // await
   fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData', {
     method: 'POST',
     headers: {
@@ -519,6 +526,12 @@ function postActivityData(activityInputInstance) {
     .then(response => response.json())
     .catch(error => console.log(error));
 }
+//make asyn  and then after promise resoloves response/completed/returns  chain a . then to post
+// and call on the corresponding fetch call to update dom 
+// .then => console.log(response)
+// .then => call fectchedActivityData()
+// .then => response add where this is updated on dom
+// .catch
 
 function postHydrationData(hydrationInputInstance) {
   fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData', {
@@ -545,7 +558,7 @@ function displayRecordedAlert(action, isInvalid, min, max) {
   } else {
     alertText.innerText = `${action} data recorded.`;
   }
-
+}
   window.setTimeout(() => {
     alertModal.style.display = "none"
   }, 2500);
