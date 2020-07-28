@@ -1,4 +1,4 @@
-class domTestTest{
+class DomTestTest {
   constructor() {
   }
   domTestTest() {
@@ -50,7 +50,7 @@ class domTestTest{
   dailyOzCreaterTest() {
     let dailyOz = document.querySelectorAll('.daily-oz');
     Array.from(dailyOz).forEach((drinkSlot, index) => {
-      drinkSlot.innerText = "##";
+      drinkSlot[index].innerText = "##";
     })
   }
   displayFriendsStepsColorTest() {
@@ -67,6 +67,6 @@ class domTestTest{
       }
     });
   }
- }
+}
 
-module.exports = domTestTest;
+module.exports = DomTestTest;
