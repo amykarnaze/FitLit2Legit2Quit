@@ -1,5 +1,3 @@
-import sleepData from './data/sleep';
-
 class UserRepository {
   constructor() {
     this.users = [];
@@ -91,12 +89,12 @@ class UserRepository {
     })
   }
 
-  getLongestSleepers(date) {
+  getLongestSleepers(sleepData, date) {
     return sleepData.filter(sleep => {
       return sleep.date === date;
     }).sort((a, b) => {
       return b.hoursSlept - a.hoursSlept;
-    })[0].userID;
+    })[0].userId;
   }
 
   getWorstSleepers(sleepData, date) {
@@ -104,7 +102,7 @@ class UserRepository {
       return sleep.date === date;
     }).sort((a, b) => {
       return a.hoursSlept - b.hoursSlept;
-    })[0].userID;
+    })[0].userId;
   }
 }
 
