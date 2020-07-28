@@ -36,7 +36,7 @@ getApiData().then(allData => {
   .then(() => populatePage());
 
 function getRandomUser() {
-  currentUser = Math.floor(Math.random() * userRepository.users.length - 1);
+  currentUser = Math.floor(Math.random() * (userRepository.users.length - 1));
   return currentUser;
 }
 
@@ -486,7 +486,7 @@ function userInputHandler(event) {
 
 function verifyNumberInput(amount, min, max) {
   const submitButton = document.getElementsByClassName("submit");
-  if (amount < min || amount >= max) {
+  if (amount < min || amount >= max || !amount) {
     alert(`Please enter a number between ${min} - ${max}`);
     submitButton.disabled = true;
     return false;
