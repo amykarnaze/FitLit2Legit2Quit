@@ -10,6 +10,7 @@
   z-index: 100;
   border-style: solid;
   border-color: $white;
+  height: 6vw;
 }
 
 #add-instances-dropdown a {
@@ -23,6 +24,8 @@
   color: $white;
   font-size: 2.2vw;
   font-weight: 300;
+  padding-left: 1vw;
+  padding-right: 1vw;
   padding-bottom: 1vw;
   padding-top: 0;
   text-align: center;
