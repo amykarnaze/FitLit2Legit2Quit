@@ -6,7 +6,7 @@ This was a group project that involved building on a mostly functional applicati
 
 ![app in action!](https://giphy.com/gifs/llrwzm74KiEk8O1D1v)
 
-[GitHub Pages](https://media.giphy.com/media/llrwzm74KiEk8O1D1v/source.mov)
+[GitHub Pages](https://media.giphy.com/media/llrwzm74KiEk8O1D1v/giphy.gif)
 
 This is a fitness and wellnewss app that users can update and view steps walked, water consumed, hours slept and steps walked. Users can compare data with their friends as well. 
 
@@ -42,7 +42,7 @@ To view this application at [github project](https://github.com/amykarnaze/FitLi
 👤 **Ben McClung**
 - Github: [AurumValian](https://github.com/AurumValian)
 
-👤 **Hanna Kim*
+👤 **Hanna Kim**
 - Github: [hannakim91](https://github.com/hannakim91)
 
 ## Resources
