@@ -30,7 +30,7 @@ let sortedHydrationDataByDate = [];
 getApiData().then(allData => {
   allData.userData.forEach(person => {
     userRepository.users.push(new User(person));
-    user = userRepository.users[0];
+    user = userRepository.users[4];
   });
     allData.sleepData.forEach(sleep => {
     sleep = new Sleep(sleep, userRepository);
@@ -44,7 +44,6 @@ getApiData().then(allData => {
 })
   .then(() => {
     user.findFriendsNames(userRepository.users)
-    console.log(user.ouncesRecord);
   })
   .then(() => populatePage());
 
@@ -333,9 +332,9 @@ function displayUsersSleepComparison() {
   sleepAllUsersLongestSleeper.innerText = userRepository.users.find(user => {
     return user.id === userRepository.getLongestSleepers(todayDate)
   }).getFirstName();
-  sleepAllUsersWorstSleeper.innerText = userRepository.users.find(user => {
-    return user.id === userRepository.getWorstSleepers(sleepData, todayDate)
-  }).getFirstName();
+  // sleepAllUsersWorstSleeper.innerText = userRepository.users.find(user => {
+  //   return user.id === userRepository.getWorstSleepers(sleepData, todayDate)
+  // }).getFirstName();
 }
 
 function displaySleepQuality() {
@@ -344,9 +343,7 @@ function displaySleepQuality() {
   const sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
   sleepCalendarQualityAverageWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'quality', 'sleepQualityRecord').toFixed(1)
   sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;
-  sleepInfoQualityToday.innerText = sleepData.find(sleep => {
-    return sleep.userID === user.id && sleep.date === todayDate;
-  }).sleepQuality;
+  sleepInfoQualityToday.innerText = Object.values(user.sleepQualityRecord[0])[1];
 }
 
 function averageFlights() {
@@ -358,12 +355,9 @@ function averageFlights() {
   stairsCalendarFlightsAverageWeekly.innerText = user.calculateWeeklyAverage(todayDate, 'quality', 'sleepQualityRecord').toFixed(1);
   stairsCalendarStairsAverageWeekly.innerText = (user.calculateWeeklyAverage(todayDate, 'quality', 'sleepQualityRecord').toFixed(1) * 12).toFixed(0);
   stairsAllUsersFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
-  stairsInfoFlightsToday.innerText = activityData.find(activity => {
-    return activity.userID === user.id && activity.date === todayDate;
-  }).flightsOfStairs;
-  stairsUserStairsToday.innerText = activityData.find(activity => {
-    return activity.userID === user.id && activity.date === todayDate;
-  }).flightsOfStairs * 12;
+  //console.log(user.activityRecord);
+  stairsInfoFlightsToday.innerText = user.activityRecord[0].flightsOfStairs;
+  stairsUserStairsToday.innerText = user.activityRecord[0].flightsOfStairs * 12;
 }
 
 function displayCalenderSteps() {
