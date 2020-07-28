@@ -1,13 +1,11 @@
 import './css/base.scss';
 import './css/styles.scss';
-// import './api';
 const moment = require("moment");
-
 import userData from './data/users';
+
 // import activityData from './data/activity';
 // import sleepData from './data/sleep';
 // import hydrationData from './data/hydration';
-
 import UserRepository from './UserRepository';
 import User from './User';
 import UserAction from '../src/UserAction';
@@ -15,22 +13,16 @@ import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
 import getApiData from './api'
-// import getApiData from './api';
-// import postHydrationData from './api';
-
 
 let userRepository = new UserRepository();
 let user = {};
-// let userData;
-// let activityData;
-// let sleepData;
-// let hydrationData;
 let sortedHydrationDataByDate = [];
+let currentUser;
 
 getApiData().then(allData => {
   allData.userData.forEach(person => {
     userRepository.users.push(new User(person));
-    user = userRepository.users[4];
+    user = userRepository.users[getRandomUser()];
   });
     allData.sleepData.forEach(sleep => {
     sleep = new Sleep(sleep, userRepository);
@@ -46,6 +38,11 @@ getApiData().then(allData => {
     user.findFriendsNames(userRepository.users)
   })
   .then(() => populatePage());
+
+function getRandomUser() {
+  currentUser = Math.floor(Math.random() * userRepository.users.length - 1);
+  return currentUser;
+}
 
 function populatePage() {
   sortHydrationData();
@@ -73,7 +70,6 @@ let userNumberOfSteps;
 let userMinutesActive;
 let userFlightsOfStairs;
 
-//used w event listeners
 const hydrationMainCard = document.querySelector('#hydration-main-card');
 const mainPage = document.querySelector('main');
 const profileButton = document.querySelector('#profile-button');
@@ -88,13 +84,11 @@ const userOuncesInput = document.querySelector(".user-input-ounces");
 const userNumberStepsInput = document.querySelector(".user-input-steps");
 const userMinutesActiveInput = document.querySelector(".user-input-minutes-active");
 const userFlightsOfStairsInput = document.querySelector(".user-input-flights");
-const sleepInputButton = document.querySelector(".add-sleep-button");
-const hydrationInputButton = document.querySelector(".add-hydration-button");
+const sleepInputButton = document.querySelector(".sleep-button");
+const hydrationInputButton = document.querySelector(".hydration-button");
 const activityInputButton = document.querySelector(".activity-button");
-
-// called mult times
 const modalWindow = document.getElementById('mpopupBox');
-// event listeners
+
 window.addEventListener('click', closeModalWindow);
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
@@ -181,7 +175,7 @@ function sortHydrationData() {
       return 1;
     }
     return 0;
-  });
+});
 }
 
 function showInfo() {
@@ -399,14 +393,14 @@ function displayFriendsSteps() {
   user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
   user.friendsActivityRecords.forEach(friend => {
     dropdownFriendsStepsContainer.innerHTML += `
-    <p class='dropdown-p friends-steps' id='p-friends'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
+    <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
     `;
   });
 }
 
 function displayFriendsStepsColor() {
   let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
-  Array.from(friendsStepsParagraphs).forEach(paragraph => {
+  friendsStepsParagraphs.forEach(paragraph => {
     if (friendsStepsParagraphs[0] === paragraph) {
       paragraph.classList.add('green-text');
     }
@@ -420,9 +414,9 @@ function displayFriendsStepsColor() {
 }
 
 function createInstance(event) {
-  if (event.target.classList[0] === "add-sleep-button") {
+  if (event.target.classList[0] === "sleep-button") {
     createSleepInstance();
-  } else if (event.target.classList[0] === "add-hydration-button") {
+  } else if (event.target.classList[0] === "hydration-button") {
     createHydrationInstance();
   } else if (event.target.classList[0] === "activity-button") {
     createActivityInstance(event);
@@ -458,8 +452,8 @@ function createHydrationInstance() {
 }
 
 function createActivityInstance() {
-  let verifiedNumber1 = verifyNumberInput(userNumberOfSteps, 1, 25000);
-  let verifiedNumber2 = verifyNumberInput(userMinutesActive, 1, 480);
+  let verifiedNumber1 = verifyNumberInput(userNumberOfSteps, 0, 25000);
+  let verifiedNumber2 = verifyNumberInput(userMinutesActive, 0, 480);
   let verifiedNumber3 = verifyNumberInput(userFlightsOfStairs, 0, 500);
   if (
     verifiedNumber1 === true &&
@@ -495,10 +489,9 @@ function userInputHandler(event) {
 }
 
 function verifyNumberInput(amount, min, max) {
-  const alertText = document.querySelector('.alert-text');
   const submitButton = document.getElementsByClassName("submit");
-  if (amount < min || amount >= max || !amount) {
-    displayRecordedAlert(null, true, min, max);
+  if (amount < min || amount >= max) {
+    alert(`Please enter a number between ${min} - ${max}`);
     submitButton.disabled = true;
     return false;
   } else {
