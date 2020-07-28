@@ -39,7 +39,8 @@
   }
 
   h1 {
-    font-size: 8vw;
+    font-size: 6vw;
+    text-align: center;
   }
 
   h2 {
@@ -55,6 +56,8 @@
   }
 
   #add-instances-dropdown {
+    display: none;
+    justify-content: space-between;
     width: 50%;
     text-align: center;
     position: absolute;
