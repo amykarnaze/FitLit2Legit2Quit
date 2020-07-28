@@ -160,7 +160,11 @@ function showDropdown() {
 }
 
 function showInstanceDropdown() {
-  newInstances.classList.toggle("hide");
+  if (newInstances.style.display === "flex") {
+  newInstances.style.display = "none";
+} else {
+  newInstances.style.display = "flex";
+}
 }
 
 function sortHydrationData() {
