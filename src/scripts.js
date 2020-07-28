@@ -20,7 +20,7 @@ getApiData().then(allData => {
     userRepository.users.push(new User(person));
     user = userRepository.users[getRandomUser()];
   });
-    allData.sleepData.forEach(sleep => {
+  allData.sleepData.forEach(sleep => {
     sleep = new Sleep(sleep, userRepository);
     allSleepData.push(sleep);
   });
@@ -172,7 +172,7 @@ function sortHydrationData() {
       return 1;
     }
     return 0;
-});
+  });
 }
 
 function showInfo() {
