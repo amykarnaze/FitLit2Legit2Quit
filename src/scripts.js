@@ -37,7 +37,7 @@ getApiData().then(allData => {
   .then(() => populatePage());
 
 function getRandomUser() {
-  currentUser = Math.floor(Math.random() * userRepository.users.length - 1);
+  currentUser = Math.floor(Math.random() * (userRepository.users.length - 1));
   return currentUser;
 }
 
