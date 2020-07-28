@@ -25,9 +25,9 @@ describe('UserActions', function() {
     userRepository = new UserRepository();
     userRepository.users.push(user1, user2);
     userAction1 = new UserAction({
-        "userID": 1,
-        "date": "2019/06/15",
-      })
+      "userID": 1,
+      "date": "2019/06/15",
+    })
   });
 
   it('should be a function', function() {
