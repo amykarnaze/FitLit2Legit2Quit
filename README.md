@@ -2,13 +2,13 @@
 
 ### Abstract
 
-This was a group project that involved building on a mostly functional application and implementing new features. As a group, we refactored code to utilize inheritence, make network requests to API endpoints to retrieve and manipulate data,  repo uses a tool called [webpack](https://webpack.js.org/) to combine many JavaScript files into one big file. Webpack enables you to have many, separate JavaScript files to keep your code organized and readable. Webpack expects all of your code files to be in a specific place, or else it doesn't know how to combine them all behind the scenes.
+This was a group project that involved building on a mostly functional application and implementing new features. As a group, we refactored code to utilize inheritance, make network requests to API endpoints to retrieve and manipulate data,  repo uses a tool called [webpack](https://webpack.js.org/) to combine many JavaScript files into one big file. Webpack enables you to have many, separate JavaScript files to keep your code organized and readable. Webpack expects all of your code files to be in a specific place, or else it doesn't know how to combine them all behind the scenes.
 
 ![app in action!](https://media.giphy.com/media/llrwzm74KiEk8O1D1v/giphy.gif)
 
 [GitHub Pages](https://amykarnaze.github.io/FitLit2Legit2Quit)
 
-This is a fitness and wellnewss app that users can update and view steps walked, water consumed, hours slept and steps walked. Users can compare data with their friends as well. 
+This is a fitness and wellness app that users can update and view steps walked, water consumed, hours slept and steps walked. Users can compare data with their friends as well. 
 
 ### SetUp
 
@@ -17,7 +17,7 @@ To view this application at [github project](https://github.com/amykarnaze/FitLi
 2) Cd into the project
 3) Run 'npm install'.
 4) Run 'npm test' to see tests pass.
-5) If you would like to view spi testing, run, 'npm install chai-spies'
+5) If you would like to view spy testing, run, 'npm install chai-spies'
 6) If you are having issues with moment, used for the current date run 'npm install moment.js'
 7) Run 'npm start' and look for  "Project is running at http://localhost:8080/". Copy the url into your browser.
 
