@@ -1,8 +1,12 @@
 # REFACTOR FIT LIT
 ### Abstract
 This was a group project that involved building on a mostly functional application and implementing new features. As a group, we refactored code to utilize inheritence, make network requests to API endpoints to retrieve and manipulate data.
+
+
 ![app in action!](https://media.giphy.com/media/llrwzm74KiEk8O1D1v/giphy.gif)
 [GitHub Pages](http://amykarnaze.github.io/FitLit2Legit2Quit)
+
+
 This is a fitness and wellnewss app that users can update and view steps walked, water consumed, hours slept and steps walked. Users can compare data with their friends as well.
 ### SetUp
 To view this application at [github project](https://github.com/amykarnaze/FitLit2Legit2Quit).
