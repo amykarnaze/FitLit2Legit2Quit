@@ -4,6 +4,8 @@ This was a group project that involved building on a mostly functional applicati
 
 
 ![app in action!](https://media.giphy.com/media/llrwzm74KiEk8O1D1v/giphy.gif)
+
+
 [GitHub Pages](http://amykarnaze.github.io/FitLit2Legit2Quit)
 
 
